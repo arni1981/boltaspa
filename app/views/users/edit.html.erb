@@ -1,0 +1,91 @@
+<%= render 'layouts/shared/page_header',
+    title: t('.title'),
+    subtitle: t('.subtitle'),
+    breadcrumbs: [{ name: t('common.home'), path: root_path }, { name: t('.breadcrumb_current') }] %>
+
+<div class="max-w-2xl pb-32">
+  <%= form_with model: @user, url: settings_path, class: "space-y-10" do |f| %>
+
+    <% if @user.errors.any? %>
+      <div class="p-6 bg-red-50 border-l-4 border-red-500 rounded-2xl flex gap-4 mb-6">
+        <div>
+          <h4 class="text-[11px] font-black text-red-800 uppercase tracking-widest"><%= t('.error_title') %></h4>
+          <ul class="mt-1 text-sm text-red-600 list-disc list-inside">
+            <% @user.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+
+    <section class="bg-white border border-gray-200 rounded-[2.5rem] shadow-sm overflow-hidden">
+      <header class="px-8 py-5 border-b border-gray-100 bg-[#0a1d13] flex items-center justify-between">
+        <h2 class="text-[11px] font-black text-gray-300 uppercase tracking-[0.2em]"><%= t('.section_1_title') %></h2>
+        <span class="text-[9px] font-bold text-gray-500 uppercase tracking-widest"><%= t('.public_profile_badge') %></span>
+      </header>
+
+      <div class="p-8 md:p-10 space-y-8">
+        <div class="grid grid-cols-1 gap-8">
+          <div>
+            <%= f.label :name, t('.name_label'), class: "block text-[11px] font-black text-gray-400 uppercase tracking-[0.2em] mb-3" %>
+            <%= f.text_field :name, 
+                class: "w-full bg-gray-50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-[#2d5a43] focus:border-transparent text-lg font-black text-[#0a1d13] px-6 py-4 transition-all" %>
+          </div>
+
+          <div>
+            <%= f.label :email_address, t('.email_label'), class: "block text-[11px] font-black text-gray-400 uppercase tracking-[0.2em] mb-3" %>
+            <%= f.email_field :email_address, 
+                class: "w-full bg-gray-50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-[#2d5a43] focus:border-transparent text-lg font-black text-[#0a1d13] px-6 py-4 transition-all" %>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-white border border-gray-200 rounded-[2.5rem] shadow-sm overflow-hidden">
+      <header class="px-8 py-5 border-b border-gray-100 bg-[#0a1d13] flex items-center justify-between">
+        <h2 class="text-[11px] font-black text-gray-300 uppercase tracking-[0.2em]"><%= t('.section_2_title') %></h2>
+        <span class="text-[9px] font-bold text-emerald-400 uppercase tracking-widest"><%= t('.optional_badge') %></span>
+      </header>
+
+      <div class="p-8 md:p-10">
+        <div class="mb-10 p-6 bg-[#f9faf9] border border-gray-100 rounded-2xl flex items-start gap-5">
+          <div class="w-10 h-10 bg-white rounded-xl border border-gray-100 flex items-center justify-center shrink-0 shadow-sm">
+            <svg class="w-5 h-5 text-[#2d5a43]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+          </div>
+          <div>
+            <h4 class="text-[13px] font-black text-[#0a1d13] uppercase tracking-tight mb-1"><%= t('.password_info_title') %></h4>
+            <p class="text-sm text-gray-500 leading-relaxed font-medium"><%= t('.password_info_text') %></p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            <%= f.label :password, t('.password_label'), class: "block text-[11px] font-black text-gray-400 uppercase tracking-[0.2em] mb-3" %>
+            <%= f.password_field :password, 
+                class: "w-full bg-gray-50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-[#2d5a43] focus:border-transparent font-mono text-lg font-bold text-[#0a1d13] px-6 py-4 transition-all" %>
+          </div>
+
+          <div>
+            <%= f.label :password_confirmation, t('.password_confirmation_label'), class: "block text-[11px] font-black text-gray-400 uppercase tracking-[0.2em] mb-3" %>
+            <%= f.password_field :password_confirmation, 
+                class: "w-full bg-gray-50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-[#2d5a43] focus:border-transparent font-mono text-lg font-bold text-[#0a1d13] px-6 py-4 transition-all" %>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="flex items-center justify-between pt-6">
+      <%= link_to t('.cancel_link'), root_path, class: "text-[11px] font-black text-gray-400 hover:text-[#0a1d13] uppercase tracking-widest transition-colors" %>
+
+      <%= f.button class: "bg-[#2d5a43] text-white px-12 py-5 rounded-2xl font-black text-[11px] uppercase tracking-widest hover:bg-[#1e3f2e] transition-all shadow-xl shadow-[#2d5a43]/20 active:scale-95 flex items-center gap-4" do %>
+        <span><%= t('.submit_button') %></span>
+        <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+        </svg>
+      <% end %>
+    </div>
+  <% end %>
+</div>

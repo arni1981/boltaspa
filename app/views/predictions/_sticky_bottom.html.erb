@@ -1,0 +1,26 @@
+<%# app/views/predictions/_sticky_bottom.html.erb %>
+<% unfinished = upcoming_matches.reject { |m| predictions_map[m.id]&.home_guess.present? } %>
+
+<div id="sticky_save" class="fixed bottom-8 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none">
+  <div class="pointer-events-auto bg-[#0a1d13] border border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.4)] rounded-[2.5rem] p-2 flex items-center gap-2">
+
+    <div class="flex flex-col pl-6 pr-4 min-w-[180px]">
+      <span class="text-[9px] font-black <%= unfinished.any? ? 'text-amber-400' : 'text-emerald-400' %> uppercase tracking-widest mb-1">
+        <%= unfinished.any? ? t('.missing_count', count: unfinished.count) : t('.all_ready') %>
+      </span>
+      <div class="flex gap-2">
+        <% unfinished.first(3).each do |match| %>
+          <a href="#match_<%= match.id %>" data-turbo="false" class="text-[9px] font-black text-white/40 bg-white/5 px-2 py-1 rounded hover:bg-white/20 hover:text-white transition-all uppercase">
+            <%= match.tla_string %>
+          </a>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="h-10 w-px bg-white/10 mx-2"></div>
+
+    <button type="submit" form="predictions-form" class="bg-[#2d5a43] text-white px-10 py-4 rounded-[1.8rem] font-black text-[12px] uppercase tracking-widest hover:bg-[#386e52] transition-all">
+      <%= t('.save_button') %>
+    </button>
+  </div>
+</div>

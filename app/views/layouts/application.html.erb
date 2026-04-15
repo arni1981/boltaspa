@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html class="h-full bg-[#f9faf9]" lang="is">
+  <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta name="view-transition" content="same-origin">
+    <meta name="turbo-refresh-method" content="morph">
+    <meta name="turbo-refresh-scroll" content="preserve">
+    <meta name="turbo-prefetch" content="false">
+
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <title>Boltaspá</title>
+
+    <%= javascript_importmap_tags %>
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "styles", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "prediction", "data-turbo-track": "reload" %>
+  </head>
+
+  <body class="bg-[#f9faf9] text-[#0a1d13] font-sans antialiased min-h-screen flex flex-col lg:flex-row" data-controller="mobile-menu">
+
+    <div class="fixed inset-0 bg-[#0a1d13]/60 backdrop-blur-sm z-55 hidden"
+         data-mobile-menu-target="overlay"
+         data-action="click->mobile-menu#close"></div>
+
+    <header class="lg:hidden bg-[#0a1d13] text-white p-4 flex items-center justify-between sticky top-0 z-40 shadow-md">
+      <%= link_to root_path, class: "flex items-center gap-3 active:opacity-70 transition-opacity" do %>
+        <div class="w-8 h-8 bg-[#2d5a43] rounded-lg flex items-center justify-center font-black text-sm">B</div>
+        <span class="font-black text-sm uppercase tracking-tighter">Boltaspá</span>
+      <% end %>
+
+      <button class="p-2 text-gray-400 hover:text-white transition-colors" data-action="click->mobile-menu#toggle">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+      </button>
+    </header>
+
+    <%= render 'layouts/shared/sidebar' %>
+
+    <main class="flex-1 p-4 pb-40 lg:p-12 w-full transition-all">
+      <%= render 'layouts/flash_toasts' %>
+      <%= yield %>
+    </main>
+
+    <div class="lg:hidden">
+      <%= render 'layouts/shared/bottom_nav' %>
+    </div>
+  </body>
+</html>

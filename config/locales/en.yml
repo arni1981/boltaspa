@@ -1,0 +1,259 @@
+en:
+  common:
+    home: Home
+
+  # Layouts
+  layouts:
+    shared:
+      sidebar:
+        brand_name: "Boltaspá"
+        nav_overview: "Overview"
+        nav_predictions: "Make Predictions"
+        nav_create_league: "Create League"
+        nav_join_league: "Join League"
+        nav_signin: "Sign In"
+        my_leagues_title: "My Leagues"
+        settings_link: "Settings"
+        signout_link: "Sign Out"
+        bottom_nav:
+          home: "Home"
+          predictions: "Predict"
+          leagues: "Leagues"
+
+  predictions:
+    create:
+      success_notice: Predictions updated successfully
+    index:
+      page_title: "My Predictions"
+      subtitle: "Open predictions"
+      status_label: "Data Status"
+      status_open: "open"
+      matchday_label: "Matchday %{number}"
+    sticky_bottom:
+      save_button: "Save Predictions"
+      missing_count: "Missing %{count} predictions"
+      all_ready: "All ready"
+    match_row:
+      select_placeholder: "Select..."
+      other_option: "Other..."
+      groups:
+        home_win: "Home Win"
+        draw: "Draw"
+        away_win: "Away Win"
+
+  # Password reset pages
+  passwords:
+    new:
+      title: "Forgot your password?"
+      email_placeholder: "Enter your email address"
+      submit_button: "Email reset instructions"
+    edit:
+      title: "Update your password"
+      password_placeholder: "Enter new password"
+      password_confirmation_placeholder: "Repeat new password"
+      submit_button: "Save"
+
+  # Authentication
+  sessions:
+    new:
+      subtitle: "Welcome back"
+      title: "Sign In"
+      email_label: "Email"
+      email_placeholder: "email@example.com"
+      password_label: "Password"
+      password_forgot_link: "Forgot password?"
+      password_placeholder: "••••••••"
+      submit_button: "Continue"
+      signup_intro: "Don't have an account?"
+      signup_link: "Sign up"
+
+  registrations:
+    new:
+      title: "Create Account"
+      subtitle: "Create an account in seconds to start predicting."
+      section_title: "01. Information"
+      name_label: "Name"
+      name_placeholder: "Example: John Johnson"
+      email_label: "Email"
+      email_placeholder: "email@email.com"
+      password_label: "Choose password"
+      invite_code_label: "Have an invite code? (Optional)"
+      invite_code_optional_badge: "Optional"
+      invite_code_placeholder: "E.g. XJ-99-BT"
+      invite_code_helper: "If you have a code, you'll join the league directly."
+      signin_link: "Already have an account?"
+      signin_text: "Sign in"
+      submit_button: "Create Account"
+      breadcrumb_home: "Home"
+      breadcrumb_current: "Sign up"
+
+  # Onboardings
+  onboardings:
+    show:
+      create_league_badge: "01"
+      create_league_label: "System // Architect"
+      create_league_title: "CREATE<br><span class=\"text-[#2d5a43]\">NEW</span> LEAGUE"
+      create_league_description: "Set up your own competition. You control the rules and your group."
+      create_league_button: "START NEW LEAGUE"
+      join_league_badge: "02"
+      join_league_label: "System // Challenger"
+      join_league_title: "JOIN<br><span class=\"text-slate-400\">GROUP WITH</span> FRIEND"
+      join_league_label_text: "Enter invite code"
+      join_league_placeholder: "E.g. BOLTI-24"
+      join_league_button: "JOIN LEAGUE"
+      join_league_help: "The invite code is shared by the league administrator."
+
+  # Leagues
+  leagues:
+    index:
+      title: "My Leagues"
+      subtitle: "Overview"
+      create_button: "Create League"
+      find_button: "Find League"
+      breadcrumb_home: "Home"
+      breadcrumb_current: "Leagues"
+
+    new:
+      title: "Create League"
+      subtitle: "Register your team and invite friends to compete in who predicts best."
+      section_title: "Team Information"
+      name_label: "League Name"
+      name_placeholder: "E.G. THE COFFEE SHOP"
+      suggestions_label: "Suggestions:"
+      suggestion_1: "Coffee Shop"
+      suggestion_2: "The Gang"
+      suggestion_3: "The Ball"
+      info_title: "What's next?"
+      info_text: "When you create the league, a unique invite code will be generated. Share it with your friends so they can join."
+      cancel_link: "Cancel"
+      submit_button: "CREATE LEAGUE"
+      breadcrumb_home: "Home"
+      breadcrumb_current: "Create League"
+
+    show:
+      page_subtitle: "Your platform for prediction competitions."
+      active_competitions_title: "Active Competitions"
+      standing_label: "Standing"
+      season_label: "Season"
+      open_competition_link: "Open Competition"
+      access_code_title: "Access Code"
+      copy_button: "Copy"
+      members_section_title: "Team Members"
+      owner_role: "Owner"
+      member_role: "Competitor"
+      breadcrumb_leagues: "Leagues"
+      breadcrumb_current: "Leagues"
+
+  # Error pages
+  errors:
+    error404:
+      title: "This item was not found"
+      description: "The path might be wrong or the league has been removed"
+      back_button: "Back to home"
+    error500:
+      title: "An unexpected error occurred"
+      description: "Something went wrong on our end. Try reloading the page or come back later."
+      back_button: "Go to home"
+    invalid_record:
+      title: "Unknown error"
+
+  # Memberships
+  memberships:
+    new:
+      title: "Join League"
+      subtitle: "Enter the invite code you received to join the competition."
+      code_label: "Invite Code"
+      code_placeholder: "E.g. BOLTASPA-1234"
+      helper_text: "The invite code is an uppercase string that the league owner shared with you."
+      submit_button: "CONFIRM AND JOIN LEAGUE"
+      breadcrumb_home: "Home"
+      breadcrumb_current: "Join League"
+
+  # Users/Settings
+  users:
+    edit:
+      title: "My Settings"
+      subtitle: "Here you can update your profile and change security settings."
+      error_title: "Error occurred"
+      section_1_title: "01. Basic Information"
+      public_profile_badge: "Public Profile"
+      name_label: "Full Name"
+      email_label: "Email"
+      section_2_title: "02. Security"
+      optional_badge: "Optional"
+      password_info_title: "Change Password"
+      password_info_text: "Leave these fields empty if you don't want to change your password."
+      password_label: "New Password"
+      password_confirmation_label: "Confirm Password"
+      cancel_link: "Cancel"
+      submit_button: "UPDATE SETTINGS"
+      breadcrumb_home: "Home"
+      breadcrumb_current: "Settings"
+
+  # Dashboard
+  dashboard:
+    show:
+      greeting_badge: "Boltaspá Pro"
+      greeting_text: "Hello, %{name}"
+      members_count: "%{count} competitors"
+      season_label: "Season"
+      percentile_label: "Top %{percentage}%"
+      points_label: "Points"
+      next_prediction_label: "Next open prediction"
+      no_matches_label: "No matches"
+      open_slip_button: "Open Slip"
+
+  # League Competitions
+  league_competitions:
+    show:
+      subtitle_template: "Season %{year} • Matchday %{matchday} of 38"
+      leaderboard_title: "Overall Leaderboard"
+      leaderboard_note: "Standings after matchday 32"
+      table_header_rank: "#"
+      table_header_competitor: "Competitor"
+      table_header_form: "Form (Last 5)"
+      table_header_3pt: "3pt"
+      table_header_points: "Points"
+      your_standing_badge: "Your standing"
+      position_suffix: "th Place"
+      points_label: "Points"
+      your_position_label: "Your position"
+      latest_label: "Latest"
+
+    comments_section:
+      title: "The Podium"
+      subtitle: "Chat about this round"
+      no_comments: "No discussions yet"
+      placeholder: "What do you think?"
+      submit_button: "Send"
+
+    matchday_ticker:
+      status_today: "Today's status"
+      round_label: "Round"
+      comparison_label: "Comparison"
+      choose_competitor: "Choose competitor"
+      none_selected: "None selected"
+
+    matchday_ticker_single_match:
+      your_prediction: "You"
+
+  # Welcome page
+  welcome:
+    show:
+      brand_name: "Boltaspá"
+      hero_heading: "For those who take"
+      hero_emphasis: "the game"
+      hero_subtitle: "seriously."
+      hero_description: "Focused prediction competition for closed groups."
+      hero_description_line2: "No ads, no clutter, just the game."
+      cta_button: "Get started"
+      signin_link: "Sign In"
+      interface_label: "Interface // Live Ticker"
+      predict_cta: "Predict now"
+      live_indicator: "LIVE"
+      vs_text: "vs"
+      footer_text: "Boltaspá // 2026"
+
+  time:
+    formats:
+      only_time: ! '%H:%M'

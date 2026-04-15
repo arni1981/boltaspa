@@ -1,0 +1,14 @@
+<%# 1. Update the matches that were just saved (shows the success animation) %>
+<% @updated_matches.each do |match| %>
+  <%= turbo_stream.replace dom_id(match) do %>
+    <%= render "match_row", 
+               match: match, 
+               prediction: @predictions_map[match.id],
+               is_updated: true %>
+  <% end %>
+<% end %>
+
+<%# 3. Refresh the sticky bottom bar (to update "Next Match" or save status) %>
+<%= turbo_stream.replace "sticky_save" do %>
+  <%= render "sticky_bottom", predictions_map: @predictions_map, upcoming_matches: @upcoming_matches %>
+<% end %>

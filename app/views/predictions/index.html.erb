@@ -1,0 +1,45 @@
+<%# app/views/predictions/index.html.erb %>
+
+<%= render 'layouts/shared/page_header', title: t('.page_title'), subtitle: t('.subtitle') %>
+
+<%= form_with url: predictions_path, method: :post, id: "predictions-form" do |f| %>
+  <div class="max-w-2xl pb-48 px-2 md:px-0 mx-auto">
+
+    <%# Group by the actual calendar date %>
+    <% @upcoming_matches.group_by { |m| m.kickoff_at.to_date }.each do |date, matches| %>
+
+      <div class="mb-4 mt-10 px-6 flex items-center justify-between">
+        <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">
+          <%= l(date, format: "%A %d. %B").upcase %>
+        </h3>
+        <div class="h-px bg-slate-100 flex-1 ml-6"></div>
+      </div>
+
+      <div class="predictions-group-container isolate">
+        <%# Tracks the Round/Matchday round in case it shifts mid-day %>
+        <% current_round = nil %>
+
+        <% matches.each do |match| %>
+          <% if match.matchday != current_round %>
+            <% current_round = match.matchday %>
+            <div class="bg-gray-50/50 px-8 py-2 border-b border-gray-50 flex items-center">
+               <span class="text-[9px] font-black text-[#2d5a43] uppercase tracking-widest">
+                 <%= t('.matchday_label', number: current_round) %>
+               </span>
+            </div>
+          <% end %>
+
+          <%= render 'match_row', 
+                     match: match, 
+                     prediction: @predictions_map[match.id],
+                     is_updated: @updated_match_ids&.include?(match.id) %>
+        <% end %>
+      </div>
+    <% end %>
+
+  </div>
+
+  <%= render 'sticky_bottom', 
+             predictions_map: @predictions_map, 
+             upcoming_matches: @upcoming_matches %>
+<% end %>

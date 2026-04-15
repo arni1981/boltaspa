@@ -1,0 +1,15 @@
+@import url("/actiontext.css");
+@import url("/trix.css");
+
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=JetBrains+Mono:wght@700&display=swap');
+
+body {
+    font-family: 'Sora', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Optional: Use JetBrains Mono for your codes/numbers */
+.font-mono {
+    font-family: 'JetBrains Mono', monospace;
+}

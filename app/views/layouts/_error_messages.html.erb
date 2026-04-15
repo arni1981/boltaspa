@@ -1,0 +1,12 @@
+<% if model_instance&.errors&.any? %>
+  <div class="mb-6 p-6 bg-red-50 border-l-4 border-red-500 rounded-2xl flex gap-4">
+    <div>
+      <h4 class="text-[11px] font-black text-red-800 uppercase tracking-widest">Villa kom upp</h4>
+      <ul class="mt-1 text-sm text-red-600 list-disc list-inside">
+        <% model_instance.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+<% end %>

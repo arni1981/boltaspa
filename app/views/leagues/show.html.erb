@@ -1,0 +1,123 @@
+<%= render 'layouts/shared/page_header',
+    title: @league.name,
+    subtitle: t('.page_subtitle'),
+    breadcrumbs: [{ name: t('.breadcrumb_leagues'), path: leagues_path }, { name: @league.name }] %>
+
+<div class="max-w-5xl mx-auto pb-48 px-4 md:px-8">
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-12">
+
+    <div class="lg:col-span-2 space-y-8">
+
+      <section>
+        <h2 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-6 pl-2"><%= t('.active_competitions_title') %></h2>
+
+        <% @league.league_competitions.each do |lc| %>
+          <%= link_to league_competition_by_year_path(@league, lc.competition.code, year: lc.year), class: "block group mb-6" do %>
+            <div class="bg-[#0a1d13] rounded-[2.5rem] p-1 shadow-2xl shadow-[#0a1d13]/20 transition-all active:scale-[0.98]">
+              <div class="bg-[#0a1d13] border border-white/10 rounded-[2.3rem] overflow-hidden">
+                <div class="px-6 py-8 md:px-10 flex items-center justify-between border-b border-white/5 bg-gradient-to-br from-white/5 to-transparent">
+                  <div class="flex items-center gap-4 md:gap-6">
+                    <div class="w-12 h-12 md:w-16 md:h-16 bg-white rounded-2xl p-2 md:p-3 shadow-inner shrink-0">
+                      <%= image_tag lc.competition.emblem, class: "w-full h-full object-contain" %>
+                    </div>
+                    <div>
+                      <h3 class="text-sm md:text-xl font-black text-white uppercase tracking-tight"><%= lc.competition.name %></h3>
+                      <p class="text-[9px] font-bold text-emerald-400 uppercase tracking-widest mt-1">
+                        <%= t('.season_label') %> <%= lc.year %>/<%= lc.year.to_i - 1999 %>
+                      </p>
+                    </div>
+                  </div>
+
+                  <% if lc.standings.any? %>
+                    <div class="text-right">
+                      <span class="text-[8px] font-black text-white/40 uppercase tracking-widest block mb-1"><%= t('.standing_label') %></span>
+                      <span class="text-xl md:text-2xl font-mono font-black text-white">
+                        #<%= lc.standings.find_by(user_id: Current.user.id)&.rank || '-' %>
+                      </span>
+                    </div>
+                  <% end %>
+                </div>
+
+                <div class="px-6 py-5 md:px-10 bg-white/5 flex items-center justify-between">
+                  <div class="flex -space-x-2">
+                    <% @league.members.first(4).each do |member| %>
+                      <div class="w-7 h-7 rounded-full border-2 border-[#0a1d13] bg-[#2d5a43] flex items-center justify-center text-[8px] font-black text-white shadow-lg">
+                        <%= member.name.first(2).upcase %>
+                      </div>
+                    <% end %>
+                  </div>
+
+                  <span class="text-[9px] font-black text-emerald-400 uppercase tracking-widest group-hover:translate-x-1 transition-transform flex items-center gap-2">
+                    <%= t('.open_competition_link') %>
+                    <svg class="w-3.h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                  </span>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </section>
+
+      <% if @league.owner == Current.user %>
+        <section class="bg-[#0a1d13] rounded-[2.5rem] p-6 md:p-10 border border-white/5 shadow-2xl relative overflow-hidden">
+          <div class="flex flex-col gap-8 relative z-10">
+            <div class="flex items-center gap-5">
+              <div class="w-12 h-12 bg-[#2d5a43] rounded-2xl flex items-center justify-center shrink-0 shadow-lg shadow-emerald-900/40">
+                <svg class="w-5 h-5 text-emerald-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-[10px] font-black text-emerald-400 uppercase tracking-[0.3em] mb-1"><%= t('.access_code_title') %></h3>
+                <p class="text-[12px] text-white/60 font-medium">Bjóða nýjum keppendum í hópinn</p>
+              </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 bg-black/30 rounded-3xl p-2 border border-white/5">
+              <div class="bg-[#0a1d13] px-6 py-4 rounded-2xl border border-white/10 shadow-inner flex-1 text-center">
+                <span class="text-xl md:text-2xl font-mono font-black text-white tracking-[0.2em] uppercase">
+                  <%= @league.invite_code %>
+                </span>
+              </div>
+
+              <button class="bg-[#2d5a43] hover:bg-emerald-600 text-white px-6 py-4 rounded-2xl flex items-center justify-center gap-3 transition-colors active:scale-95" 
+                      data-controller="clipboard" 
+                      data-clipboard-text="<%= @league.invite_code %>">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3" />
+                </svg>
+                <span class="text-[10px] font-black uppercase tracking-widest"><%= t('.copy_button') %></span>
+              </button>
+            </div>
+          </div>
+        </section>
+      <% end %>
+    </div>
+
+    <aside class="space-y-8 lg:sticky lg:top-12">
+      <section class="bg-white border border-gray-100 rounded-[2.5rem] overflow-hidden shadow-sm">
+        <header class="px-8 py-5 bg-gray-50/50 border-b border-gray-100">
+          <h2 class="text-[9px] font-black text-[#0a1d13] uppercase tracking-[0.2em]"><%= t('.members_section_title') %></h2>
+        </header>
+
+        <div class="divide-y divide-gray-50">
+          <% @league.members.each do |member| %>
+            <div class="px-8 py-4 flex items-center gap-4 group">
+              <div class="w-9 h-9 bg-[#0a1d13] rounded-xl flex items-center justify-center text-[9px] font-black text-white group-hover:bg-[#2d5a43] transition-colors">
+                <%= member.name.first(2).upcase %>
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="text-[12px] font-black text-[#0a1d13] uppercase tracking-tight truncate"><%= member.name %></p>
+                <p class="text-[8px] font-bold text-slate-400 uppercase tracking-widest">
+                  <%= member == @league.owner ? t('.owner_role') : t('.member_role') %>
+                </p>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </section>
+    </aside>
+  </div>
+</div>

@@ -1,0 +1,72 @@
+<section class="min-h-[80vh] flex flex-col items-center justify-center px-4">
+  <div class="w-full max-w-2xl bg-white rounded-[2.5rem] border border-gray-100 shadow-sm overflow-hidden">
+
+    <%# Grouped Errors/Notices at the top of the card per project guidelines %>
+    <% if flash[:alert] || flash[:notice] %>
+      <div class="px-10 pt-8">
+        <% if flash[:alert] %>
+          <div class="p-4 bg-red-50 text-red-600 text-[11px] font-black uppercase tracking-widest rounded-2xl border border-red-100">
+            <%= flash[:alert] %>
+          </div>
+        <% end %>
+        <% if flash[:notice] %>
+          <div class="p-4 bg-emerald-50 text-emerald-700 text-[11px] font-black uppercase tracking-widest rounded-2xl border border-emerald-100">
+            <%= flash[:notice] %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <div class="p-10 md:p-16">
+      <header class="mb-10">
+        <span class="text-[9px] font-black text-emerald-400 uppercase tracking-[0.4em] block mb-2">
+          <%= t('.subtitle') %>
+        </span>
+        <h1 class="text-4xl font-black text-[#0a1d13] tracking-tighter uppercase">
+          <%= t('.title') %>
+        </h1>
+      </header>
+
+      <%= form_with url: session_url, class: "space-y-6" do |f| %>
+        <div class="space-y-2">
+          <%= f.label :email_address, t('.email_label'), class: "text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1" %>
+          <%= f.email_field :email_address, 
+              required: true, 
+              autofocus: true, 
+              autocomplete: "username", 
+              placeholder: t('.email_placeholder'), 
+              value: params[:email_address], 
+              class: "block w-full h-14 bg-gray-50 border-gray-100 rounded-2xl px-6 text-sm font-bold text-[#0a1d13] focus:ring-2 focus:ring-[#2d5a43] focus:border-transparent transition-all placeholder:text-slate-300" %>
+        </div>
+
+        <div class="space-y-2">
+          <div class="flex justify-between items-center px-1">
+            <%= f.label :password, t('.password_label'), class: "text-[10px] font-black text-slate-400 uppercase tracking-widest" %>
+            <%= link_to t('.password_forgot_link'), new_password_path, class: "text-[9px] font-bold text-slate-400 underline hover:text-[#2d5a43]" %>
+          </div>
+
+          <%= f.password_field :password, 
+              required: true, 
+              autocomplete: "current-password", 
+              placeholder: t('.password_placeholder'),
+              maxlength: 72, 
+              class: "block w-full h-14 bg-gray-50 border-gray-100 rounded-2xl px-6 text-sm font-bold text-[#0a1d13] focus:ring-2 focus:ring-[#2d5a43] focus:border-transparent transition-all placeholder:text-slate-300" %>
+        </div>
+
+        <div class="pt-4">
+          <button type="submit" class="w-full bg-[#2d5a43] hover:bg-[#0a1d13] text-white h-14 rounded-2xl font-black uppercase tracking-[0.2em] text-[11px] transition-all active:scale-[0.98] shadow-lg flex items-center justify-center gap-3">
+            <span><%= t('.submit_button') %></span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </button>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <p class="mt-8 text-[11px] font-bold text-slate-400 uppercase tracking-widest">
+    <%= t('.signup_intro') %>
+    <%= link_to t('.signup_link'), sign_up_path, class: "text-[#2d5a43] ml-1 underline" %>
+  </p>
+</section>

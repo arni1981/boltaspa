@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+@layer components {
+
+    /* Use the .swal2-container prefix to boost specificity */
+    .swal2-container .swal2-popup.toast-success {
+        @apply !bg-emerald-600 !text-white !rounded-2xl !shadow-2xl !border-0 !flex !items-center;
+        background-color: theme('colors.emerald.600') !important;
+    }
+
+    .swal2-container .swal2-popup.toast-error {
+        @apply !bg-rose-600 !text-white !rounded-2xl !shadow-2xl !border-0 !flex !items-center;
+        background-color: theme('colors.rose.600') !important;
+    }
+
+    .swal2-container .swal2-popup.toast-info {
+        @apply !bg-blue-600 !text-white !rounded-2xl !shadow-2xl !border-0 !flex !items-center;
+        background-color: theme('colors.blue.600') !important;
+    }
+
+    /* Force the title text to be visible */
+    .swal2-container .swal2-title.toast-title {
+        @apply !text-white !font-bold !text-base !px-3 !m-0 !bg-transparent;
+        color: white !important;
+    }
+}
+
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+}
+
+/* In your application.tailwind.css */
+.breadcrumb-nav > *:not(:last-child):after {
+  content: "/";
+  @apply ml-2 text-gray-300;
+}

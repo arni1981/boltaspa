@@ -1,0 +1,309 @@
+is:
+  activerecord:
+    attributes:
+      league:
+        league_competitions: Mót
+        name: Nafn
+      user:
+        username: Notandanafn
+        email_address: Netfang
+        password: Lykilorð
+        password_confirmation: Lykilorð aftur
+        name: Nafn
+        newsletter: Fá fréttabréf/tilkynningar frá Betraskor (mjög sjaldan)
+
+  "admin/dashboard":
+    index:
+      page_title: 'Stjórnendahorn'
+
+  "admin/profiles":
+    show:
+      page_title: "Prófíll notanda"
+
+  "admin/visits":
+    show:
+      page_title: Aðgerðir
+
+  sessions:
+    new:
+      page_title: Innskráning
+      subtitle: "Velkomin(n) aftur"
+      title: "Innskráning"
+      email_label: "Netfang"
+      email_placeholder: "netfang@dæmi.is"
+      password_label: "Lykilorð"
+      password_forgot_link: "Gleymt lykilorð?"
+      password_placeholder: "••••••••"
+      submit_button: "Áfram"
+      signup_intro: "Ertu ekki með aðgang?"
+      signup_link: "Nýskráning"
+    destroy:
+      page_title: Útskrá
+
+  registrations:
+    new:
+      page_title: Nýskráning
+      title: "Stofna aðgang"
+      subtitle: "Stofnaðu aðgang á örfáum sekúndum til að byrja að spá."
+      section_title: "01. Upplýsingar"
+      name_label: "Nafn"
+      name_placeholder: "Dæmi: Jón Jónsson"
+      email_label: "Netfang"
+      email_placeholder: "netfang@netfang.is"
+      password_label: "Veldu lykilorð"
+      invite_code_label: "Ertu með boðskóða? (Valkvæmt)"
+      invite_code_optional_badge: "Valkvæmt"
+      invite_code_placeholder: "T.D. XJ-99-BT"
+      invite_code_helper: "Ef þú ert með kóða ferðu beint inn í deildina."
+      signin_link: "Átt þú þegar aðgang?"
+      signin_text: "Innskráning"
+      submit_button: "Stofna aðgang"
+      breadcrumb_home: "Heim"
+      breadcrumb_current: "Nýskráning"
+
+  app:
+    name_upper: Boltaspa.is
+    name_lower: boltaspa.is
+    edit_link: Breyta
+    404_message: Hluturinn sem þú leitaðir að finnst ekki, athugaðu hvort að slóðin er rétt slegin inn.
+    500_message: Villa hefur komið upp. Vefstjóra hefur verið gert viðvart.
+    meta_description: Boltaspa.is
+    meta_keywords: fótbolti
+
+  layouts:
+    footer:
+      copyright_html: "Boltaspa.is"
+
+  custom_errors:
+    not_found:
+      page_title: Fannst ekki (404)
+    internal_server_error:
+      page_title: Villa (500)
+
+  users:
+    update_success: Stillingar uppfærðar
+    update_failure: Ekki tókst að uppfæra stillingar
+    gender:
+      male: Karl
+      female: Kona
+    edit:
+      page_title: "Stillingar"
+      title: "Mínar stillingar"
+      subtitle: "Hér getur þú uppfært prófílinn þinn og breytt öryggisstillingum."
+      error_title: "Villa kom upp"
+      section_1_title: "01. Grunnupplýsingar"
+      public_profile_badge: "Opinber prófíll"
+      name_label: "Fullt nafn"
+      email_label: "Netfang"
+      section_2_title: "02. Öryggi"
+      optional_badge: "Valkvæmt"
+      password_info_title: "Breyta lykilorði"
+      password_info_text: "Skildu þessa reiti eftir tóma ef þú vilt ekki breyta lykilorðinu þínu."
+      password_label: "Nýtt lykilorð"
+      password_confirmation_label: "Staðfesta lykilorð"
+      cancel_link: "Hætta við"
+      submit_button: "UPPFÆRA STILLINGAR"
+      breadcrumb_home: "Heim"
+      breadcrumb_current: "Stillingar"
+
+  # Layouts
+  layouts:
+    shared:
+      sidebar:
+        brand_name: "Boltaspá"
+        nav_overview: "Yfirlit"
+        nav_predictions: "Spá í leiki"
+        nav_create_league: "Stofna deild"
+        nav_join_league: "Ganga í deild"
+        nav_signin: "Innskráning"
+        my_leagues_title: "Deildirnar mínar"
+        settings_link: "Stillingar"
+        signout_link: "Skrá út"
+        bottom_nav:
+          home: "Heim"
+          predictions: "Spá"
+          leagues: "Deildir"
+
+  common:
+    home: Heim
+
+  # Password reset pages
+  passwords:
+    new:
+      title: "Gleymt lykilorð?"
+      email_placeholder: "Sláðu inn netfang þitt"
+      submit_button: "Senda leiðbeiningar um endurstillingu"
+    edit:
+      title: "Uppfæra lykilorð"
+      password_placeholder: "Sláðu inn nýtt lykilorð"
+      password_confirmation_placeholder: "Endurtaktu nýtt lykilorð"
+      submit_button: "Vista"
+
+  # Leagues
+  leagues:
+    index:
+      title: "Mínar Deildir"
+      subtitle: "Yfirlit"
+      create_button: "Stofna deild"
+      find_button: "Finna deild"
+      breadcrumb_home: "Heim"
+      breadcrumb_current: "Deildir"
+
+    new:
+      title: "Stofna deild"
+      subtitle: "Skráðu hópinn þinn til leiks og bjóddu vinunum í keppni um hver spáir best."
+      section_title: "Upplýsingar um hóp"
+      name_label: "Heiti deildar"
+      name_placeholder: "T.D. KAFFISTOFAN"
+      suggestions_label: "Hugmyndir:"
+      suggestion_1: "Kaffistofan"
+      suggestion_2: "Stúkan"
+      suggestion_3: "Boltinn"
+      info_title: "Hvað gerist næst?"
+      info_text: "Þegar þú stofnar deildina verður til einstakur boðskóði. Þú deilir honum með vinum þínum svo þeir geti skráð sig til leiks."
+      cancel_link: "Hætta við"
+      submit_button: "STOFNA DEILD"
+      breadcrumb_home: "Heim"
+      breadcrumb_current: "Stofna deild"
+
+    show:
+      page_subtitle: "Þinn vettvangur fyrir spákeppnir."
+      active_competitions_title: "Virk Mót"
+      standing_label: "Staða"
+      season_label: "Tímabilið"
+      open_competition_link: "Opna mótið"
+      access_code_title: "Aðgangskóði"
+      copy_button: "Afrita"
+      members_section_title: "Leikmannahópur"
+      owner_role: "Eigandi"
+      member_role: "Keppandi"
+      breadcrumb_leagues: "Deildir"
+      breadcrumb_current: "Deildir"
+
+  # Memberships
+  memberships:
+    new:
+      title: "Ganga í deild"
+      subtitle: "Sláðu inn boðskóðann sem þú fékkst sendan til að skrá þig til leiks."
+      code_label: "Boðskóði"
+      code_placeholder: "T.D. BOLTASPA-1234"
+      helper_text: "Boðskóðinn er hástafa strengur sem eigandi deildarinnar deildi með þér."
+      submit_button: "STAÐFESTA OG GANGA Í DEILD"
+      breadcrumb_home: "Heim"
+      breadcrumb_current: "Ganga í deild"
+
+  # Dashboard
+  dashboard:
+    show:
+      greeting_badge: "Boltaspá Pro"
+      greeting_text: "Halló, %{name}"
+      members_count: "%{count} keppendur"
+      season_label: "Tímabilið"
+      percentile_label: "Efstu %{percentage}%"
+      points_label: "Stig"
+      next_prediction_label: "Næsta opna spá"
+      no_matches_label: "Engir leikir"
+      open_slip_button: "Opna Seðil"
+
+  # League Competitions
+  league_competitions:
+    show:
+      subtitle_template: "Tímabilið %{year} • Umferð %{matchday} af 38"
+      leaderboard_title: "Heildarstigalisti"
+      leaderboard_note: "Staðan eftir 32. umferð"
+      table_header_rank: "#"
+      table_header_competitor: "Keppandi"
+      table_header_form: "Form (Síðustu 5)"
+      table_header_3pt: "3pt"
+      table_header_points: "Stig"
+      your_standing_badge: "Þín staða"
+      position_suffix: ". Sæti"
+      points_label: "Stig"
+      your_position_label: "Þín staða"
+      latest_label: "Nýjast"
+
+    comments_section:
+      title: "Pallborðið"
+      subtitle: "Spjall um þessa umferð"
+      no_comments: "Engar umræður hafnar"
+      placeholder: "Hvað finnst þér?"
+      submit_button: "Senda"
+
+    matchday_ticker:
+      status_today: "Staðan í dag"
+      round_label: "Umferð"
+      comparison_label: "Samanburður"
+      choose_competitor: "Veldu keppanda"
+      none_selected: "Enginn valinn"
+
+    matchday_ticker_single_match:
+      your_prediction: "Þín spá"
+
+
+  predictions:
+    create:
+      success_notice: Spár hafa verið uppfærðar.
+    index:
+      page_title: "Mínar spár"
+      subtitle: "Opnar spár"
+      status_label: "Staða gagna"
+      status_open: "opnir"
+      matchday_label: "Umferð %{number}"
+    sticky_bottom:
+      save_button: "Vista spár"
+      missing_count: "Vantar %{count} spár"
+      all_ready: "Allt tilbúið"
+    match_row:
+      select_placeholder: "Veldu..."
+      other_option: "Annað..."
+      groups:
+        home_win: "Heimasigur"
+        draw: "Jafntefli"
+        away_win: "Útisigur"
+
+  # Onboardings
+  onboardings:
+    show:
+      create_league_badge: "01"
+      create_league_label: "System // Architect"
+      create_league_title: "STOFNA<br><span class=\"text-[#2d5a43]\">NÝJA</span> DEILD"
+      create_league_description: "Settu upp þína eigin keppni. Þú stjórnar reglunum og hópnum þínum."
+      create_league_button: "BYRJA NÝJA DEILD"
+      join_league_badge: "02"
+      join_league_label: "System // Challenger"
+      join_league_title: "SLÁST Í<br><span class=\"text-slate-400\">HÓP MEÐ</span> VINI"
+      join_league_label_text: "Sláðu inn boðskóða"
+      join_league_placeholder: "T.D. BOLTI-24"
+      join_league_button: "GANGA Í DEILD"
+      join_league_help: "Boðskóðinn er deilt af stjórnanda deildarinnar."
+
+  # Error pages
+  errors:
+    error404:
+      title: "Þessi hlutur fannst ekki"
+      description: "Slóðin gæti verið röng eða deildin hefur verið fjarlægð"
+      back_button: "Aftur á forsíðu"
+    error500:
+      title: "Óvænt villa kom upp"
+      description: "Eitthvað fór úrskeiðis hjá okkur. Prófaðu að endurhlaða síðunni eða komdu aftur síðar."
+      back_button: "Fara á forsíðu"
+    invalid_record:
+      title: "Óþekkt villa"
+
+  # Welcome page
+  welcome:
+    show:
+      brand_name: "Boltaspá"
+      hero_heading: "Fyrir þá sem taka"
+      hero_emphasis: "leikinn"
+      hero_subtitle: "alvarlega."
+      hero_description: "Hnitmiðuð spákeppni fyrir lokaða hópa."
+      hero_description_line2: "Engar auglýsingar, ekkert rugl, bara boltinn."
+      cta_button: "Byrja núna"
+      signin_link: "Innskráning"
+      interface_label: "Viðmót // Live Ticker"
+      predict_cta: "Spáðu núna"
+      live_indicator: "LIVE"
+      vs_text: "vs"
+      footer_text: "Boltaspá // 2026"
+

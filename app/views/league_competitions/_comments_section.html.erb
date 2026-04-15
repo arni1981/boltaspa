@@ -1,0 +1,55 @@
+<%= turbo_stream_from @league_competition %>
+
+<%= turbo_frame_tag :comments do %>
+  <section class="bg-gray-50/50 border-t border-gray-100">
+    <header class="px-10 py-4 border-b border-gray-100 flex justify-between items-center">
+      <h3 class="text-[9px] font-black text-slate-400 uppercase tracking-[0.3em]">
+        <%= t('.title') %>
+      </h3>
+      <span class="text-[8px] font-bold text-slate-300 uppercase">
+        <%= t('.subtitle') %>
+      </span>
+    </header>
+
+    <div class="p-10 space-y-6 max-h-[300px] overflow-y-auto no-scrollbar" id="banter_feed">
+      <% if @comments&.any? %>
+        <% @comments.each do |comment| %>
+          <div class="group">
+            <div class="flex items-baseline gap-2 mb-1">
+              <span class="text-[10px] font-black text-[#0a1d13] uppercase tracking-tight">
+                <%= comment.user.name %>
+              </span>
+              <span class="text-[8px] font-mono font-bold text-slate-300">
+                <%= l(comment.created_at, format: :only_time) %>
+              </span>
+            </div>
+            <p class="text-[13px] text-slate-600 leading-tight">
+              <%= comment.body %>
+            </p>
+          </div>
+        <% end %>
+      <% else %>
+        <div class="py-4 text-center">
+          <p class="text-[10px] text-slate-300 italic uppercase tracking-widest">
+            <%= t('.no_comments') %>
+          </p>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="px-10 py-6 bg-white border-t border-gray-100">
+      <%= form_with model: [ @league, @league_competition, Comment.new ], class: "flex gap-3" do |f| %>
+        <%= f.hidden_field :matchday, value: @current_matchday %>
+
+        <%= f.text_field :body, 
+            placeholder: t('.placeholder'), 
+            class: "flex-1 bg-gray-50 border-gray-100 rounded-xl text-sm focus:ring-[#2d5a43] focus:border-[#2d5a43] py-2.5 px-4 font-sans",
+            autocomplete: "off" %>
+
+        <button type="submit" class="bg-[#0a1d13] text-white px-6 py-2 rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-[#2d5a43] transition-all active:scale-95">
+          <%= t('.submit_button') %>
+        </button>
+      <% end %>
+    </div>
+  </section>
+<% end %>

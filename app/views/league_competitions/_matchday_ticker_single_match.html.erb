@@ -1,0 +1,85 @@
+<%# locals: (match:, my_pred:, comp_pred: nil) %>
+<% 
+  my_pts = my_pred&.points_won.to_i
+  comp_pts = comp_pred&.points_won.to_i
+  is_live = match.status == 'IN_PLAY'
+
+  score_color = (match.finished? || is_live) ? 'text-[#0a1d13]' : 'text-slate-200'
+  row_bg = is_live ? 'bg-emerald-50/40' : 'bg-white hover:bg-gray-50/80'
+%>
+
+<%= turbo_stream_from match %>
+<div id="<%= dom_id(match) %>" class="flex items-center px-6 py-3 border-b border-gray-100 transition-colors group <%= row_bg %>">
+
+  <%# 1. Time/Status %>
+  <div class="w-16 shrink-0">
+    <% if is_live %>
+      <span class="text-[10px] font-mono font-black text-[#2d5a43] animate-pulse">LIVE <%= match.minute %>'</span>
+    <% else %>
+      <span class="text-[10px] font-mono font-bold text-slate-300"><%= l(match.kickoff_at, format: :only_time) %></span>
+    <% end %>
+  </div>
+
+  <%# 2. Teams & Score %>
+  <div class="flex-1 flex items-center justify-center">
+    <div class="flex-1 flex items-center justify-end gap-3 min-w-0">
+      <span class="text-[12px] font-black text-[#0a1d13] uppercase tracking-tight truncate"><%= match.home_team.short_name %></span>
+      <div class="w-6 h-6 shrink-0"><%= image_tag match.home_team.crest_url, class: "w-full h-full object-contain" %></div>
+    </div>
+
+    <div class="w-20 flex items-center justify-center gap-2 mx-4">
+      <span class="text-lg font-mono font-black tabular-nums <%= score_color %>"><%= match.home_score || 0 %></span>
+      <span class="text-slate-200 font-bold">:</span>
+      <span class="text-lg font-mono font-black tabular-nums <%= score_color %>"><%= match.away_score || 0 %></span>
+    </div>
+
+    <div class="flex-1 flex items-center justify-start gap-3 min-w-0">
+      <div class="w-6 h-6 shrink-0"><%= image_tag match.away_team.crest_url, class: "w-full h-full object-contain" %></div>
+      <span class="text-[12px] font-black text-[#0a1d13] uppercase tracking-tight truncate"><%= match.away_team.short_name %></span>
+    </div>
+  </div>
+
+  <%# 3. Predictions Section (Solo or Comparison) %>
+  <div class="w-72 shrink-0 ml-6 flex items-center justify-end">
+
+    <% if @compare_user && @compare_user != Current.user %>
+      <%# COMPARISON VIEW: No labels, just distinct blocks %>
+      <div class="flex items-center gap-2">
+
+        <%# MY PREDICTION %>
+        <div class="flex items-center gap-2 px-3 py-1.5 bg-gray-50 rounded-xl border border-gray-100">
+          <span class="text-[11px] font-mono font-black text-[#0a1d13]">
+            <%= my_pred ? "#{my_pred.home_guess}-#{my_pred.away_guess}" : "—" %>
+          </span>
+          <div class="w-8 h-5 flex items-center justify-center rounded-lg <%= my_pts > 0 ? 'bg-[#2d5a43] text-white' : 'bg-slate-200 text-white' %>">
+            <span class="text-[9px] font-black font-mono">+<%= my_pts %></span>
+          </div>
+        </div>
+
+        <span class="text-slate-200 font-bold">vs</span>
+
+        <%# OPPONENT PREDICTION %>
+        <div class="flex items-center gap-2 px-3 py-1.5 bg-[#0a1d13] rounded-xl border border-[#0a1d13]">
+          <span class="text-[11px] font-mono font-black text-white/90">
+            <%= comp_pred ? "#{comp_pred.home_guess}-#{comp_pred.away_guess}" : "—" %>
+          </span>
+          <div class="w-8 h-5 flex items-center justify-center rounded-lg <%= comp_pts > 0 ? 'bg-sky-500 text-white' : 'bg-white/10 text-white/30' %>">
+            <span class="text-[9px] font-black font-mono">+<%= comp_pts %></span>
+          </div>
+        </div>
+      </div>
+
+    <% else %>
+      <%# SOLO VIEW: Stripped back, no labels %>
+      <div class="flex items-center gap-3">
+        <span class="text-[13px] font-mono font-black text-[#0a1d13]">
+          <%= my_pred ? "#{my_pred.home_guess}-#{my_pred.away_guess}" : "—" %>
+        </span>
+        <div class="px-3 py-1 rounded-lg border-2 <%= my_pts > 0 ? 'border-[#2d5a43]/20 bg-emerald-50 text-[#2d5a43]' : 'border-dashed border-slate-100 text-slate-200' %>">
+          <span class="text-[11px] font-mono font-black">+<%= my_pts %></span>
+        </div>
+      </div>
+    <% end %>
+
+  </div>
+</div>

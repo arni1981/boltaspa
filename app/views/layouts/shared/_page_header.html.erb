@@ -1,0 +1,22 @@
+<%# locals: (title:, subtitle: nil, breadcrumbs: []) %>
+
+<section class="mb-10">
+  <% if breadcrumbs.any? %>
+    <nav class="breadcrumb-nav flex items-center gap-2 mb-4 text-[12px] font-medium text-gray-400">
+      <%= link_to t('common.home'), root_path %>
+      <% breadcrumbs.each do |crumb| %>
+        <% if crumb == breadcrumbs.last %>
+          <span class="text-gray-500"><%= crumb[:name] %></span>
+        <% else %>
+          <%= link_to crumb[:name], crumb[:path] %>
+        <% end %>
+      <% end %>
+    </nav>
+  <% end %>
+
+  <h1 class="text-4xl font-bold text-gray-800 tracking-tight"><%= title %></h1>
+
+  <% if subtitle %>
+    <p class="mt-3 text-sm text-gray-500 font-medium"><%= subtitle %></p>
+  <% end %>
+</section>

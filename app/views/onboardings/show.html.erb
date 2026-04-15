@@ -1,0 +1,75 @@
+<div class="min-h-screen flex items-center justify-center py-12 px-6 bg-[#f9faf9]">
+  <%# Constrain the overall card height and width on desktop %>
+  <div class="max-w-5xl w-full bg-white rounded-[3rem] overflow-hidden shadow-[0_40px_100px_-20px_rgba(0,0,0,0.1)] border border-gray-100 grid grid-cols-1 md:grid-cols-2 lg:min-h-[640px]">
+
+    <%# LEFT: THE ARCHITECT %>
+    <section class="bg-[#0a1d13] p-10 lg:p-20 flex flex-col justify-between relative overflow-hidden">
+      <div class="absolute -top-32 -left-32 w-96 h-96 bg-[#2d5a43] opacity-10 blur-[120px] rounded-full"></div>
+
+      <div class="relative z-10">
+        <div class="flex items-center gap-3 mb-10">
+          <span class="px-2 py-1 bg-[#2d5a43] text-white text-[9px] font-black uppercase tracking-widest rounded"><%= t('.create_league_badge') %></span>
+          <span class="text-[10px] font-black text-white/30 uppercase tracking-[0.4em]"><%= t('.create_league_label') %></span>
+        </div>
+
+        <%# Scaled down heading for desktop sophistication %>
+        <h2 class="text-5xl lg:text-6xl font-black text-white tracking-tighter uppercase leading-[0.9] mb-8">
+          <%= raw t('.create_league_title') %>
+        </h2>
+
+        <p class="text-gray-400 text-sm font-medium leading-relaxed max-w-[280px]">
+          <%= t('.create_league_description') %>
+        </p>
+      </div>
+
+      <div class="relative z-10 pt-10">
+        <%= link_to new_league_path, class: "group inline-flex items-center justify-between bg-[#2d5a43] text-white px-8 py-4 rounded-2xl font-bold text-xs hover:bg-[#1e3f2e] transition-all w-full active:scale-[0.98]" do %>
+          <span><%= t('.create_league_button') %></span>
+          <svg class="w-4 h-4 opacity-40 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          </svg>
+        <% end %>
+      </div>
+    </section>
+
+    <%# RIGHT: THE CHALLENGER %>
+    <section class="bg-white p-10 lg:p-20 flex flex-col justify-between relative">
+      <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: radial-gradient(#0a1d13 1px, transparent 1px); background-size: 24px 24px;"></div>
+
+      <div class="relative z-10">
+        <div class="flex items-center gap-3 mb-10">
+          <span class="px-2 py-1 bg-gray-100 text-gray-400 text-[9px] font-black uppercase tracking-widest rounded"><%= t('.join_league_badge') %></span>
+          <span class="text-[10px] font-black text-gray-300 uppercase tracking-[0.4em]"><%= t('.join_league_label') %></span>
+        </div>
+
+        <h2 class="text-5xl lg:text-6xl font-black text-[#0a1d13] tracking-tighter uppercase leading-[0.9] mb-8">
+          <%= raw t('.join_league_title') %>
+        </h2>
+
+        <div class="mt-8 max-w-sm">
+          <%= form_with url: join_league_path, method: :post, class: "space-y-4" do |f| %>
+            <div class="relative">
+              <%= f.label :invite_code, t('.join_league_label_text'), class: "block text-[9px] font-black text-gray-400 uppercase tracking-[0.2em] mb-2 pl-1" %>
+              <%= f.text_field :invite_code, 
+                  placeholder: t('.join_league_placeholder'),
+                  class: "w-full bg-gray-50 border border-gray-100 rounded-xl px-5 py-4 text-lg font-mono font-black uppercase tracking-widest text-[#0a1d13] placeholder:text-gray-200 focus:border-[#2d5a43] focus:ring-0 transition-all" %>
+            </div>
+
+            <%= f.button class: "group inline-flex items-center justify-between bg-[#0a1d13] text-white px-8 py-4 rounded-2xl font-bold text-xs hover:bg-black transition-all w-full active:scale-[0.98]" do %>
+              <span><%= t('.join_league_button') %></span>
+              <svg class="w-4 h-4 text-[#2d5a43] group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="relative z-10 pt-10">
+        <p class="text-[10px] text-gray-300 font-medium leading-relaxed max-w-[240px]">
+          <%= t('.join_league_help') %>
+        </p>
+      </div>
+    </section>
+  </div>
+</div>
