@@ -32,7 +32,5 @@ module Boltaspa
     config.action_view.image_loading = 'lazy'
 
     config.mission_control.jobs.http_basic_auth_enabled = false
-
-    config.active_record.schema_format = :sql
   end
 end
