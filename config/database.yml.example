@@ -1,0 +1,19 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  host: localhost
+  username: someuser
+  password: somepass
+  pool: 5
+
+development:
+  <<: *default
+  database: boltaspa
+
+test:
+  <<: *default
+  database: boltaspa_test
+
+production:
+  <<: *default
+  database: boltaspa

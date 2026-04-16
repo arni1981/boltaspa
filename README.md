@@ -16,7 +16,7 @@ Clone this repo
 
 bundle install
 
-# setup database.yml
+# Setup database.yml, use database.yml.example as guide
 
 rails db:migrate
 
@@ -37,4 +37,7 @@ rails simulate:predictions
 rails simulate:calc_points
 ```
 
+# TODO
 One thing missing sorely is testing, I hope to start that soon.
+Make sure everything is translated, and translated properly.
+Add `scenic` and `fx` gems to handle views, triggers and functions in a better way.
