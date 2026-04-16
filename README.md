@@ -16,6 +16,8 @@ Clone this repo
 
 bundle install
 
+# setup database.yml
+
 rails db:migrate
 
 rails credentials:edit #football_data_auth_token is needed to use the api
