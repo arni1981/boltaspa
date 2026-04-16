@@ -1,24 +1,38 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a soccer prediction fantasy game written in Ruby on Rails.
+It uses Hotwire for the frontend and the solid stack.
 
-Things you may want to cover:
+It is very much still in an alpha testing phase, but I hope to finish this in time before next season starts mid August.
 
-* Ruby version
+It uses data from the great https://www.football-data.org/ api service which has a very nice free tier. You will need an api key if you want to test this locally.
 
-* System dependencies
+For now it has the English Premier League, but everything is set up so that adding other leagues is quite simple.
 
-* Configuration
+To get this working locally follow these steps
 
-* Database creation
+```bash
+Clone this repo
 
-* Database initialization
+bundle install
 
-* How to run the test suite
+rails db:migrate
 
-* Services (job queues, cache servers, search engines, etc.)
+rails credentials:edit #football_data_auth_token is needed to use the api
 
-* Deployment instructions
+rails api:all
+```
 
-* ...
+It is possible to simulate predictions for all users with
+
+```bash
+rails simulate:predictions
+```
+
+...and calculate points for all matches in one go with, otherwise this happens when each match gets updated.
+
+```bash
+rails simulate:calc_points
+```
+
+One thing missing sorely is testing, I hope to start that soon.
