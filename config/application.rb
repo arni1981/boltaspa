@@ -33,6 +33,6 @@ module Boltaspa
 
     config.mission_control.jobs.http_basic_auth_enabled = false
 
-    # config.active_record.schema_format = :sql
+    config.active_record.schema_format = :sql
   end
 end
