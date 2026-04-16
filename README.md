@@ -23,6 +23,8 @@ rails db:migrate
 rails credentials:edit #football_data_auth_token is needed to use the api
 
 rails api:all
+
+./bin/dev
 ```
 
 It is possible to simulate predictions for all users with
@@ -41,6 +43,7 @@ rails simulate:calc_points
 * One thing missing sorely is testing, I hope to start that soon.
 * Make sure everything is translated, and translated properly.
 * Add `scenic` and `fx` gems to handle views, triggers and functions in a better way.
+* Cache were it makes sense
 
 # Boltaspá?
 Yeah, it means literally "ball prediction" in Icelandic, has nothing to do with a crystal ball though. I decided to just keep the name for the english version also.
