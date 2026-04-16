@@ -38,6 +38,9 @@ rails simulate:calc_points
 ```
 
 # TODO
-One thing missing sorely is testing, I hope to start that soon.
-Make sure everything is translated, and translated properly.
-Add `scenic` and `fx` gems to handle views, triggers and functions in a better way.
+* One thing missing sorely is testing, I hope to start that soon.
+* Make sure everything is translated, and translated properly.
+* Add `scenic` and `fx` gems to handle views, triggers and functions in a better way.
+
+# Boltaspá?
+Yeah, it means literally "ball prediction" in Icelandic, has nothing to do with a crystal ball though. I decided to just keep the name for the english version also.
