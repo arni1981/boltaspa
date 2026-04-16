@@ -1,9 +1,5 @@
 module Admin
   class ProfilesController < Admin::BaseController
-    schema(:show) do
-      required(:id).filled(:integer)
-    end
-
     def show
       @user = User.find(safe_params[:id])
     end
