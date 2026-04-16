@@ -254,6 +254,25 @@ en:
       vs_text: "vs"
       footer_text: "Boltaspá // 2026"
 
+  # Controller flash messages
+  controllers:
+    sessions:
+      rate_limit_exceeded: "Try again later."
+      invalid_credentials: "Try another email address or password."
+    passwords:
+      rate_limit_exceeded: "Try again later."
+      reset_instructions_sent: "Password reset instructions sent (if user with that email address exists)."
+      password_reset_success: "Password has been reset."
+      passwords_dont_match: "Passwords did not match."
+      invalid_reset_link: "Password reset link is invalid or has expired."
+    memberships:
+      league_not_found: "No league found with that code."
+      already_member: "You are already a member of this league!"
+      welcome_message: "Welcome to the league!"
+      join_failed: "Failed to join league."
+    leagues:
+      league_created: "League created"
+
   time:
     formats:
       only_time: ! '%H:%M'

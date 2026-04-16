@@ -14,20 +14,20 @@ class MembershipsController < ApplicationController
 
     if @league.nil?
       @membership = Membership.new
-      @membership.errors.add(:base, 'Engin deild fannst með þessum kóða.')
+      @membership.errors.add(:base, t('controllers.memberships.league_not_found'))
       return render :new, status: :not_found
     end
 
     if @league.members.include?(Current.user)
-      return redirect_to @league, notice: 'Þú ert nú þegar meðlimur í deildinni!'
+      return redirect_to @league, notice: t('controllers.memberships.already_member')
     end
 
     @membership = @league.memberships.new(user: Current.user)
 
     if @membership.save
-      redirect_to @league, info: 'Velkomin(n) í deildina!'
+      redirect_to @league, info: t('controllers.memberships.welcome_message')
     else
-      flash.now[:error] = 'Ekki tókst að skrá í deild.'
+      flash.now[:error] = t('controllers.memberships.join_failed')
       render :new, status: :unprocessable_entity
     end
   end

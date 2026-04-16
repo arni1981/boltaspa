@@ -2,93 +2,95 @@
 <aside class="fixed inset-y-0 left-0 w-64 bg-[#0a1d13] z-[60] transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out lg:sticky lg:top-0 lg:h-screen lg:flex lg:flex-col border-r border-white/5 shadow-2xl lg:shadow-none" data-mobile-menu-target="sidebar">
 
   <%# Brand Section %>
-  <div class="p-8 flex-shrink-0 hidden lg:block">
+  <div class="p-8 flex-shrink-0">
     <%= link_to root_path, class: "flex items-center gap-3 group" do %>
       <div class="w-8 h-8 bg-[#2d5a43] rounded-lg flex items-center justify-center text-white font-black text-sm shadow-lg group-active:scale-95 transition-transform">B</div>
-      <span class="text-sm font-black text-white tracking-[0.2em] uppercase"><%= t('.brand_name') %></span>
+      <span class="text-sm font-black text-white tracking-[0.2em] uppercase">Boltaspá</span>
     <% end %>
   </div>
 
   <%# Navigation %>
-  <nav class="flex-1 px-4 space-y-1 mt-8 lg:mt-2 overflow-y-auto no-scrollbar">
+  <nav class="flex-1 px-4 space-y-1 mt-2 overflow-y-auto no-scrollbar">
     <% if Current.user %>
-      <% nav_items = [
+      <% [
           { label: t('.nav_overview'), path: root_path, icon: 'grid' },
           { label: t('.nav_predictions'), path: predictions_path, icon: 'clock' },
           { label: t('.nav_create_league'), path: new_league_path, icon: 'plus' },
           { label: t('.nav_join_league'), path: join_league_path, icon: 'users' }
-        ] %>
-    <% else %>
-      <% nav_items = [
-          { label: t('.nav_signin'), path: new_session_path, icon: 'users' }
-        ] %>
-    <% end %>
-
-    <% nav_items.each do |item| %>
-      <% is_active = current_page?(item[:path]) %>
-      <%= link_to(item[:path], class: "group flex items-center gap-3 px-4 py-2.5 rounded-xl text-[11px] font-black uppercase tracking-[0.15em] transition-all #{is_active ? 'bg-white/5 text-[#2d5a43]' : 'text-slate-500 hover:text-white hover:bg-white/[0.02]'}") do %>
-        <div class="w-4 h-4 <%= is_active ? 'text-[#2d5a43]' : 'text-slate-600 group-hover:text-slate-400' %>">
-          <%= render "layouts/shared/icon", name: item[:icon] %>
-        </div>
-        <span><%= item[:label] %></span>
-      <% end %>
-    <% end %>
-
-    <% if Current.user&.leagues&.any? %>
-      <div class="pt-10 pb-2 px-4">
-        <span class="text-[9px] font-extrabold text-gray-600 uppercase tracking-[0.3em]"><%= t('.my_leagues_title') %></span>
-      </div>
-
-      <div class="space-y-0.5">
-        <% Current.user.leagues.each do |league| %>
-          <% is_active = current_page?(league_path(league)) %>
-          <%= link_to(league_path(league), class: "group flex items-center gap-3 px-4 py-2 rounded-lg text-[12px] font-bold transition-all #{is_active ? 'text-white bg-white/5' : 'text-slate-500 hover:text-white'}") do %>
-            <div class="w-1 h-1 rounded-full <%= is_active ? 'bg-[#2d5a43] shadow-[0_0_8px_rgba(45,90,67,0.6)]' : 'bg-slate-800' %>"></div>
-            <span class="truncate"><%= league.name %></span>
-          <% end %>
+        ].each do |item| %>
+        <% is_active = current_page?(item[:path]) %>
+        <%= link_to(item[:path], class: "group flex items-center gap-3 px-4 py-2.5 rounded-xl text-[11px] font-black uppercase tracking-[0.15em] transition-all #{is_active ? 'bg-white/5 text-[#2d5a43]' : 'text-slate-500 hover:text-white hover:bg-white/[0.02]'}") do %>
+          <div class="w-4 h-4 <%= is_active ? 'text-[#2d5a43]' : 'text-slate-600 group-hover:text-slate-400' %>">
+            <%= render "layouts/shared/icon", name: item[:icon] %>
+          </div>
+          <span><%= item[:label] %></span>
         <% end %>
-      </div>
+      <% end %>
+
+      <% if Current.user.leagues.any? %>
+        <div class="pt-10 pb-2 px-4">
+          <span class="text-[9px] font-extrabold text-gray-600 uppercase tracking-[0.3em]"><%= t('.my_leagues_title') %></span>
+        </div>
+        <div class="space-y-0.5">
+          <% Current.user.leagues.each do |league| %>
+            <% is_active = current_page?(league_path(league)) %>
+            <%= link_to(league_path(league), class: "group flex items-center gap-3 px-4 py-2 rounded-lg text-[12px] font-bold transition-all #{is_active ? 'text-white bg-white/5' : 'text-slate-500 hover:text-white'}") do %>
+              <div class="w-1 h-1 rounded-full <%= is_active ? 'bg-[#2d5a43] shadow-[0_0_8px_rgba(45,90,67,0.6)]' : 'bg-slate-800' %>"></div>
+              <span class="truncate"><%= league.name %></span>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+    <% else %>
+      <%# Empty state/Sign in link for guest sidebar if needed %>
+      <%= link_to new_session_path, class: "group flex items-center gap-3 px-4 py-2.5 text-slate-500 hover:text-white" do %>
+        <div class="w-4 h-4 text-slate-600"><%= render "layouts/shared/icon", name: 'users' %></div>
+        <span class="text-[11px] font-black uppercase tracking-widest"><%= t('.nav_signin') %></span>
+      <% end %>
     <% end %>
   </nav>
 
-  <%# User Footer & Locale Switcher %>
-  <% if Current.user %>
-    <div class="p-4 bg-black/20 border-t border-white/5 mt-auto flex-shrink-0">
+  <%# PERSISTENT FOOTER %>
+  <div class="p-4 bg-black/20 border-t border-white/5 mt-auto flex-shrink-0">
+    <% if Current.user %>
       <div class="flex items-center gap-3 mb-4">
-        <div class="w-9 h-9 rounded-lg bg-[#2d5a43] border border-white/10 flex items-center justify-center shrink-0 shadow-inner">
+        <div class="w-9 h-9 rounded-lg bg-[#2d5a43] border border-white/10 flex items-center justify-center shrink-0">
           <span class="text-[11px] font-black text-white"><%= Current.user.name[0].upcase %></span>
         </div>
-
         <div class="flex-1 min-w-0">
           <p class="text-[12px] font-black text-white truncate uppercase tracking-tight"><%= Current.user.name %></p>
           <p class="text-[9px] font-bold text-slate-600 uppercase tracking-widest">@<%= Current.user.name.parameterize %></p>
         </div>
       </div>
+    <% end %>
 
-      <div class="flex items-center justify-between px-1">
-        <div class="flex items-center gap-3">
+    <div class="flex items-center justify-between px-1">
+      <div class="flex items-center gap-4">
+        <% if Current.user %>
           <%= link_to edit_settings_path, class: "text-[9px] font-black text-slate-500 hover:text-white uppercase tracking-widest transition-colors" do %>
             <%= t('.settings_link') %>
           <% end %>
+        <% end %>
 
-          <%# Compact Locale Switcher %>
-          <div class="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest select-none">
-            <% if I18n.locale == :is %>
-              <span class="text-white">IS</span>
-              <span class="text-slate-800">/</span>
-              <%= link_to "EN", { locale: :en }, class: "text-slate-600 hover:text-white transition-colors" %>
-            <% else %>
-              <%= link_to "IS", { locale: :is }, class: "text-slate-600 hover:text-white transition-colors" %>
-              <span class="text-slate-800">/</span>
-              <span class="text-white">EN</span>
-            <% end %>
-          </div>
+        <%# ALWAYS VISIBLE LOCALE SWITCHER %>
+        <div class="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest select-none">
+          <% if I18n.locale == :is %>
+            <span class="text-white">IS</span>
+            <span class="text-slate-800">/</span>
+            <%= link_to "EN", url_for(locale: :en), class: "text-slate-600 hover:text-white transition-colors" %>
+          <% else %>
+            <%= link_to "IS", url_for(locale: :is), class: "text-slate-600 hover:text-white transition-colors" %>
+            <span class="text-slate-800">/</span>
+            <span class="text-white">EN</span>
+          <% end %>
         </div>
+      </div>
 
-        <%= link_to session_path, data: { turbo_method: :delete }, class: "text-[9px] font-black text-slate-500 hover:text-red-400 uppercase tracking-widest transition-colors" do %>
+      <% if Current.user %>
+        <%= link_to new_session_path, data: { turbo_method: :delete }, class: "text-[9px] font-black text-slate-500 hover:text-red-400 uppercase tracking-widest transition-colors" do %>
           <%= t('.signout_link') %>
         <% end %>
-      </div>
+      <% end %>
     </div>
-  <% end %>
+  </div>
 </aside>

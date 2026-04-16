@@ -307,3 +307,22 @@ is:
       vs_text: "vs"
       footer_text: "Boltaspá // 2026"
 
+  # Controller flash messages
+  controllers:
+    sessions:
+      rate_limit_exceeded: "Reyndu aftur síðar."
+      invalid_credentials: "Reyndu annað netfang eða lykilorð."
+    passwords:
+      rate_limit_exceeded: "Reyndu aftur síðar."
+      reset_instructions_sent: "Leiðbeiningar um endurstillingu lykilorðs sendar (ef notandi með því netfangi er til)."
+      password_reset_success: "Lykilorði hefur verið endurstillt."
+      passwords_dont_match: "Lykilorð pössuðu ekki saman."
+      invalid_reset_link: "Tengill fyrir endurstillingu lykilorðs er ógildur eða útrunninn."
+    memberships:
+      league_not_found: "Engin deild fannst með þessum kóða."
+      already_member: "Þú ert nú þegar meðlimur í deildinni!"
+      welcome_message: "Velkomin(n) í deildina!"
+      join_failed: "Ekki tókst að skrá í deild."
+    leagues:
+      league_created: "Deildin var stofnuð"
+

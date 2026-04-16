@@ -26,7 +26,7 @@ class LeaguesController < ApplicationController
     )
 
     if @league.save
-      redirect_to @league, notice: 'Deildin var stofnuð'
+      redirect_to @league, notice: t('controllers.leagues.league_created')
     else
       render :new, status: :unprocessable_entity
     end
