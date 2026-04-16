@@ -87,7 +87,7 @@
       </div>
 
       <% if Current.user %>
-        <%= link_to new_session_path, data: { turbo_method: :delete }, class: "text-[9px] font-black text-slate-500 hover:text-red-400 uppercase tracking-widest transition-colors" do %>
+        <%= link_to session_path, data: { turbo_method: :delete }, class: "text-[9px] font-black text-slate-500 hover:text-red-400 uppercase tracking-widest transition-colors" do %>
           <%= t('.signout_link') %>
         <% end %>
       <% end %>
