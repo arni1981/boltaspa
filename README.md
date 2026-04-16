@@ -24,7 +24,7 @@ rails credentials:edit #football_data_auth_token is needed to use the api
 
 rails api:all
 
-./bin/dev
+overmind start -f Procfile.dev
 ```
 
 It is possible to simulate predictions for all users with
