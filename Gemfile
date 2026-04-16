@@ -27,6 +27,8 @@ gem 'turbo-rails'
 # --- Monitoring & Analytics ---
 gem 'rollbar'
 
+gem "image_processing", "~> 1.2"
+
 # --- Development & Test Groups ---
 group :development, :test do
   gem 'debug'      # Debugger
