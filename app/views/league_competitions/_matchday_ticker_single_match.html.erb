@@ -14,18 +14,18 @@
 <%= turbo_stream_from match %>
 <div id="<%= dom_id(match) %>" class="flex items-center px-6 py-4 border-b border-gray-100 transition-colors group <%= row_bg %>">
 
-  <%# 1. TIME & DATE (Vertical Stack) %>
+  <%# 1. TIME & DATE (Vertical Stack - Enhanced Legibility) %>
   <div class="w-16 shrink-0 flex flex-col justify-center">
     <% if match.live? %>
       <span class="text-[10px] font-mono font-black text-[#2d5a43] animate-pulse">LIVE</span>
       <span class="text-[10px] font-mono font-black text-[#2d5a43]"><%= match.minute %>'</span>
     <% else %>
-      <%# The Date: Small, subtle anchor %>
-      <span class="text-[8px] font-black text-slate-400 uppercase tracking-tighter leading-none mb-1">
+      <%# The Date: Now legible for humans without microscopes %>
+      <span class="text-[10px] font-bold text-slate-400 uppercase tracking-tight leading-tight">
         <%= l(match.kickoff_at, format: "%d. %b") %>
       </span>
       <%# The Time: The primary focus %>
-      <span class="text-[11px] font-mono font-bold text-[#0a1d13] leading-none">
+      <span class="text-[12px] font-mono font-black text-[#0a1d13] leading-tight">
         <%= match.kickoff_at.strftime("%H:%M") %>
       </span>
     <% end %>

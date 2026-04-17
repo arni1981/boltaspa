@@ -15,8 +15,8 @@
 #     schedule: every hour at minute 12
 #
 
-api:
+production:
   matches:
     class: MatchesJob
     args: ['PL']
-    schedule: every 5 minutes
+    schedule: every minute
