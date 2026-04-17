@@ -34,7 +34,8 @@
           </svg>
         </div>
 
-        <%= form_with url: request.path, method: :get, class: "absolute inset-0 z-10", data: { controller: "auto-submit", turbo_frame: "matchday_ticker" } do |f| %>
+        <%= form_with url: request.path, method: :get, class: "absolute inset-0 z-10", 
+          data: { controller: "auto-submit", turbo_frame: "matchday_ticker", turbo_action: :advance } do |f| %>
           <%= f.hidden_field :matchday, value: current_matchday %>
           <%= f.select :compare_user_id, 
               options_from_collection_for_select(league.members.where.not(id: Current.user.id), :id, :name, params[:compare_user_id]),
@@ -47,9 +48,7 @@
 
     <div class="divide-y divide-gray-50">
       <% matches.each do |match| %>
-        <% my_pred = predictions_map[match.id] %>
-        <% comp_pred = compare_predictions_map&.[](match.id) if compare_user %>
-        <%= render 'matchday_ticker_single_match', match: match, my_pred: my_pred, comp_pred: comp_pred %>
+        <%= render 'matchday_ticker_single_match', match:, predictions_map:, compare_user:, compare_predictions_map: %>
       <% end %>
     </div>
 
