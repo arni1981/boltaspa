@@ -22,7 +22,7 @@ class MatchesJob < ApplicationJob
         match.matchday       = m['matchday']
         match.season         = Season.find_by_external_id(m.dig('season', 'id'))
 
-        match.save!
+        match.save
       end
     end
   end

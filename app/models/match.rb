@@ -34,7 +34,9 @@ class Match < ApplicationRecord
     "#{home_team.tla}#{separator}#{away_team.tla}"
   end
 
-  after_save_commit do
+  after_save_commit :calc_points_for_match, if: :saved_changes?
+  
+  def calc_points_for_match
     MatchPointsCalculatorJob.perform_later(id)
   end
 
