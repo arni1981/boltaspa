@@ -6,14 +6,9 @@
   
   my_pts = my_pred&.points_won.to_i
   comp_pts = comp_pred&.points_won.to_i
-  
-  # Logic Gates
-  is_live = match.status == 'IN_PLAY' || match.live?
-  is_finished = match.finished?
-  is_started = is_live || is_finished
-  
-  score_color = is_started ? 'text-[#0a1d13]' : 'text-slate-200'
-  row_bg = is_live ? 'bg-emerald-50/40' : 'bg-white hover:bg-gray-50/80'
+    
+  score_color = match.started? ? 'text-[#0a1d13]' : 'text-slate-200'
+  row_bg = match.live? ? 'bg-emerald-50/40' : 'bg-white hover:bg-gray-50/80'
 %>
 
 <%= turbo_stream_from match %>
@@ -21,7 +16,7 @@
 
   <%# 1. TIME & DATE (Vertical Stack) %>
   <div class="w-16 shrink-0 flex flex-col justify-center">
-    <% if is_live %>
+    <% if match.live? %>
       <span class="text-[10px] font-mono font-black text-[#2d5a43] animate-pulse">LIVE</span>
       <span class="text-[10px] font-mono font-black text-[#2d5a43]"><%= match.minute %>'</span>
     <% else %>
@@ -87,7 +82,7 @@
         <%# Competitor: GATED logic %>
         <div class="flex items-center gap-2 px-3 py-1.5 bg-[#0a1d13] rounded-xl border border-[#0a1d13]">
           <span class="text-[11px] font-mono font-black text-white/90">
-            <% if is_started %>
+            <% if match.started? %>
               <%= comp_pred ? "#{comp_pred.home_guess}-#{comp_pred.away_guess}" : "—" %>
             <% else %>
               <%# Hidden state: locked icon or question mark %>
@@ -98,9 +93,9 @@
             <% end %>
           </span>
 
-          <div class="w-8 h-5 flex items-center justify-center rounded-lg <%= (is_started && comp_pts > 0) ? 'bg-[#2d5a43] text-white' : 'bg-white/10 text-white/30' %>">
+          <div class="w-8 h-5 flex items-center justify-center rounded-lg <%= (match.started? && comp_pts > 0) ? 'bg-[#2d5a43] text-white' : 'bg-white/10 text-white/30' %>">
             <span class="text-[9px] font-black font-mono">
-              <%= is_started ? "+#{comp_pts}" : "?" %>
+              <%= match.started? ? "+#{comp_pts}" : "?" %>
             </span>
           </div>
         </div>

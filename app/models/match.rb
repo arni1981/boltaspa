@@ -18,6 +18,10 @@ class Match < ApplicationRecord
     %w[IN_PLAY].include?(status)
   end
 
+  def started?
+    finished? || live?
+  end
+
   def minute
     15
   end
