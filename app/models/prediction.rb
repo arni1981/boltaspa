@@ -1,6 +1,8 @@
 class Prediction < ApplicationRecord
   belongs_to :user
   belongs_to :match
+  has_one :home_team, through: :match
+  has_one :away_team, through: :match
 
   validate :match_not_started
   validates :home_guess, :away_guess,
