@@ -18,5 +18,5 @@
 production:
   matches:
     class: MatchesJob
-    args: ['PL']
-    schedule: every minute
+    args: ['PL', 2025]
+    schedule: every 5 minutes
