@@ -22,7 +22,7 @@
   <div class="w-16 shrink-0 flex flex-col justify-center">
     <% if is_live %>
       <span class="text-[10px] font-mono font-black text-[#2d5a43] animate-pulse uppercase">Live</span>
-      <span class="text-[12px] font-mono font-black text-[#2d5a43] leading-none mt-0.5"><%= match.minute %>'</span>
+      <span class="text-[12px] font-mono font-black text-[#2d5a43] leading-none mt-0.5">'</span>
     <% else %>
       <span class="text-[12px] font-mono font-black text-[#0a1d13] leading-none">
         <%= match.kickoff_at.strftime("%H:%M") %>
