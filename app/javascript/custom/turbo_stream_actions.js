@@ -1,18 +1,6 @@
 import { Turbo } from "@hotwired/turbo-rails"
 import Swal from "sweetalert2";
 
-Turbo.StreamActions.show_modal = function () {
-   const modal = this.targetElements[0];
-
-   if (modal instanceof HTMLDialogElement) {
-      // .showModal() is the native method for <dialog> 
-      // It handles the backdrop and focusing automatically.
-      modal.showModal();
-   } else {
-      console.error("The target of show_modal must be a <dialog> element.");
-   }
-}
-
 Turbo.StreamActions.toast = function () {
    const content = this.getAttribute("content");
    const type = this.getAttribute("type") || "success";
