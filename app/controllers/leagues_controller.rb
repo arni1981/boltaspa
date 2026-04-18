@@ -1,6 +1,4 @@
 class LeaguesController < ApplicationController
-  before_action :set_available_competitions
-
   def index
     @leagues = Current.user.leagues
   end
@@ -19,11 +17,12 @@ class LeaguesController < ApplicationController
       owner: Current.user
     )
 
-    competition = Competition.find_by_code(league_params[:competition_code])
-    @league.league_competitions.build(
-      competition: competition,
-      season: Season.find_by(competition: competition, current: true)
-    )
+    %w[PL WC].each do |code|
+      @league.league_competitions.build(
+        competition: Competition.find_by_code(code),
+        season: Season.find_by(competition: competition, current: true)
+      )
+    end
 
     if @league.save
       redirect_to @league, notice: t('controllers.leagues.league_created')
@@ -34,11 +33,7 @@ class LeaguesController < ApplicationController
 
   private
 
-  def set_available_competitions
-    @available_competitions = Competition.where(code: %w[PL CL SA]).pluck(:code, :name, :emblem)
-  end
-
   def league_params
-    params.expect(league: %i[name competition_code])
+    params.expect(league: %i[name])
   end
 end

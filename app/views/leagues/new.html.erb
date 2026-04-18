@@ -5,8 +5,6 @@
 
 <div class="max-w-2xl pb-32">
   <%= form_with model: @league, class: "space-y-8" do |f| %>
-    <%= f.hidden_field :competition_code, value: 'PL' %>
-
     <%= render 'layouts/error_messages' %>
 
     <section class="bg-white border border-gray-200 rounded-3xl shadow-sm overflow-hidden">

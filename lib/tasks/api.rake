@@ -1,32 +1,32 @@
 namespace :api do
   task matches: :environment do
-    competitions.each do |competition_code|
-      MatchesJob.perform_now(competition_code, 2025)
+    competitions_seasons.each do |competition_code, season|
+      MatchesJob.perform_now(competition_code, season)
     end
   end
 
   task competitions: :environment do
-    competitions.each do |competition_code|
+    competitions_seasons.each do |competition_code, season|
       CompetitionsJob.perform_now(competition_code)
     end
   end
 
   task teams: :environment do
-    competitions.each do |competition_code|
-      TeamsJob.perform_now(competition_code, 2025)
+    competitions_seasons.each do |competition_code, season|
+      TeamsJob.perform_now(competition_code, season)
     end
   end
 
   task all: :environment do
-    competitions.each do |competition_code|
+    competitions_seasons.each do |competition_code, season|
       CompetitionsJob.perform_now(competition_code)
-      TeamsJob.perform_now(competition_code, 2025)
-      MatchesJob.perform_now(competition_code, 2025)
+      TeamsJob.perform_now(competition_code, season)
+      MatchesJob.perform_now(competition_code, season)
     end
   end
 
-  def competitions
-    # Competition.pluck(:code)
-    %w[PL CL]
+  def competitions_seasons
+    # %w[PL WC].product((2025..Time.current.year).to_a)
+    [['PL', 2025], ['WC', 2026]]
   end
 end

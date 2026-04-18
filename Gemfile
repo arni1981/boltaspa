@@ -27,21 +27,19 @@ gem 'turbo-rails'
 # --- Monitoring & Analytics ---
 gem 'rollbar'
 
-gem "image_processing", "~> 1.2"
+gem 'image_processing', '~> 1.2'
 
 # --- Development & Test Groups ---
 group :development, :test do
   gem 'debug'      # Debugger
   gem 'faker'
   gem 'overmind'   # Procfile manager
+  gem 'rubocop-rails-omakase'
   gem 'solargraph' # Language Server
-  gem 'standard'
 end
 
 group :development do
-  gem 'better_errors'
-  gem 'binding_of_caller'
-  gem 'puma'       # Strictly for local development
+  gem 'puma'
   gem 'web-console'
 end
 
