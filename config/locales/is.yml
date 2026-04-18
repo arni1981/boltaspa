@@ -70,6 +70,21 @@ is:
     meta_description: Boltaspa.is
     meta_keywords: fótbolti
 
+  welcome:
+    show:
+      world_cup_title: "HM 2026"
+      world_cup_subtitle: "er hér."
+      tagline: "Spáðu rétt og vertu efstur í þinni deild."
+      start_predicting: "Byrja að spá"
+      sign_in: "Skrá inn"
+      current_competition_label: "Núverandi keppni"
+      world_cup_2026: "Heimsmeistarakeppni 2026"
+      world_cup_description: "Full keppnisumfjöllun. Lifandi stigatafla."
+      coming_soon_label: "Kemur bráðlega"
+      season_returns_title: "Tímabilið snýr aftur"
+      season_returns_description: "Enski boltinn // Meistaradeild Evrópu // Innlend deildir"
+      footer: "2026"
+
   layouts:
     footer:
       copyright_html: "Boltaspa.is"
@@ -291,23 +306,6 @@ is:
       back_button: "Fara á forsíðu"
     invalid_record:
       title: "Óþekkt villa"
-
-  # Welcome page
-  welcome:
-    show:
-      brand_name: "Boltaspá"
-      hero_heading: "Fyrir þá sem taka"
-      hero_emphasis: "leikinn"
-      hero_subtitle: "alvarlega."
-      hero_description: "Hnitmiðuð spákeppni fyrir lokaða hópa."
-      hero_description_line2: "Engar auglýsingar, ekkert rugl, bara boltinn."
-      cta_button: "Byrja núna"
-      signin_link: "Innskráning"
-      interface_label: "Viðmót // Live Ticker"
-      predict_cta: "Spáðu núna"
-      live_indicator: "LIVE"
-      vs_text: "vs"
-      footer_text: "Boltaspá // 2026"
 
   # Controller flash messages
   controllers:

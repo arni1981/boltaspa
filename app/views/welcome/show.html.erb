@@ -1,79 +1,49 @@
-<%= cache [locale, 'welcome'] do %>
-  <div class="bg-[#f9faf9] min-h-screen flex flex-col">
+<div class="bg-[#f9faf9] min-h-screen text-[#0a1d13] flex flex-col items-center px-6 selection:bg-[#2d5a43] selection:text-white">
 
-    <%# 1. THE HERO (Clean & Editorial) %>
-    <header class="pt-32 pb-20 px-6 max-w-5xl mx-auto w-full">
-      <div class="flex items-center gap-3 mb-12">
-        <span class="text-[10px] font-black text-[#0a1d13] uppercase tracking-[0.4em]"><%= t('.brand_name') %></span>
+  <%# 1. SIMPLE BRANDING %>
+  <nav class="w-full max-w-5xl py-16 flex justify-center md:justify-start">
+    <span class="text-[12px] font-black uppercase tracking-[0.6em] border-b-2 border-[#0a1d13] pb-1">Boltaspá</span>
+  </nav>
+
+  <%# 2. THE HERO: THE MAIN EVENT %>
+  <main class="flex-1 flex flex-col items-center justify-center text-center pb-24">
+    <div class="max-w-4xl space-y-12">
+
+      <div class="space-y-4">
+        <h1 class="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.85]">
+          <%= t('welcome.show.world_cup_title') %> <br>
+          <span class="text-[#2d5a43]"><%= t('welcome.show.world_cup_subtitle') %></span>
+        </h1>
+        <p class="text-lg md:text-2xl font-bold uppercase tracking-tight text-slate-400 italic">
+          <%= t('welcome.show.tagline') %>
+        </p>
       </div>
 
-      <h1 class="text-6xl md:text-7xl font-black text-[#0a1d13] tracking-tighter uppercase leading-[0.9] mb-8">
-        <%= t('.hero_heading') %> <br>
-        <span class="text-[#2d5a43]"><%= t('.hero_emphasis') %></span> <%= t('.hero_subtitle') %>
-      </h1>
-
-      <p class="text-slate-500 text-lg font-medium leading-relaxed max-w-md mb-12">
-        <%= t('.hero_description') %> <br>
-        <%= t('.hero_description_line2') %>
-      </p>
-
-      <div class="flex items-center gap-6">
-        <%= link_to t('.cta_button'), sign_up_path, class: "px-10 py-4 bg-[#2d5a43] text-white rounded-2xl font-black text-[11px] uppercase tracking-widest hover:bg-[#1e3f2e] transition-all active:scale-95 shadow-xl shadow-[#2d5a43]/10" %>
-        <%= link_to t('.signin_link'), new_session_path, class: "text-[11px] font-black text-slate-400 hover:text-[#0a1d13] uppercase tracking-widest transition-colors" %>
+      <div class="flex flex-col md:flex-row items-center justify-center gap-6 pt-6">
+        <%= link_to t('welcome.show.start_predicting'), sign_up_path, class: "px-12 py-5 bg-[#0a1d13] text-white rounded-2xl font-black text-[11px] uppercase tracking-widest hover:bg-[#2d5a43] transition-all active:scale-95 shadow-2xl shadow-[#0a1d13]/20" %>
+        <%= link_to t('welcome.show.sign_in'), new_session_path, class: "text-[11px] font-black text-slate-400 hover:text-[#0a1d13] uppercase tracking-widest transition-colors" %>
       </div>
-    </header>
+    </div>
+  </main>
 
-    <%# 2. THE GLIMPSE (A static, refined peek at the product) %>
-    <section class="flex-1 px-6">
-      <div class="max-w-5xl mx-auto bg-white rounded-[2.5rem] border border-gray-100 shadow-sm overflow-hidden mb-20">
+  <%# 3. THE "NEXT UP" INDICATOR (Clean & Minimal) %>
+  <section class="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 py-16 border-t border-gray-100 gap-12">
+    <div>
+      <span class="text-[10px] font-black uppercase tracking-[0.3em] text-[#2d5a43] block mb-4"><%= t('welcome.show.current_competition_label') %></span>
+      <h3 class="text-xl font-black uppercase tracking-tight mb-2 text-[#0a1d13]"><%= t('welcome.show.world_cup_2026') %></h3>
+      <p class="text-sm font-bold text-slate-400 uppercase tracking-tight"><%= t('welcome.show.world_cup_description') %></p>
+    </div>
 
-        <%# Subdued Header %>
-        <div class="px-10 py-6 bg-gray-50/50 flex items-center justify-between border-b border-gray-50">
-          <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest"><%= t('.interface_label') %></span>
-          <div class="w-2 h-2 rounded-full bg-[#2d5a43]"></div>
-        </div>
+    <div class="md:text-right">
+      <span class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-300 block mb-4"><%= t('welcome.show.coming_soon_label') %></span>
+      <h3 class="text-xl font-black uppercase tracking-tight mb-2 text-slate-300"><%= t('welcome.show.season_returns_title') %></h3>
+      <p class="text-sm font-bold text-slate-300 uppercase tracking-tight"><%= t('welcome.show.season_returns_description') %></p>
+    </div>
+  </section>
 
-        <%# Simple, Real UI Preview %>
-        <div class="divide-y divide-gray-50">
-          <div class="flex items-center px-10 py-6 gap-8">
-            <div class="w-16 flex flex-col">
-              <span class="text-[8px] font-black text-slate-300 uppercase mb-1">20. Apr</span>
-              <span class="text-[11px] font-mono font-bold text-[#0a1d13]">20:00</span>
-            </div>
-            <div class="flex-1 flex items-center justify-center gap-6 font-black text-[#0a1d13] uppercase tracking-tight text-sm">
-              <span>Real Madrid</span>
-              <span class="text-slate-200"><%= t('.vs_text') %></span>
-              <span>Man City</span>
-            </div>
-            <div class="w-24 text-right">
-              <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest"><%= t('.predict_cta') %></span>
-            </div>
-          </div>
+  <%# 4. FOOTER %>
+  <footer class="py-12 opacity-30">
+    <span class="text-[9px] font-black uppercase tracking-[0.6em]"><%= t('welcome.show.footer') %></span>
+  </footer>
 
-          <div class="flex items-center px-10 py-6 gap-8 bg-[#f9faf9]/50">
-            <div class="w-16 flex flex-col">
-              <span class="text-[10px] font-mono font-black text-[#2d5a43]"><%= t('.live_indicator') %> 72'</span>
-            </div>
-            <div class="flex-1 flex items-center justify-center gap-6 font-black text-[#0a1d13] uppercase tracking-tight text-sm">
-              <span>Arsenal</span>
-              <div class="flex items-center gap-3 text-lg font-mono">
-                <span>2</span><span class="text-slate-200">:</span><span>1</span>
-              </div>
-              <span>Bayern</span>
-            </div>
-            <div class="w-24 flex justify-end">
-              <div class="px-3 py-1 bg-[#2d5a43] rounded text-white text-[10px] font-mono font-black">+3</div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <%# 3. MINIMAL FOOTER %>
-    <footer class="py-12 border-t border-gray-100 flex flex-col items-center">
-      <span class="text-[9px] font-black text-slate-300 uppercase tracking-[0.4em]"><%= t('.footer_text') %></span>
-    </footer>
-
-  </div>
-<% end %>
+</div>

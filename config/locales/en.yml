@@ -3,6 +3,21 @@ en:
     home: Home
     today: Today
 
+  welcome:
+    show:
+      world_cup_title: "The World Cup"
+      world_cup_subtitle: "is here."
+      tagline: "Predict every goal. Claim the top spot."
+      start_predicting: "Start Predicting"
+      sign_in: "Sign In"
+      current_competition_label: "Current Competition"
+      world_cup_2026: "World Cup 2026"
+      world_cup_description: "Full tournament coverage. Live standings."
+      coming_soon_label: "Coming Soon"
+      season_returns_title: "The Season returns"
+      season_returns_description: "Premier League // Champions League // Domestic Leagues"
+      footer: "2026"
+
   # Layouts
   layouts:
     shared:
@@ -239,23 +254,6 @@ en:
 
     matchday_ticker_single_match:
       your_prediction: "You"
-
-  # Welcome page
-  welcome:
-    show:
-      brand_name: "Boltaspá"
-      hero_heading: "For those who take"
-      hero_emphasis: "the game"
-      hero_subtitle: "seriously."
-      hero_description: "Focused prediction competition for closed groups."
-      hero_description_line2: "No ads, no clutter, just the game."
-      cta_button: "Get started"
-      signin_link: "Sign In"
-      interface_label: "Interface // Live Ticker"
-      predict_cta: "Predict now"
-      live_indicator: "LIVE"
-      vs_text: "vs"
-      footer_text: "Boltaspá // 2026"
 
   # Controller flash messages
   controllers:
