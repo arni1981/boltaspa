@@ -179,6 +179,7 @@ is:
       member_role: "Keppandi"
       breadcrumb_leagues: "Deildir"
       breadcrumb_current: "Deildir"
+      invite_new_members: "Bjóða nýjum félögum"
 
   # Memberships
   memberships:

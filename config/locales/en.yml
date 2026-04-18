@@ -13,7 +13,7 @@ en:
         nav_join_league: "Join League"
         nav_signin: "Sign In"
         my_leagues_title: "My Leagues"
-        settings_link: "Settings"
+        settings_link: "Account"
         signout_link: "Sign Out"
         bottom_nav:
           home: "Home"
@@ -143,6 +143,7 @@ en:
       member_role: "Competitor"
       breadcrumb_leagues: "Leagues"
       breadcrumb_current: "Leagues"
+      invite_new_members: "Send invite code to new memberss"
 
   # Error pages
   errors:
@@ -171,6 +172,7 @@ en:
 
   # Users/Settings
   users:
+    update_success: Account updated
     edit:
       title: "My Settings"
       subtitle: "Here you can update your profile and change security settings."
