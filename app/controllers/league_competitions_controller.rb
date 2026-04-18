@@ -16,6 +16,8 @@ class LeagueCompetitionsController < ApplicationController
                .order(:kickoff_at)
                .includes(:home_team, :away_team)
 
+    @grouped_matches = @matches.group_by { |m| m.kickoff_at.to_date }
+
     @leaderboard = Standing.where(league_id: @league.id,
                                   competition_id: @league_competition.competition,
                                   season_id: @league_competition.season_id)

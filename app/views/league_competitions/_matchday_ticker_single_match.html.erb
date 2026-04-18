@@ -1,3 +1,4 @@
+<%# app/views/leagues/_matchday_ticker_single_match.html.erb %>
 <%# locals: (match:, predictions_map:, compare_predictions_map: nil, compare_user: nil) %>
 
 <% 
@@ -8,23 +9,22 @@
   comp_pts = comp_pred&.points_won.to_i
     
   score_color = match.started? ? 'text-[#0a1d13]' : 'text-slate-200'
-  row_bg = match.live? ? 'bg-emerald-50/40' : 'bg-white hover:bg-gray-50/80'
+  
+  # Structural Styling for Live matches
+  is_live = match.live?
+  row_classes = is_live ? 'bg-emerald-50/20 border-l-4 border-l-[#2d5a43]' : 'bg-white border-l-4 border-l-transparent'
 %>
 
 <%= turbo_stream_from match %>
-<div id="<%= dom_id(match) %>" class="flex items-center px-6 py-4 border-b border-gray-100 transition-colors group <%= row_bg %>">
+<div id="<%= dom_id(match) %>" class="flex items-center px-6 py-4 border-b border-gray-100 transition-all group <%= row_classes %>">
 
-  <%# 1. TIME & DATE (Vertical Stack - Enhanced Legibility) %>
+  <%# 1. TIME %>
   <div class="w-16 shrink-0 flex flex-col justify-center">
-    <% if match.live? %>
-      <span class="text-[10px] font-mono font-black text-[#2d5a43] animate-pulse">LIVE</span>
+    <% if is_live %>
+      <span class="text-[10px] font-mono font-black text-[#2d5a43] animate-pulse uppercase">Live</span>
+      <span class="text-[12px] font-mono font-black text-[#2d5a43] leading-none mt-0.5"><%= match.minute %>'</span>
     <% else %>
-      <%# The Date: Now legible for humans without microscopes %>
-      <span class="text-[10px] font-bold text-slate-400 uppercase tracking-tight leading-tight">
-        <%= l(match.kickoff_at, format: "%d. %b") %>
-      </span>
-      <%# The Time: The primary focus %>
-      <span class="text-[12px] font-mono font-black text-[#0a1d13] leading-tight">
+      <span class="text-[12px] font-mono font-black text-[#0a1d13] leading-none">
         <%= match.kickoff_at.strftime("%H:%M") %>
       </span>
     <% end %>
@@ -32,6 +32,7 @@
 
   <%# 2. TEAMS & LIVE SCORE %>
   <div class="flex-1 flex items-center justify-center">
+    <%# Home Team %>
     <div class="flex-1 flex items-center justify-end gap-3 min-w-0">
       <span class="text-[12px] font-black text-[#0a1d13] uppercase tracking-tight truncate">
         <%= match.home_team.short_name %>
@@ -41,6 +42,7 @@
       </div>
     </div>
 
+    <%# Live Score %>
     <div class="w-20 flex items-center justify-center gap-2 mx-4">
       <span class="text-lg font-mono font-black tabular-nums <%= score_color %>">
         <%= match.home_score || 0 %>
@@ -51,6 +53,7 @@
       </span>
     </div>
 
+    <%# Away Team %>
     <div class="flex-1 flex items-center justify-start gap-3 min-w-0">
       <div class="w-6 h-6 shrink-0">
         <%= image_tag match.away_team.crest_url, class: "w-full h-full object-contain" if match.away_team.crest_url.present? %>
@@ -66,7 +69,7 @@
     <% if compare_user %>
       <div class="flex items-center gap-2">
 
-        <%# Me: Always visible to me %>
+        <%# Me: Always visible %>
         <div class="flex items-center gap-2 px-3 py-1.5 bg-gray-50 rounded-xl border border-gray-100">
           <span class="text-[11px] font-mono font-black text-[#0a1d13]">
             <%= my_pred ? "#{my_pred.home_guess}-#{my_pred.away_guess}" : "—" %>
@@ -76,18 +79,16 @@
           </div>
         </div>
 
-        <span class="text-slate-200 font-bold px-1">vs</span>
+        <span class="text-slate-200 font-bold px-1 select-none text-[10px]">vs</span>
 
-        <%# Competitor: GATED logic %>
+        <%# Competitor: Gated by Kickoff %>
         <div class="flex items-center gap-2 px-3 py-1.5 bg-[#0a1d13] rounded-xl border border-[#0a1d13]">
           <span class="text-[11px] font-mono font-black text-white/90">
             <% if match.started? %>
               <%= comp_pred ? "#{comp_pred.home_guess}-#{comp_pred.away_guess}" : "—" %>
             <% else %>
-              <%# Hidden state: locked icon or question mark %>
-              <svg class="w-3 h-3 text-white/20" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 15v2h-2v-2h2zm2-4v2h-4v-2h4zm2-8v2h-2V3h2zm0 18v2h-2v-2h2zM4 3h2v2H4V3zm0 18h2v2H4v-2zM18 3h2v2h-2V3zm0 18h2v2h-2v-2zM4 9h2v2H4V9zm0 4h2v2H4v-2zm14-4h2v2h-2V9zm0 4h2v2h-2v-2z" opacity=".2"/>
-                <rect x="7" y="7" width="10" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2" stroke-opacity="0.3"/>
+              <svg class="w-3 h-3 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 15v2h-2v-2h2zm2-4v2h-4v-2h4zm2-8v2h-2V3h2zm0 18v2h-2v-2h2" />
               </svg>
             <% end %>
           </span>
