@@ -14,8 +14,7 @@ class Match < ApplicationRecord
   end
 
   def live?
-    # Catching all "active" states
-    %w[IN_PLAY].include?(status)
+    %w[IN_PLAY PAUSED].include?(status)
   end
 
   def started?
