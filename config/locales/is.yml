@@ -126,6 +126,7 @@ is:
 
   common:
     home: Heim
+    today: Í dag
 
   # Password reset pages
   passwords:

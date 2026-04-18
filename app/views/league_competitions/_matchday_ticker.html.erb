@@ -58,7 +58,7 @@
         <%# Section Date Header %>
         <div class="px-10 py-3 bg-gray-50/50 flex items-center justify-between border-y border-gray-50/50">
           <span class="text-[10px] font-black uppercase tracking-[0.2em] <%= is_today ? 'text-[#2d5a43]' : 'text-slate-400' %>">
-            <%= is_today ? "Í dag // Today" : l(date, format: "%A, %d. %B") %>
+            <%= is_today ? t('common.today') : l(date, format: "%A, %d. %B") %>
           </span>
 
           <% if is_today && date_matches.any?(&:live?) %>

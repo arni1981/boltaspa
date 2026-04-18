@@ -1,6 +1,7 @@
 en:
   common:
     home: Home
+    today: Today
 
   # Layouts
   layouts:
