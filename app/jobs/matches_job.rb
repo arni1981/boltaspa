@@ -21,6 +21,8 @@ class MatchesJob < ApplicationJob
         match.away_score     = m.dig('score', 'fullTime', 'away')
         match.matchday       = m['matchday']
         match.season         = Season.find_by_external_id(m.dig('season', 'id'))
+        match.stage          = m['stage']
+        match.group          = m['group']
 
         match.save
       end

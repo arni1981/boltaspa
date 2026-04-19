@@ -16,19 +16,7 @@
       </div>
 
       <div class="predictions-group-container isolate">
-        <%# Tracks the Round/Matchday round in case it shifts mid-day %>
-        <% current_round = nil %>
-
         <% matches.each do |match| %>
-          <% if match.matchday != current_round %>
-            <% current_round = match.matchday %>
-            <div class="bg-gray-50/50 px-8 py-2 border-b border-gray-50 flex items-center">
-               <span class="text-[9px] font-black text-[#2d5a43] uppercase tracking-widest">
-                 <%= t('.matchday_label', number: current_round) %>
-               </span>
-            </div>
-          <% end %>
-
           <%= render 'match_row', 
                      match: match, 
                      prediction: @predictions_map[match.id],

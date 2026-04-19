@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.2].define(version: 2026_04_17_140532) do
+ActiveRecord::Schema[8.2].define(version: 2026_04_19_092025) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -169,11 +169,13 @@ ActiveRecord::Schema[8.2].define(version: 2026_04_17_140532) do
     t.bigint "competition_id", null: false
     t.datetime "created_at", null: false
     t.integer "external_id", null: false
+    t.string "group"
     t.integer "home_score"
     t.bigint "home_team_id", null: false
     t.datetime "kickoff_at", null: false
     t.integer "matchday"
     t.bigint "season_id", null: false
+    t.string "stage"
     t.string "status"
     t.datetime "updated_at", null: false
     t.index ["away_team_id"], name: "index_matches_on_away_team_id"

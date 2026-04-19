@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html class="h-full bg-[#f9faf9]" lang="is">
+<html class="h-full bg-[#f9faf9]" lang="<%= I18n.locale %>">
   <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <meta name="view-transition" content="same-origin">
     <meta name="turbo-refresh-method" content="morph">
     <meta name="turbo-refresh-scroll" content="preserve">
-    <meta name="turbo-prefetch" content="true">
+    <meta name="turbo-prefetch" content="<%= Rails.env.production? %>">
 
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
