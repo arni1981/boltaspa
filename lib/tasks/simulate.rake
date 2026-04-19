@@ -23,17 +23,7 @@ namespace :simulate do
   task calc_points: :environment do
     ActiveRecord::Base.connection.execute <<~SQL
       UPDATE predictions
-      SET points_won = CASE
-                           WHEN predictions.home_guess = m.home_score
-                               AND predictions.away_guess = m.away_score
-                               THEN 3
-
-                           WHEN SIGN(predictions.home_guess - predictions.away_guess)
-                               = SIGN(m.home_score - m.away_score)
-                               THEN 1
-
-                           ELSE 0
-          END,
+        SET points_won = calculate_prediction_points(m.home_score, m.away_score, predictions.home_guess, predictions.away_guess),
           updated_at = NOW()
       FROM matches m
       WHERE predictions.match_id = m.id

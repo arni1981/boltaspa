@@ -1,4 +1,6 @@
 <%# app/views/leagues/_matchday_ticker_single_match.html.erb %>
+<%# locals: (match:, predictions_map:, compare_predictions_map: nil, compare_user: nil) %>
+
 <% 
   my_pred = predictions_map[match.id]
   comp_pred = compare_predictions_map&.[](match.id) if compare_user
@@ -6,75 +8,100 @@
   my_pts = my_pred&.points_won.to_i
   comp_pts = comp_pred&.points_won.to_i
   
-  # Binary Winner Logic
+  # Duel Winner Logic
   i_win = compare_user && (my_pts > comp_pts)
   comp_wins = compare_user && (comp_pts > my_pts)
+
+  # Tiered Visual System
+  def point_status_classes(pts, highlight = true)
+    return "text-gray-300 bg-transparent border border-gray-100" unless highlight && pts > 0
+    
+    case pts
+    when 25     then "bg-[#2d5a43] text-white shadow-sm"
+    when 12..24 then "bg-[#0a1d13] text-white"
+    else             "bg-slate-100 text-slate-500 border-none"
+    end
+  end
 %>
 
-<div id="<%= dom_id(match) %>" class="flex items-center px-6 py-4 border-b border-gray-100 bg-white transition-colors">
+<%= turbo_stream_from match %>
+<div id="<%= dom_id(match) %>" class="flex items-center px-6 py-4 border-b border-gray-100 bg-white transition-all group">
 
-  <%# 1. TIME %>
-  <div class="w-12 shrink-0 font-mono font-black text-[12px] text-[#0a1d13]">
-    <%= match.live? ? "LIVE" : match.kickoff_at.strftime("%H:%M") %>
+  <%# 1. TIME / LIVE STATUS %>
+  <div class="w-14 shrink-0 font-mono font-black text-[12px] text-[#0a1d13]">
+    <% if match.live? %>
+      <div class="flex flex-col">
+        <span class="text-[9px] text-[#2d5a43] animate-pulse uppercase tracking-[0.2em]">Live</span>
+        <span class="text-[12px] leading-none tracking-tighter mt-0.5"><%= match.minute %>’</span>
+      </div>
+    <% else %>
+      <span class="opacity-20 group-hover:opacity-100 transition-opacity"><%= match.kickoff_at.strftime("%H:%M") %></span>
+    <% end %>
   </div>
 
-  <%# 2. TEAMS & SCORE (Crests Restored) %>
+  <%# 2. MATCH DISPLAY %>
   <div class="flex-1 flex items-center justify-center gap-4">
-    <%# Home %>
-    <div class="flex-1 flex items-center justify-end gap-3 min-w-0">
-      <span class="text-[13px] font-black text-[#0a1d13] uppercase tracking-tight truncate"><%= match.home_team.short_name %></span>
-      <div class="w-6 h-6 shrink-0 grayscale-[0.2]">
+    <%# Home Team %>
+    <div class="flex-1 flex items-center justify-end gap-3 min-w-0 text-right">
+      <span class="text-[12px] font-black text-[#0a1d13] uppercase tracking-tight truncate">
+        <%= match.home_team.short_name %>
+      </span>
+      <div class="w-6 h-6 shrink-0 grayscale-[0.4] group-hover:grayscale-0 transition-all">
         <%= image_tag match.home_team.crest_url, class: "w-full h-full object-contain" if match.home_team.crest_url.present? %>
       </div>
     </div>
 
-    <%# Score %>
-    <div class="w-20 flex items-center justify-center gap-2">
-      <span class="text-xl font-mono font-black tabular-nums <%= match.live? ? 'text-[#2d5a43]' : 'text-[#0a1d13]' %>">
+    <%# Polished Goals Font (Balanced) %>
+    <div class="w-20 flex items-center justify-center gap-2 px-2 py-1 bg-gray-50/50 rounded-lg">
+      <span class="text-lg font-mono font-black tabular-nums tracking-tight <%= match.live? ? 'text-[#2d5a43]' : 'text-[#0a1d13]' %>">
         <%= match.home_score || 0 %>
       </span>
-      <span class="text-slate-100 font-bold">:</span>
-      <span class="text-xl font-mono font-black tabular-nums <%= match.live? ? 'text-[#2d5a43]' : 'text-[#0a1d13]' %>">
+      <span class="text-slate-200 font-bold text-xs">:</span>
+      <span class="text-lg font-mono font-black tabular-nums tracking-tight <%= match.live? ? 'text-[#2d5a43]' : 'text-[#0a1d13]' %>">
         <%= match.away_score || 0 %>
       </span>
     </div>
 
-    <%# Away %>
+    <%# Away Team %>
     <div class="flex-1 flex items-center justify-start gap-3 min-w-0">
-      <div class="w-6 h-6 shrink-0 grayscale-[0.2]">
+      <div class="w-6 h-6 shrink-0 grayscale-[0.4] group-hover:grayscale-0 transition-all">
         <%= image_tag match.away_team.crest_url, class: "w-full h-full object-contain" if match.away_team.crest_url.present? %>
       </div>
-      <span class="text-[13px] font-black text-[#0a1d13] uppercase tracking-tight truncate"><%= match.away_team.short_name %></span>
+      <span class="text-[12px] font-black text-[#0a1d13] uppercase tracking-tight truncate">
+        <%= match.away_team.short_name %>
+      </span>
     </div>
   </div>
 
-  <%# 3. THE "POINTS FIRST" DUEL %>
-  <div class="w-80 shrink-0 ml-6 flex items-center justify-end gap-1 font-mono">
+  <%# 3. POINTS DUEL %>
+  <div class="w-72 shrink-0 ml-8 flex items-center justify-end gap-1 font-mono">
     <% if compare_user %>
-
-      <%# ME (Forest Green if winning) %>
-      <div class="flex items-center gap-2 px-3 py-2 rounded transition-all <%= i_win ? 'bg-[#2d5a43] text-white' : 'text-gray-500' %>">
-        <span class="text-[14px] font-black">+<%= my_pts %></span>
-        <span class="text-[10px] font-bold opacity-60 tracking-tighter">(<%= my_pred ? "#{my_pred.home_guess}-#{my_pred.away_guess}" : "—" %>)</span>
+      <%# Current User %>
+      <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg transition-all <%= point_status_classes(my_pts, i_win) %>">
+        <span class="text-[13px] font-black">+<%= my_pts %></span>
+        <span class="text-[9px] font-bold opacity-60 tracking-tighter">
+          (<%= my_pred ? "#{my_pred.home_guess}-#{my_pred.away_guess}" : "—" %>)
+        </span>
       </div>
 
       <div class="w-px h-4 bg-gray-100 mx-1"></div>
 
-      <%# THEM (Midnight Green if winning) %>
-      <div class="flex items-center gap-2 px-3 py-2 rounded transition-all <%= comp_wins ? 'bg-[#0a1d13] text-white' : 'text-gray-500' %>">
-        <span class="text-[14px] font-black">
+      <%# Competitor %>
+      <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg transition-all <%= point_status_classes(comp_pts, comp_wins) %>">
+        <span class="text-[13px] font-black">
           <%= match.started? ? "+#{comp_pts}" : "?" %>
         </span>
-        <span class="text-[10px] font-bold opacity-60 tracking-tighter">
+        <span class="text-[9px] font-bold opacity-60 tracking-tighter">
           (<%= (match.started? && comp_pred) ? "#{comp_pred.home_guess}-#{comp_pred.away_guess}" : "—" %>)
         </span>
       </div>
-
     <% else %>
-      <%# SOLO VIEW %>
-      <div class="px-4 py-2 rounded flex items-center gap-2 transition-all <%= my_pts > 0 ? 'bg-[#2d5a43] text-white' : 'text-gray-500 border border-gray-100' %>">
+      <%# Solo View %>
+      <div class="px-4 py-2 rounded-xl flex items-center gap-2.5 transition-all <%= point_status_classes(my_pts) %>">
         <span class="text-[15px] font-black">+<%= my_pts %></span>
-        <span class="text-[11px] font-bold opacity-60 tracking-tighter">(<%= my_pred ? "#{my_pred.home_guess}-#{my_pred.away_guess}" : "—" %>)</span>
+        <span class="text-[10px] font-bold opacity-60 tracking-tighter">
+          (<%= my_pred ? "#{my_pred.home_guess}-#{my_pred.away_guess}" : "—" %>)
+        </span>
       </div>
     <% end %>
   </div>
