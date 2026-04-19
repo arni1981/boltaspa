@@ -22,7 +22,7 @@
   <div class="flex-1 flex items-center justify-center gap-4">
     <%# Home %>
     <div class="flex-1 flex items-center justify-end gap-3 min-w-0">
-      <span class="text-[11px] font-black text-[#0a1d13] uppercase tracking-tighter truncate"><%= match.home_team.short_name %></span>
+      <span class="text-[13px] font-black text-[#0a1d13] uppercase tracking-tight truncate"><%= match.home_team.short_name %></span>
       <div class="w-6 h-6 shrink-0 grayscale-[0.2]">
         <%= image_tag match.home_team.crest_url, class: "w-full h-full object-contain" if match.home_team.crest_url.present? %>
       </div>
@@ -44,7 +44,7 @@
       <div class="w-6 h-6 shrink-0 grayscale-[0.2]">
         <%= image_tag match.away_team.crest_url, class: "w-full h-full object-contain" if match.away_team.crest_url.present? %>
       </div>
-      <span class="text-[11px] font-black text-[#0a1d13] uppercase tracking-tighter truncate"><%= match.away_team.short_name %></span>
+      <span class="text-[13px] font-black text-[#0a1d13] uppercase tracking-tight truncate"><%= match.away_team.short_name %></span>
     </div>
   </div>
 
