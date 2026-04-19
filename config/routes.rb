@@ -37,11 +37,7 @@ Rails.application.routes.draw do
 
   # --- ADMIN & OPS ---
   namespace :admin do
-    root to: 'dashboard#index' # Generates admin_root_path
-
-    get 'su/:user_id', to: 'profiles#su', as: :su # Switch User
-    resources :profiles, only: %i[index show]
-    resources :visits,   only: %i[show]
+    resource :dashboard, only: :show
   end
 
   mount MissionControl::Jobs::Engine, at: '/jobs'
