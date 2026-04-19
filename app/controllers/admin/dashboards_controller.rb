@@ -23,7 +23,7 @@ module Admin
         queue_failed: SolidQueue::FailedExecution.count,
         cache_entries: SolidCache::Entry.count,
         # Roughly estimate cache size if using MySQL/Postgres
-        cache_size_mb: (SolidCache::Entry.sum('length(key) + length(value)') / 1.megabyte).round(2)
+        cache_size_mb: (SolidCache::Entry.sum('length(key) + length(value)') / 1.megabyte.to_f).round(2)
       }
 
       # Latest Background Jobs
