@@ -1,37 +1,49 @@
-<div class="p-10 font-mono text-[11px] text-[#0a1d13] bg-[#f9faf9] min-h-screen">
+<div class="p-10 font-mono text-[11px] text-[#0a1d13] bg-[#f9faf9] min-h-screen selection:bg-[#2d5a43] selection:text-white">
 
-  <%# --- 01. KPI SUMMARY --- %>
+  <%# --- 01. HEADER --- %>
+  <header class="mb-16 border-b-2 border-[#0a1d13] pb-8 flex justify-between items-end">
+    <div>
+      <div class="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400 mb-2">System // Administration</div>
+      <h1 class="text-4xl font-black uppercase tracking-tighter">Boltaspá Dashboard</h1>
+    </div>
+    <div class="text-right">
+      <div class="text-[10px] font-black uppercase text-slate-400 italic">Server Time</div>
+      <div class="font-bold"><%= Time.current.strftime("%Y-%m-%d // %H:%M:%S") %></div>
+    </div>
+  </header>
+
+  <%# --- 02. KPI SUMMARY --- %>
   <div class="grid grid-cols-4 gap-4 mb-16">
     <% @stats.each do |label, value| %>
       <div class="border border-gray-200 bg-white p-6">
-        <div class="text-gray-400 uppercase mb-2"><%= label %></div>
+        <div class="text-gray-400 uppercase mb-2"><%= label.to_s.humanize %></div>
         <div class="text-2xl font-black"><%= value %></div>
       </div>
     <% end %>
   </div>
 
-  <%# --- 02. TOP PREDICTORS (Restored) --- %>
+  <%# --- 03. TOP PREDICTORS --- %>
   <div class="mb-16">
     <h2 class="font-black uppercase mb-4 border-b border-[#0a1d13] pb-2 text-blue-600">Top Predictors</h2>
     <div class="grid grid-cols-5 gap-4">
       <% @top_predictors.each do |user| %>
         <div class="bg-white border border-gray-100 p-4">
-          <div class="font-black truncate mb-1"><%= user.name %></div>
-          <div class="text-xl font-black text-[#2d5a43]"><%= user.predictions_count %></div>
-          <div class="text-[9px] text-gray-400 uppercase">Predictions</div>
+          <div class="font-black truncate mb-1 uppercase"><%= user.name %></div>
+          <div class="text-2xl font-black text-[#2d5a43]"><%= user.predictions_count %></div>
+          <div class="text-[8px] text-gray-400 uppercase tracking-widest">Total Predictions</div>
         </div>
       <% end %>
     </div>
   </div>
 
-  <%# --- 03. ACTIVITY LOGS --- %>
+  <%# --- 04. ACTIVITY LOGS --- %>
   <div class="grid grid-cols-2 gap-16 mb-16">
     <div>
       <h2 class="font-black uppercase mb-4 border-b border-[#0a1d13] pb-2 text-[#2d5a43]">Latest Users</h2>
       <% @latest_users.each do |user| %>
-        <div class="flex justify-between py-1 border-b border-gray-100">
-          <span><%= user.name %></span>
-          <span class="text-gray-400 text-[10px]"><%= time_ago_in_words(user.created_at) %></span>
+        <div class="flex justify-between py-2 border-b border-gray-100">
+          <span class="font-bold"><%= user.name %></span>
+          <span class="text-gray-400"><%= time_ago_in_words(user.created_at) %> ago</span>
         </div>
       <% end %>
     </div>
@@ -39,29 +51,32 @@
     <div>
       <h2 class="font-black uppercase mb-4 border-b border-[#0a1d13] pb-2 text-[#2d5a43]">Latest Leagues</h2>
       <% @latest_leagues.each do |league| %>
-        <div class="flex justify-between py-1 border-b border-gray-100">
-          <span class="font-bold"><%= league.name %></span>
+        <div class="flex justify-between py-2 border-b border-gray-100">
+          <span class="font-bold uppercase"><%= league.name %></span>
           <span class="text-gray-400"><%= league.members.count %> members</span>
         </div>
       <% end %>
     </div>
   </div>
 
-  <%# --- 04. SYSTEM INSPECTION --- %>
+  <%# --- 05. SYSTEM INSPECTION (Cache & Jobs) --- %>
   <div class="grid grid-cols-2 gap-16 mb-16">
 
     <%# CACHE KEYS LIST %>
     <div>
-      <h2 class="font-black uppercase mb-4 border-b border-[#0a1d13] pb-2 text-orange-600">Cache Inspector (<%= @system_stats[:cache_size_mb] %> MB)</h2>
+      <div class="flex justify-between items-end mb-4 border-b border-[#0a1d13] pb-2 text-orange-600">
+        <h2 class="font-black uppercase">Cache Inspector</h2>
+        <span class="text-[10px] font-bold uppercase tracking-widest"><%= @system_stats[:cache_size_mb] %> MB Est.</span>
+      </div>
       <% if @latest_cache_entries.any? %>
         <% @latest_cache_entries.each do |entry| %>
           <div class="flex justify-between py-1 border-b border-gray-100">
-            <span class="truncate max-w-[300px]"><%= entry.key %></span>
+            <span class="truncate max-w-[300px] text-gray-600"><%= entry.key %></span>
             <span class="text-gray-300 text-[9px] uppercase"><%= time_ago_in_words(entry.created_at) %></span>
           </div>
         <% end %>
       <% else %>
-        <div class="py-4 text-red-500 italic">No cache keys found</div>
+        <div class="py-4 text-red-500 italic">No cache keys found in database.</div>
       <% end %>
     </div>
 
@@ -71,19 +86,22 @@
       <% if @job_frequency.any? %>
         <% @job_frequency.each do |job_class, count| %>
           <div class="flex justify-between py-1 border-b border-gray-100">
-            <span><%= job_class %></span>
+            <span class="font-bold uppercase tracking-tight"><%= job_class.delete_suffix('Job') %></span>
             <span class="font-black"><%= count %></span>
           </div>
         <% end %>
       <% else %>
-        <div class="py-4 text-red-500 italic">No job history found</div>
+        <div class="py-4 text-red-500 italic">No job history found in database.</div>
       <% end %>
     </div>
   </div>
 
-  <%# --- 05. PENDING QUEUE --- %>
+  <%# --- 06. PENDING QUEUE TERMINAL --- %>
   <div>
-    <h2 class="font-black uppercase mb-4 border-b border-[#0a1d13] pb-2 text-emerald-600">Pending Queue (<%= @system_stats[:queue_backlog] %>)</h2>
+    <div class="flex justify-between items-end mb-4 border-b border-[#0a1d13] pb-2 text-emerald-600">
+      <h2 class="font-black uppercase">Pending Queue Backlog</h2>
+      <span class="text-[10px] font-bold uppercase tracking-widest"><%= @system_stats[:queue_backlog] %> Active</span>
+    </div>
     <table class="w-full text-left">
       <thead>
         <tr class="text-gray-400 uppercase text-[10px]">
@@ -96,12 +114,19 @@
         <% @active_jobs.each do |job| %>
           <tr>
             <td class="py-2">#<%= job.id %></td>
-            <td class="py-2 font-bold"><%= job.class_name %></td>
+            <td class="py-2 font-bold uppercase"><%= job.class_name %></td>
             <td class="py-2 text-right text-gray-400"><%= time_ago_in_words(job.created_at) %></td>
           </tr>
+        <% end %>
+        <% if @active_jobs.empty? %>
+          <tr><td colspan="3" class="py-12 text-center text-gray-300 uppercase italic tracking-widest">Queue Clear</td></tr>
         <% end %>
       </tbody>
     </table>
   </div>
+
+  <footer class="mt-32 pt-8 border-t border-gray-100 text-center opacity-30 italic">
+    End of dashboard.
+  </footer>
 
 </div>
