@@ -37,13 +37,23 @@
   </div>
 
   <%# --- 04. ACTIVITY LOGS --- %>
-  <div class="grid grid-cols-2 gap-16 mb-16">
+  <div class="grid grid-cols-3 gap-16 mb-16">
     <div>
-      <h2 class="font-black uppercase mb-4 border-b border-[#0a1d13] pb-2 text-[#2d5a43]">Latest Users</h2>
+      <h2 class="font-black uppercase mb-4 border-b border-[#0a1d13] pb-2 text-[#2d5a43]">Latest Sign-ups</h2>
       <% @latest_users.each do |user| %>
         <div class="flex justify-between py-3 border-b border-gray-100">
           <span class="font-bold"><%= user.name %></span>
           <span class="text-gray-400"><%= time_ago_in_words(user.created_at) %> ago</span>
+        </div>
+      <% end %>
+    </div>
+
+    <div>
+      <h2 class="font-black uppercase mb-4 border-b border-[#0a1d13] pb-2 text-[#2d5a43]">Latest Visits</h2>
+      <% @latest_visits.each do |visit| %>
+        <div class="flex justify-between py-3 border-b border-gray-100">
+          <span class="font-bold"><%= visit.user.name %></span>
+          <span class="text-gray-400"><%= time_ago_in_words(visit.created_at) %> ago</span>
         </div>
       <% end %>
     </div>

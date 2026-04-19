@@ -10,6 +10,7 @@ module Admin
 
       @latest_users = User.order(created_at: :desc).limit(10)
       @latest_leagues = League.order(created_at: :desc).includes(:owner).limit(10)
+      @latest_visits = Visit.where(created_at: 24.hours.ago..).select('max(created_at) as created_at, user_id').group(:user_id)
 
       # High-engagement users (Most predictions)
       @top_predictors = User.joins(:predictions)
