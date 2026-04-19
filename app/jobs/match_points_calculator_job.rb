@@ -12,6 +12,6 @@ class MatchPointsCalculatorJob < ApplicationJob
       and m.id = #{match_id};
     SQL
 
-    Match.find(match_id).broadcast_refresh
+    Match.find(match_id).broadcast_refresh_later
   end
 end
