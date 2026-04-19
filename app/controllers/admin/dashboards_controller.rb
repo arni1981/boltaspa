@@ -33,6 +33,22 @@ module Admin
       # Note: Solid Cable doesn't always have a "count" table,
       # but we can check the messages processed recently.
       @recent_messages = SolidCable::Message.where('created_at > ?', 1.hour.ago).count
+
+      # 1. Latest Cache Keys
+      # We pull the last 10 entries. SolidCache stores keys as strings.
+      @latest_cache_entries = SolidCache::Entry.order(created_at: :desc).limit(10)
+
+      # 2. Most Frequent Jobs (The "Workhorses")
+      # We group by the job_class to see which tasks run most often.
+      @job_frequency = SolidQueue::Job.group(:class_name)
+                                      .order('count_all DESC')
+                                      .count
+                                      .first(5)
+
+      # 3. Currently Scheduled/Running Jobs
+      @active_jobs = SolidQueue::Job.where(finished_at: nil)
+                                    .order(created_at: :desc)
+                                    .limit(10)
     end
   end
 end

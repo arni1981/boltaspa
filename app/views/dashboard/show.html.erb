@@ -1,94 +1,172 @@
-<header class="bg-[#0a1d13] rounded-[2.5rem] p-8 mb-10 text-white shadow-xl flex items-center justify-between relative overflow-hidden">
-  <div class="relative z-10">
-    <span class="text-[9px] font-black text-emerald-400 uppercase tracking-[0.4em] block mb-1">
-      <%= t('.greeting_badge') %>
-    </span>
-    <h1 class="text-3xl font-black tracking-tighter uppercase">
-      <%= t('.greeting_text', name: Current.user.name) %>
-    </h1>
-  </div>
+<%# app/views/admin/dashboards/show.html.erb %>
+<div class="bg-gray-50 min-h-screen font-mono text-[#0a1d13] selection:bg-[#2d5a43] selection:text-white pb-32">
 
-  <div class="absolute -right-10 -top-10 w-40 h-40 bg-emerald-500/10 rounded-full blur-3xl"></div>
-</header>
+  <%# 1. STICKY SUB-NAV %>
+  <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 px-8 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-6">
+      <span class="text-[10px] font-black uppercase tracking-[0.3em] border-r border-gray-200 pr-6 mr-2 text-slate-400">Control</span>
+      <a href="#kpi" class="text-[9px] font-black uppercase tracking-widest hover:text-[#2d5a43] transition-colors">01. KPIs</a>
+      <a href="#top-users" class="text-[9px] font-black uppercase tracking-widest hover:text-[#2d5a43] transition-colors">02. Top Predictors</a>
+      <a href="#users" class="text-[9px] font-black uppercase tracking-widest hover:text-[#2d5a43] transition-colors">03. Activity</a>
+      <a href="#engine" class="text-[9px] font-black uppercase tracking-widest hover:text-[#2d5a43] transition-colors">04. Engine Room</a>
+    </div>
+    <div class="flex items-center gap-2">
+      <div class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
+      <span class="text-[9px] font-black uppercase text-slate-400"><%= Time.current.strftime("%H:%M") %></span>
+    </div>
+  </nav>
 
-<div class="max-w-4xl mx-auto space-y-12 mb-40">
+  <div class="p-8 max-w-[1600px] mx-auto">
 
-  <% @leagues.each do |league| %>
-    <section class="space-y-4">
-      <div class="flex items-center justify-between px-6">
-        <div class="flex items-center gap-3">
-          <div class="w-2 h-2 rounded-full bg-[#2d5a43]"></div>
-          <h2 class="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em]">
-            <%= league.name %>
-          </h2>
-        </div>
-        <span class="text-[9px] font-bold text-slate-300 uppercase tracking-widest">
-          <%= t('.members_count', count: league.members.count) %>
-        </span>
+    <%# 01. KPI GRID %>
+    <header id="kpi" class="mb-12 pt-4">
+      <h2 class="text-[11px] font-black uppercase tracking-[0.4em] text-slate-400 mb-6 italic">01 // Key Performance Indicators</h2>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <% @stats.each do |label, value| %>
+          <div class="bg-white border border-gray-200 p-8 rounded-xl shadow-sm">
+            <span class="text-[9px] font-black text-slate-300 uppercase tracking-widest block mb-2"><%= label.to_s.humanize %></span>
+            <span class="text-4xl font-black text-[#0a1d13] tracking-tighter"><%= value %></span>
+          </div>
+        <% end %>
       </div>
+    </header>
 
-      <div class="bg-white border border-gray-100 rounded-[2.5rem] shadow-sm overflow-hidden">
-        <div class="divide-y divide-gray-50">
-          <% league.league_competitions.each do |lc| %>
-            <% standing = lc.standings.find_by(user_id: Current.user.id) %>
-
-            <%= link_to league_competition_by_year_path(league, lc.competition, year: lc.year), class: "group flex items-center justify-between px-10 py-8 hover:bg-gray-50 transition-all" do %>
-
-              <div class="flex items-center gap-6">
-                <div class="w-12 h-12 bg-white rounded-2xl border border-gray-100 p-2.5 shadow-sm group-hover:border-emerald-200 transition-colors">
-                  <%= image_tag lc.competition.emblem, class: "w-full h-full object-contain" %>
-                </div>
-                <div>
-                  <span class="text-[15px] font-black text-[#0a1d13] uppercase tracking-tight block group-hover:text-[#2d5a43]">
-                    <%= lc.competition.name %>
-                  </span>
-                  <p class="text-[9px] font-bold text-slate-400 uppercase tracking-[0.1em]">
-                    <%= t('.season_label') %> <%= lc.year %>
-                  </p>
-                </div>
-              </div>
-
-              <div class="flex items-center gap-16">
-                <div class="text-right">
-                  <div class="flex items-baseline justify-end gap-1.5">
-                    <span class="text-2xl font-mono font-black text-[#0a1d13]">#<%= standing&.rank || '-' %></span>
-                    <% if standing&.is_tied %>
-                      <span class="text-[10px] font-black text-slate-300">=</span>
-                    <% end %>
-                  </div>
-                  <span class="text-[9px] font-black text-emerald-500 uppercase tracking-widest">
-                    <% if standing&.rank %>
-                      <%= t('.percentile_label', percentage: (standing.rank.to_f / league.members.count * 100).round) %>
-                    <% end %>
-                  </span>
-                </div>
-
-                <div class="text-right min-w-[100px]">
-                  <span class="text-2xl font-mono font-black text-[#2d5a43] block leading-none">
-                    <%= standing&.total_points || 0 %>
-                  </span>
-                  <span class="text-[9px] font-bold text-slate-300 uppercase tracking-widest"><%= t('.points_label') %></span>
-                </div>
-              </div>
-            <% end %>
+    <%# 02. TOP PREDICTORS %>
+    <section id="top-users" class="mb-20">
+      <h3 class="text-[11px] font-black uppercase tracking-widest mb-4">02 // Top Predictors (Engagement)</h3>
+      <div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+        <div class="grid grid-cols-2 md:grid-cols-5 divide-x divide-gray-100">
+          <% @top_predictors.each do |user| %>
+            <div class="p-8 flex flex-col items-center">
+              <span class="text-[10px] font-black text-[#0a1d13] uppercase truncate w-full text-center mb-2"><%= user.name %></span>
+              <span class="text-3xl font-black text-[#2d5a43] tracking-tighter"><%= user.predictions_count %></span>
+              <span class="text-[8px] font-bold text-slate-300 uppercase tracking-widest">Predictions</span>
+            </div>
           <% end %>
         </div>
       </div>
     </section>
-  <% end %>
-</div>
 
-<div class="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-4rem)] max-w-md">
-  <div class="bg-[#0a1d13] rounded-2xl p-2 shadow-2xl border border-white/10 flex items-center justify-between pl-6">
-    <div class="min-w-0">
-      <span class="text-[7px] font-black text-emerald-400 uppercase tracking-[0.2em] block"><%= t('.next_prediction_label') %></span>
-      <p class="text-[11px] font-black text-white uppercase truncate pr-4">
-        <%= @next_match ? @next_match.short_name_string : t('.no_matches_label') %>
-      </p>
+    <%# 03. ACTIVITY GRID %>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20">
+      <section id="users">
+        <h3 class="text-[11px] font-black uppercase tracking-widest mb-4">03 // Latest Users</h3>
+        <div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+          <table class="w-full text-left text-[11px]">
+            <thead class="bg-gray-50 border-b border-gray-100 uppercase text-slate-400">
+              <tr><th class="px-6 py-4 font-black">Identity</th><th class="px-6 py-4 font-black">Joined</th></tr>
+            </thead>
+            <tbody class="divide-y divide-gray-50">
+              <% @latest_users.each do |user| %>
+                <tr class="hover:bg-gray-50/50">
+                  <td class="px-6 py-4 font-bold text-[#0a1d13]"><%= user.name %></td>
+                  <td class="px-6 py-4 text-slate-400"><%= time_ago_in_words(user.created_at) %> ago</td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="leagues">
+        <h3 class="text-[11px] font-black uppercase tracking-widest mb-4">03 // New Leagues</h3>
+        <div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+          <table class="w-full text-left text-[11px]">
+            <thead class="bg-gray-50 border-b border-gray-100 uppercase text-slate-400">
+              <tr><th class="px-6 py-4 font-black">League</th><th class="px-6 py-4 text-right pr-10 font-black text-slate-400">Members</th></tr>
+            </thead>
+            <tbody class="divide-y divide-gray-50">
+              <% @latest_leagues.each do |league| %>
+                <tr class="hover:bg-gray-50/50">
+                  <td class="px-6 py-4 font-bold text-[#0a1d13]"><%= league.name %></td>
+                  <td class="px-6 py-4 text-right pr-10 font-black text-[#2d5a43]"><%= league.members.count %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </section>
     </div>
 
-    <%= link_to predictions_path, class: "bg-[#2d5a43] text-white px-8 py-4 rounded-xl text-[10px] font-black uppercase tracking-widest active:scale-95 transition-all shadow-lg" do %>
-      <%= t('.open_slip_button') %>
-    <% end %>
+    <%# 04. ENGINE ROOM %>
+    <div id="engine" class="pt-12 border-t border-gray-200">
+      <h2 class="text-[11px] font-black uppercase tracking-[0.4em] text-slate-400 mb-8 italic">04 // Engine Room (Solid Stack)</h2>
+
+      <%# System Health KPIs %>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+        <div class="bg-[#0a1d13] p-8 rounded-xl shadow-2xl">
+          <span class="text-[9px] font-black text-emerald-500 uppercase tracking-widest block mb-4">Solid Queue</span>
+          <div class="flex gap-10">
+            <div><span class="block text-4xl font-black text-white"><%= @system_stats[:queue_backlog] %></span><span class="text-[8px] font-bold text-white/20 uppercase">Backlog</span></div>
+            <div><span class="block text-4xl font-black text-red-500"><%= @system_stats[:queue_failed] %></span><span class="text-[8px] font-bold text-white/20 uppercase">Failed</span></div>
+          </div>
+        </div>
+        <div class="bg-white border border-gray-200 p-8 rounded-xl shadow-sm">
+          <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-4">Solid Cache</span>
+          <div class="flex justify-between items-end">
+            <div><span class="block text-4xl font-black text-[#0a1d13]"><%= number_with_delimiter @system_stats[:cache_entries] %></span><span class="text-[8px] font-bold text-slate-300 uppercase">Entries</span></div>
+            <span class="text-xl font-black text-[#2d5a43]"><%= @system_stats[:cache_size_mb] %> MB</span>
+          </div>
+        </div>
+        <div class="bg-white border border-gray-200 p-8 rounded-xl shadow-sm">
+          <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-4">Solid Cable</span>
+          <div><span class="block text-4xl font-black text-[#0a1d13]"><%= @recent_messages %></span><span class="text-[8px] font-bold text-slate-300 uppercase">Msgs (1hr)</span></div>
+        </div>
+      </div>
+
+      <%# Detailed System Lists %>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <%# LATEST CACHE KEYS %>
+        <div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+          <div class="px-6 py-4 bg-gray-50 border-b border-gray-100 flex justify-between">
+            <span class="text-[10px] font-black uppercase tracking-widest">Recent Cache Keys</span>
+          </div>
+          <div class="divide-y divide-gray-50 max-h-[350px] overflow-y-auto">
+            <% @latest_cache_entries.each do |entry| %>
+              <div class="px-6 py-3 flex justify-between items-center hover:bg-gray-50">
+                <span class="text-[10px] text-[#0a1d13] truncate max-w-[70%]"><%= entry.key %></span>
+                <span class="text-[9px] text-slate-300"><%= time_ago_in_words(entry.created_at) %></span>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <%# JOB FREQUENCY %>
+        <div class="bg-white border border-gray-200 rounded-xl p-8 shadow-sm">
+          <span class="text-[10px] font-black uppercase tracking-widest block mb-8">Workload (All Time)</span>
+          <div class="space-y-6">
+            <% @job_frequency.each do |job_class, count| %>
+              <div>
+                <div class="flex justify-between mb-2">
+                  <span class="text-[10px] font-black uppercase tracking-tight"><%= job_class.delete_suffix('Job') %></span>
+                  <span class="text-[10px] font-black text-[#2d5a43]"><%= count %></span>
+                </div>
+                <div class="h-1 w-full bg-gray-100 rounded-full overflow-hidden">
+                  <div class="h-full bg-[#2d5a43]" style="width: <%= (count.to_f / (@job_frequency.first&.last || 1) * 100) %>%"></div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <%# ACTIVE QUEUE TABLE %>
+        <div class="lg:col-span-2 bg-[#0a1d13] rounded-xl overflow-hidden shadow-2xl">
+          <table class="w-full text-left text-[10px] font-mono text-white/70">
+            <thead class="bg-white/5 text-white/30 uppercase">
+              <tr><th class="px-8 py-4">ID</th><th class="px-8 py-4">Worker</th><th class="px-8 py-4 text-right">Age</th></tr>
+            </thead>
+            <tbody class="divide-y divide-white/5">
+              <% @active_jobs.each do |job| %>
+                <tr>
+                  <td class="px-8 py-4 text-emerald-500">#<%= job.id %></td>
+                  <td class="px-8 py-4 text-white"><%= job.class_name %></td>
+                  <td class="px-8 py-4 text-right opacity-40"><%= time_ago_in_words(job.created_at) %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
