@@ -53,7 +53,7 @@
     <% if compare_user %>
 
       <%# ME (Forest Green if winning) %>
-      <div class="flex items-center gap-2 px-3 py-2 rounded transition-all <%= i_win ? 'bg-[#2d5a43] text-white' : 'text-gray-300' %>">
+      <div class="flex items-center gap-2 px-3 py-2 rounded transition-all <%= i_win ? 'bg-[#2d5a43] text-white' : 'text-gray-500' %>">
         <span class="text-[14px] font-black">+<%= my_pts %></span>
         <span class="text-[10px] font-bold opacity-60 tracking-tighter">(<%= my_pred ? "#{my_pred.home_guess}-#{my_pred.away_guess}" : "—" %>)</span>
       </div>
@@ -61,7 +61,7 @@
       <div class="w-px h-4 bg-gray-100 mx-1"></div>
 
       <%# THEM (Midnight Green if winning) %>
-      <div class="flex items-center gap-2 px-3 py-2 rounded transition-all <%= comp_wins ? 'bg-[#0a1d13] text-white' : 'text-gray-300' %>">
+      <div class="flex items-center gap-2 px-3 py-2 rounded transition-all <%= comp_wins ? 'bg-[#0a1d13] text-white' : 'text-gray-500' %>">
         <span class="text-[14px] font-black">
           <%= match.started? ? "+#{comp_pts}" : "?" %>
         </span>
@@ -72,7 +72,7 @@
 
     <% else %>
       <%# SOLO VIEW %>
-      <div class="px-4 py-2 rounded flex items-center gap-2 transition-all <%= my_pts > 0 ? 'bg-[#2d5a43] text-white' : 'text-gray-300 border border-gray-100' %>">
+      <div class="px-4 py-2 rounded flex items-center gap-2 transition-all <%= my_pts > 0 ? 'bg-[#2d5a43] text-white' : 'text-gray-500 border border-gray-100' %>">
         <span class="text-[15px] font-black">+<%= my_pts %></span>
         <span class="text-[11px] font-bold opacity-60 tracking-tighter">(<%= my_pred ? "#{my_pred.home_guess}-#{my_pred.away_guess}" : "—" %>)</span>
       </div>
