@@ -95,5 +95,54 @@
       </div>
     </section>
 
+
+<section class="mb-12">
+  <h3 class="text-[11px] font-black uppercase tracking-widest mb-4 text-slate-400">Engine Room // Solid Stack</h3>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+    <%# Queue Health %>
+    <div class="bg-[#0a1d13] p-6 rounded-lg border border-white/5 shadow-xl">
+      <div class="flex justify-between items-start mb-4">
+        <span class="text-[9px] font-black text-emerald-500 uppercase tracking-widest">Solid Queue</span>
+        <span class="w-2 h-2 rounded-full <%= @system_stats[:queue_failed] > 0 ? 'bg-red-500' : 'bg-emerald-500' %>"></span>
+      </div>
+      <div class="flex gap-8">
+        <div>
+          <span class="block text-2xl font-black text-white"><%= @system_stats[:queue_backlog] %></span>
+          <span class="text-[8px] font-bold text-white/20 uppercase">Pending</span>
+        </div>
+        <div>
+          <span class="block text-2xl font-black text-white"><%= @system_stats[:queue_failed] %></span>
+          <span class="text-[8px] font-bold text-white/20 uppercase">Failed</span>
+        </div>
+      </div>
+    </div>
+
+    <%# Cache Health %>
+    <div class="bg-white p-6 rounded-lg border border-gray-200">
+      <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-4">Solid Cache</span>
+      <div class="flex justify-between items-end">
+        <div>
+          <span class="block text-2xl font-black text-[#0a1d13]"><%= number_with_delimiter @system_stats[:cache_entries] %></span>
+          <span class="text-[8px] font-bold text-slate-300 uppercase">Total Entries</span>
+        </div>
+        <div class="text-right">
+          <span class="block text-sm font-black text-[#2d5a43]"><%= @system_stats[:cache_size_mb] %> MB</span>
+          <span class="text-[8px] font-bold text-slate-300 uppercase">Estimated Size</span>
+        </div>
+      </div>
+    </div>
+
+    <%# Cable Health %>
+    <div class="bg-white p-6 rounded-lg border border-gray-200">
+      <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-4">Solid Cable</span>
+      <div>
+        <span class="block text-2xl font-black text-[#0a1d13]"><%= @recent_messages %></span>
+        <span class="text-[8px] font-bold text-slate-300 uppercase">Messages (Last Hour)</span>
+      </div>
+    </div>
+
+  </div>
+</section>
   </div>
 </div>

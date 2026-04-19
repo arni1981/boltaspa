@@ -17,6 +17,22 @@ module Admin
                             .select('users.*, count(predictions.id) as predictions_count')
                             .order('predictions_count DESC')
                             .limit(10)
+
+      @system_stats = {
+        queue_backlog: SolidQueue::Job.where(finished_at: nil).count,
+        queue_failed: SolidQueue::FailedExecution.count,
+        cache_entries: SolidCache::Entry.count,
+        # Roughly estimate cache size if using MySQL/Postgres
+        cache_size_mb: (SolidCache::Entry.sum('length(key) + length(value)') / 1.megabyte).round(2)
+      }
+
+      # Latest Background Jobs
+      @latest_jobs = SolidQueue::Job.order(created_at: :desc).limit(5)
+
+      # Active Connections (Solid Cable)
+      # Note: Solid Cable doesn't always have a "count" table,
+      # but we can check the messages processed recently.
+      @recent_messages = SolidCable::Message.where('created_at > ?', 1.hour.ago).count
     end
   end
 end
