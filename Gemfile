@@ -17,6 +17,8 @@ gem 'solid_queue'
 gem 'bcrypt'
 
 gem 'faraday'
+gem 'fx'
+gem 'scenic'
 
 # --- Frontend & UI ---
 gem 'importmap-rails'

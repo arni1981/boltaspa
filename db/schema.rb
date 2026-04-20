@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.2].define(version: 2026_04_19_183726) do
+ActiveRecord::Schema[8.2].define(version: 2026_04_19_194027) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -236,27 +236,6 @@ ActiveRecord::Schema[8.2].define(version: 2026_04_19_183726) do
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
-  create_table "solid_cable_messages", force: :cascade do |t|
-    t.binary "channel", null: false
-    t.bigint "channel_hash", null: false
-    t.datetime "created_at", null: false
-    t.binary "payload", null: false
-    t.index ["channel"], name: "index_solid_cable_messages_on_channel"
-    t.index ["channel_hash"], name: "index_solid_cable_messages_on_channel_hash"
-    t.index ["created_at"], name: "index_solid_cable_messages_on_created_at"
-  end
-
-  create_table "solid_cache_entries", force: :cascade do |t|
-    t.integer "byte_size", null: false
-    t.datetime "created_at", null: false
-    t.binary "key", null: false
-    t.bigint "key_hash", null: false
-    t.binary "value", null: false
-    t.index ["byte_size"], name: "index_solid_cache_entries_on_byte_size"
-    t.index ["key_hash", "byte_size"], name: "index_solid_cache_entries_on_key_hash_and_byte_size"
-    t.index ["key_hash"], name: "index_solid_cache_entries_on_key_hash", unique: true
-  end
-
   create_table "solid_queue_blocked_executions", force: :cascade do |t|
     t.string "concurrency_key", null: false
     t.datetime "created_at", null: false
@@ -435,4 +414,189 @@ ActiveRecord::Schema[8.2].define(version: 2026_04_19_183726) do
   add_foreign_key "solid_queue_ready_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_recurring_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_scheduled_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
+
+  create_function :check_match_lockout, sql_definition: <<-'SQL'
+      CREATE OR REPLACE FUNCTION public.check_match_lockout()
+       RETURNS trigger
+       LANGUAGE plpgsql
+      AS $function$
+            BEGIN
+              IF (SELECT kickoff_at FROM matches WHERE id = NEW.match_id) < CURRENT_TIMESTAMP + INTERVAL '10 min' THEN
+                RAISE EXCEPTION 'LOCKOUT_ERROR: Match has already started.';
+              END IF;
+              RETURN NEW;
+            END;
+            $function$
+  SQL
+
+  create_function :user_incomplete_matches, sql_definition: <<-'SQL'
+      CREATE OR REPLACE FUNCTION public.user_incomplete_matches(p_user_id bigint, p_match_ids bigint[])
+       RETURNS SETOF matches
+       LANGUAGE plpgsql
+      AS $function$
+      DECLARE
+          latest_pred_date DATE;
+      BEGIN
+          -- 1. Find the date of the furthest prediction the user has made within THIS set
+          SELECT (m.kickoff_at AT TIME ZONE 'UTC')::DATE INTO latest_pred_date
+          FROM predictions p
+          JOIN matches m ON p.match_id = m.id
+          WHERE p.user_id = p_user_id
+            AND p.match_id = ANY(p_match_ids)
+          ORDER BY m.kickoff_at DESC
+          LIMIT 1;
+
+          -- 2. Return the matches that are part of an "Incomplete" day
+          RETURN QUERY
+          WITH day_stats AS (
+            SELECT
+              (m.kickoff_at AT TIME ZONE 'UTC')::DATE as match_date,
+              count(m.id) as total_matches,
+              count(p.id) as pred_count
+            FROM matches m
+            LEFT JOIN predictions p ON p.match_id = m.id AND p.user_id = p_user_id
+            WHERE m.id = ANY(p_match_ids)
+            GROUP BY 1
+          )
+          SELECT m.*
+          FROM matches m
+          JOIN day_stats ds ON (m.kickoff_at AT TIME ZONE 'UTC')::DATE = ds.match_date
+          LEFT JOIN predictions p ON p.match_id = m.id AND p.user_id = p_user_id
+          WHERE m.id = ANY(p_match_ids)
+            AND p.id IS NULL -- We only care about the rows that AREN'T predicted yet
+            AND (
+              (ds.pred_count > 0 AND ds.pred_count < ds.total_matches) -- Partial day
+              OR
+              (ds.pred_count = 0 AND latest_pred_date IS NOT NULL AND ds.match_date < latest_pred_date) -- Skipped past day
+            );
+      END;
+      $function$
+  SQL
+
+  create_function :upcoming_matches_func, sql_definition: <<-'SQL'
+      CREATE OR REPLACE FUNCTION public.upcoming_matches_func(p_competition_ids bigint[], p_window integer DEFAULT 12, p_min_matches integer DEFAULT 10)
+       RETURNS SETOF matches
+       LANGUAGE sql
+       STABLE
+      AS $function$
+      WITH limit_match AS (SELECT kickoff_at::date AS limit_date
+                           FROM matches
+                           WHERE competition_id = ANY (p_competition_ids)
+                             AND kickoff_at > NOW()
+                           ORDER BY kickoff_at
+                           OFFSET p_min_matches - 1 LIMIT 1),
+           cutoff AS (SELECT GREATEST(
+                                             CURRENT_DATE + p_window,
+                                             COALESCE((SELECT limit_date FROM limit_match), CURRENT_DATE + p_window)
+                             ) AS cutoff_date)
+      SELECT m.*
+      FROM matches m
+               CROSS JOIN cutoff
+      WHERE m.competition_id = ANY (p_competition_ids)
+        AND m.kickoff_at >= NOW()
+        AND m.kickoff_at < cutoff_date + INTERVAL '1 day'
+      ORDER BY m.kickoff_at;
+      $function$
+  SQL
+
+  create_function :calculate_prediction_points, sql_definition: <<-'SQL'
+      CREATE OR REPLACE FUNCTION public.calculate_prediction_points(home_score integer, away_score integer, home_guess integer, away_guess integer)
+       RETURNS integer
+       LANGUAGE sql
+       IMMUTABLE
+      AS $function$
+      SELECT CASE
+                 -- 1. Exact Match Jackpot (The Bullseye)
+                 WHEN home_score = home_guess AND away_score = away_guess THEN 25
+
+                 ELSE (
+                     -- 2. Outcome Check (10 points if the right team won or it was a draw)
+                     CASE
+                         WHEN (home_score > away_score AND home_guess > away_guess) OR
+                              (home_score < away_score AND home_guess < away_guess) OR
+                              (home_score = away_score AND home_guess = away_guess)
+                             THEN 10
+                         ELSE 0
+                         END +
+
+                         -- 3. The "Spirit" Bonus Math
+                         -- Rewards how close the "vibe" of the prediction was to reality
+                     ROUND(GREATEST(0, 10 -
+                                       ((ABS(home_score - home_guess) + ABS(away_score - away_guess)) * 1.5) -
+                                       (ABS((home_score - away_score) - (home_guess - away_guess)) * 0.5)
+                           ))::INT
+                     )
+                 END;
+      $function$
+  SQL
+
+  create_trigger :trg_prediction_lockout, sql_definition: <<-SQL
+      CREATE TRIGGER trg_prediction_lockout BEFORE INSERT OR UPDATE OF home_guess, away_guess ON public.predictions FOR EACH ROW EXECUTE FUNCTION check_match_lockout()
+  SQL
+
+  create_view "standings_view", sql_definition: <<-SQL
+      WITH matchday_scores AS (
+           SELECT lc.id AS league_competition_id,
+              p.user_id,
+              m.matchday,
+              sum(p.points_won) AS matchday_points
+             FROM (((predictions p
+               JOIN matches m ON ((p.match_id = m.id)))
+               JOIN league_competitions lc ON ((lc.competition_id = m.competition_id)))
+               JOIN memberships ms ON (((ms.league_id = lc.league_id) AND (ms.user_id = p.user_id))))
+            WHERE ((m.status)::text = ANY (ARRAY[('FINISHED'::character varying)::text, ('IN_PLAY'::character varying)::text]))
+            GROUP BY lc.id, p.user_id, m.matchday
+          ), form_agg AS (
+           SELECT matchday_scores.league_competition_id,
+              matchday_scores.user_id,
+              jsonb_agg(matchday_scores.matchday_points ORDER BY matchday_scores.matchday) AS full_form_array
+             FROM matchday_scores
+            GROUP BY matchday_scores.league_competition_id, matchday_scores.user_id
+          ), user_performance AS (
+           SELECT lc.id AS league_competition_id,
+              lc.season_id,
+              lc.competition_id,
+              ms.league_id,
+              p.user_id,
+              sum(p.points_won) AS total_points,
+              count(*) FILTER (WHERE (p.points_won = 3)) AS exact_scores,
+              count(*) AS predictions_count
+             FROM (((predictions p
+               JOIN matches m ON ((p.match_id = m.id)))
+               JOIN memberships ms ON ((ms.user_id = p.user_id)))
+               JOIN league_competitions lc ON (((lc.league_id = ms.league_id) AND (lc.competition_id = m.competition_id))))
+            WHERE ((m.status)::text = ANY (ARRAY[('FINISHED'::character varying)::text, ('IN_PLAY'::character varying)::text]))
+            GROUP BY lc.id, lc.season_id, lc.competition_id, ms.league_id, p.user_id
+          ), ranked AS (
+           SELECT up.league_competition_id,
+              up.season_id,
+              up.competition_id,
+              up.league_id,
+              up.user_id,
+              up.total_points,
+              up.exact_scores,
+              up.predictions_count,
+              COALESCE(fa.full_form_array, '[]'::jsonb) AS full_form_array,
+              rank() OVER w AS rank,
+              lag(up.total_points) OVER w AS prev_points,
+              lead(up.total_points) OVER w AS next_points
+             FROM (user_performance up
+               LEFT JOIN form_agg fa ON (((fa.league_competition_id = up.league_competition_id) AND (fa.user_id = up.user_id))))
+            WINDOW w AS (PARTITION BY up.season_id, up.competition_id, up.league_id ORDER BY up.total_points DESC, up.exact_scores DESC)
+          )
+   SELECT ranked.league_competition_id,
+      ranked.season_id,
+      ranked.competition_id,
+      ranked.league_id,
+      ranked.user_id,
+      ranked.total_points,
+      ranked.exact_scores,
+      ranked.predictions_count,
+      ranked.full_form_array,
+      ranked.rank,
+      ranked.prev_points,
+      ranked.next_points,
+      ((ranked.total_points = COALESCE(ranked.prev_points, ('-1'::integer)::bigint)) OR (ranked.total_points = COALESCE(ranked.next_points, ('-1'::integer)::bigint))) AS is_tied
+     FROM ranked;
+  SQL
 end
