@@ -20,7 +20,3 @@ production:
     class: MatchesJob
     args: ['PL', 2025]
     schedule: every 5 minutes  
-  matches:
-    class: MatchesJob
-    args: ['WC', 2026]
-    schedule: every 15 minutes
