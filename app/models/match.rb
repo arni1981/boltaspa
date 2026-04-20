@@ -40,19 +40,15 @@ class Match < ApplicationRecord
   end
 
   def self.upcoming_matches(competition_ids, window: 10, minimum: 5)
-    cache_key = "competition_window/#{Array(competition_ids).sort.join('-')}/#{window}/#{minimum}"
+    match_ids = find_by_sql([
+                              'SELECT id FROM upcoming_matches_func(ARRAY[?], ?, ?)',
+                              Array(competition_ids),
+                              window,
+                              minimum
+                            ]).map(&:id)
 
-    Rails.cache.fetch(cache_key, expires_in: 1.hour) do
-      match_ids = find_by_sql([
-                                'SELECT id FROM upcoming_matches_func(ARRAY[?], ?, ?)',
-                                Array(competition_ids),
-                                window,
-                                minimum
-                              ]).map(&:id)
-
-      Match.where(id: match_ids)
-           .includes(:home_team, :away_team, :competition)
-           .ordered
-    end
+    Match.where(id: match_ids)
+         .includes(:home_team, :away_team, :competition)
+         .ordered
   end
 end
