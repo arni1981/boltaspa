@@ -14,3 +14,13 @@
 #     command: "SolidQueue::Job.clear_finished_in_batches(sleep_between_batches: 0.3)"
 #     schedule: every hour at minute 12
 #
+
+production:
+  matches:
+    class: MatchesJob
+    args: ['PL', 2025]
+    schedule: every 5 minutes  
+  matches:
+    class: MatchesJob
+    args: ['WC', 2026]
+    schedule: every 15 minutes
