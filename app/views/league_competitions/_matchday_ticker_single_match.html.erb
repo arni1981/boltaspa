@@ -54,11 +54,11 @@
     <%# Polished Goals Font (Balanced) %>
     <div class="w-20 flex items-center justify-center gap-2 px-2 py-1 bg-gray-50/50 rounded-lg">
       <span class="text-lg font-mono font-black tabular-nums tracking-tight <%= match.live? ? 'text-[#2d5a43]' : 'text-[#0a1d13]' %>">
-        <%= match.home_score || 0 %>
+        <%= match.home_score || '-' %>
       </span>
       <span class="text-slate-200 font-bold text-xs">:</span>
       <span class="text-lg font-mono font-black tabular-nums tracking-tight <%= match.live? ? 'text-[#2d5a43]' : 'text-[#0a1d13]' %>">
-        <%= match.away_score || 0 %>
+        <%= match.away_score || '-' %>
       </span>
     </div>
 

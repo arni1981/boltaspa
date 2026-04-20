@@ -1,6 +1,6 @@
 class DashboardController < ApplicationController
   def show
-    redirect_to onboarding_path if Current.user.leagues.none?
+    redirect_to onboarding_path and return if Current.user.leagues.none?
 
     @past_matches = Current.user.matches.with_results.ordered.limit(15)
     @upcoming_matches = Current.user.matches.upcoming.ordered.limit(15)

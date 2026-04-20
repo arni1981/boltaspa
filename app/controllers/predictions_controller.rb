@@ -1,5 +1,7 @@
 class PredictionsController < ApplicationController
   def index
+    redirect_to onboarding_path and return if Current.user.leagues.none?
+
     init_view_data
   end
 

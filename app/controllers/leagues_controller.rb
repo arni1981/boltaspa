@@ -17,8 +17,7 @@ class LeaguesController < ApplicationController
       owner: Current.user
     )
 
-    %w[PL WC].each do |code|
-      competition = Competition.find_by_code(code)
+    Competition.where(code: %w[PL WC]).each do |competition|
       @league.league_competitions.build(
         competition: competition,
         season: Season.find_by(competition: competition, current: true)
