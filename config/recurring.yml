@@ -16,7 +16,11 @@
 #
 
 production:
-  matches:
+  matches_pl:
     class: MatchesJob
     args: ['PL', 2025]
     schedule: every 5 minutes  
+  matches_wc:
+    class: MatchesJob
+    args: ['WC', 2026]
+    schedule: every 15 minutes
