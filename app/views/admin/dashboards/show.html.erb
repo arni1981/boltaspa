@@ -8,7 +8,7 @@
     </div>
     <div class="text-right">
       <div class="text-[11px] font-black uppercase text-slate-400 italic">Server Time</div>
-      <div class="font-bold"><%= Time.current.strftime("%Y-%m-%d // %H:%M:%S") %></div>
+      <div class="font-bold"><%= l Time.current, format: "%Y-%m-%d // %H:%M:%S" %></div>
     </div>
   </header>
 

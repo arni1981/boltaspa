@@ -32,10 +32,9 @@
     <% if match.live? %>
       <div class="flex flex-col">
         <span class="text-[9px] text-[#2d5a43] animate-pulse uppercase tracking-[0.2em]">Live</span>
-        <span class="text-[12px] leading-none tracking-tighter mt-0.5"><%= match.minute %>’</span>
       </div>
     <% else %>
-      <span class="opacity-20 group-hover:opacity-100 transition-opacity"><%= match.kickoff_at.strftime("%H:%M") %></span>
+      <span class="opacity-20 group-hover:opacity-100 transition-opacity"><%= l match.kickoff_at, format: "%H:%M" %></span>
     <% end %>
   </div>
 

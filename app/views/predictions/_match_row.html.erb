@@ -16,7 +16,7 @@
 
   <div class="w-48 flex flex-col items-center gap-1 mx-auto">
     <span class="text-[9px] font-black font-mono text-slate-300 uppercase tracking-[0.2em]">
-      <%= match.kickoff_at.strftime("%H:%M") %>
+      <%= l match.kickoff_at, format: "%H:%M" %>
     </span>
     <div class="relative w-full">
       <select name="predictions[<%= match.id %>][score_string]"
