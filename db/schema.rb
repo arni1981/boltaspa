@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.2].define(version: 2026_04_20_181729) do
+ActiveRecord::Schema[8.2].define(version: 2026_04_21_114132) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -527,28 +527,77 @@ ActiveRecord::Schema[8.2].define(version: 2026_04_20_181729) do
        IMMUTABLE
       AS $function$
       SELECT CASE
-                 -- 1. Exact Match Jackpot (The Bullseye)
                  WHEN home_score = home_guess AND away_score = away_guess THEN 25
 
-                 ELSE (
-                     -- 2. Outcome Check (10 points if the right team won or it was a draw)
-                     CASE
-                         WHEN (home_score > away_score AND home_guess > away_guess) OR
-                              (home_score < away_score AND home_guess < away_guess) OR
-                              (home_score = away_score AND home_guess = away_guess)
-                             THEN 10
-                         ELSE 0
-                         END +
-
-                         -- 3. The "Spirit" Bonus Math
-                         -- Rewards how close the "vibe" of the prediction was to reality
-                     ROUND(GREATEST(0, 10 -
-                                       ((ABS(home_score - home_guess) + ABS(away_score - away_guess)) * 1.5) -
-                                       (ABS((home_score - away_score) - (home_guess - away_guess)) * 0.5)
-                           ))::INT
-                     )
+                 ELSE
+                     (
+                         CASE
+                             WHEN SIGN(home_score - away_score) = SIGN(home_guess - away_guess)
+                                 THEN 10
+                             ELSE 0
+                             END
+                             +
+                         CASE
+                             WHEN SIGN(home_score - away_score) = SIGN(home_guess - away_guess)
+                                 THEN GREATEST(0, 10 - (ABS(home_score - home_guess) + ABS(away_score - away_guess)) * 2)
+                             ELSE GREATEST(0, 6 - (ABS(home_score - home_guess) + ABS(away_score - away_guess)) * 2)
+                             END
+                         )
                  END;
       $function$
+  SQL
+
+  create_function :calculate_prediction_points_gpt, sql_definition: <<-'SQL'
+      CREATE OR REPLACE FUNCTION public.calculate_prediction_points_gpt(home_score integer, away_score integer, home_guess integer, away_guess integer)
+       RETURNS integer
+       LANGUAGE sql
+       IMMUTABLE
+      AS $function$
+            SELECT CASE
+        WHEN home_score = home_guess AND away_score = away_guess THEN 25
+
+        ELSE
+          (
+            CASE
+              WHEN SIGN(home_score - away_score) = SIGN(home_guess - away_guess)
+                THEN 10
+              ELSE 0
+            END
+
+            +
+
+            CASE
+              WHEN SIGN(home_score - away_score) = SIGN(home_guess - away_guess)
+                THEN GREATEST(0, 10 - (ABS(home_score - home_guess) + ABS(away_score - away_guess)) * 2)
+              ELSE GREATEST(0, 6 - (ABS(home_score - home_guess) + ABS(away_score - away_guess)) * 2)
+            END
+          )
+      END;
+            $function$
+  SQL
+
+  create_function :calculate_prediction_points_gpt2, sql_definition: <<-'SQL'
+      CREATE OR REPLACE FUNCTION public.calculate_prediction_points_gpt2(home_score integer, away_score integer, home_guess integer, away_guess integer)
+       RETURNS integer
+       LANGUAGE sql
+       IMMUTABLE
+      AS $function$
+            SELECT CASE
+        WHEN home_score = home_guess AND away_score = away_guess THEN 25
+
+        ELSE
+          (CASE
+             WHEN SIGN(home_score - away_score) = SIGN(home_guess - away_guess)
+               THEN 15
+             ELSE 0
+           END)
+          +
+          GREATEST(
+            0,
+            10 - (ABS(home_score - home_guess) + ABS(away_score - away_guess)) * 2
+          )
+      END;
+            $function$
   SQL
 
   create_trigger :trg_prediction_lockout, sql_definition: <<-SQL

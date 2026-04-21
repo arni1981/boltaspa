@@ -29,6 +29,7 @@ Rails.application.routes.draw do
         as: :competition_by_year
   end
 
+  get 'scoring' => 'pages#scoring'
   resources :memberships, only: %i[create destroy]
   resource :dashboard, only: :show
 
