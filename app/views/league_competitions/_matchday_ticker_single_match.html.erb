@@ -7,89 +7,95 @@
   my_pts = my_pred&.points_won.to_i
   comp_pts = comp_pred&.points_won.to_i
 
-  is_synced = (my_pts == 25)
-  i_win = compare_user && (my_pts > comp_pts)
-  comp_wins = compare_user && (comp_pts > my_pts)
+  # THE INTENSITY ENGINE
+  def badge_classes(pts, is_me = false)
+    return "text-slate-200 border-transparent opacity-30" if pts == 0
+    return "bg-[#2d5a43] text-white border-[#2d5a43] shadow-md shadow-forest/20" if pts == 25
+    
+    # 12 is the "Outcome" threshold in your SQL
+    if pts >= 12
+      "bg-[#0a1d13]/10 text-[#0a1d13] border-[#0a1d13]/10" # High Intensity
+    else
+      "bg-transparent text-[#0a1d13]/60 border-slate-200" # Low Intensity
+    end
+  end
 %>
 
 <%= turbo_stream_from match %>
 
 <div id="<%= dom_id(match) %>" 
-     class="flex items-center px-8 py-5 border-b border-slate-100 bg-white hover:bg-[#f9faf9] transition-colors duration-200">
+     class="flex items-center px-8 py-5 border-b border-slate-100 bg-white hover:bg-[#f9faf9] transition-all">
 
-  <%# 1. STATUS: Just the time or pulse %>
+  <%# 1. STATUS %>
   <div class="w-20 shrink-0">
     <% if match.live? %>
-      <div class="inline-flex items-center gap-1.5 px-2 py-0.5 bg-sky-500 rounded text-white mb-1">
+      <div class="inline-flex items-center gap-1 px-2 py-0.5 bg-sky-500 rounded text-white mb-1">
         <span class="flex h-1 w-1 rounded-full bg-white animate-pulse"></span>
-        <span class="text-[9px] font-black uppercase tracking-widest">Live</span>
+        <span class="text-[8px] font-black uppercase tracking-widest">Live</span>
       </div>
-      <div class="text-sm font-mono font-black text-[#0a1d13] ml-0.5">
-        <%= match.minute %><span class="text-sky-500">'</span>
-      </div>
+      <div class="text-sm font-mono font-black text-[#0a1d13]"><%= match.minute %><span class="text-sky-500">'</span></div>
     <% else %>
-      <div class="text-sm font-mono font-bold <%= match.finished? ? 'text-slate-300' : 'text-[#0a1d13]' %>">
+      <div class="text-sm font-mono font-bold <%= match.finished? ? 'text-slate-200' : 'text-[#0a1d13]' %>">
         <%= match.finished? ? "FT" : l(match.kickoff_at, format: "%H:%M") %>
       </div>
     <% end %>
   </div>
 
-  <%# 2. MATCH ENGINE: Team vs Team %>
-  <div class="flex-1 flex items-center justify-center gap-8">
-
-    <%# Home %>
-    <div class="flex-1 flex items-center justify-end gap-3 text-right">
+  <%# 2. MATCH ENGINE %>
+  <div class="flex-1 flex items-center justify-center gap-6">
+    <div class="flex-1 flex items-center justify-end gap-3">
       <span class="text-sm font-black text-[#0a1d13] uppercase tracking-tighter truncate"><%= match.home_team.short_name %></span>
-      <div class="w-7 h-7 shrink-0"><%= image_tag match.home_team.crest_url, class: "w-full h-full object-contain" %></div>
+      <div class="w-7 h-7"><%= image_tag match.home_team.crest_url, class: "w-full h-full object-contain" %></div>
     </div>
 
-    <%# SCOREBOARD: Simple and focused %>
-    <div class="flex items-center gap-3 px-5 py-2 bg-[#f9faf9] border border-slate-200 rounded-xl font-mono text-xl font-black tabular-nums tracking-tighter text-[#0a1d13]">
+    <div class="flex items-center gap-3 px-4 py-1.5 bg-[#f9faf9] border border-slate-100 rounded-lg font-mono text-xl font-black tabular-nums tracking-tighter text-[#0a1d13]">
       <span><%= match.started? ? match.home_score : "-" %></span>
-      <span class="text-slate-200 font-bold text-xs">:</span>
+      <span class="text-slate-200 text-xs">:</span>
       <span><%= match.started? ? match.away_score : "-" %></span>
     </div>
 
-    <%# Away %>
-    <div class="flex-1 flex items-center justify-start gap-3 text-left">
-      <div class="w-7 h-7 shrink-0"><%= image_tag match.away_team.crest_url, class: "w-full h-full object-contain" %></div>
+    <div class="flex-1 flex items-center justify-start gap-3">
+      <div class="w-7 h-7"><%= image_tag match.away_team.crest_url, class: "w-full h-full object-contain" %></div>
       <span class="text-sm font-black text-[#0a1d13] uppercase tracking-tighter truncate"><%= match.away_team.short_name %></span>
     </div>
   </div>
 
-  <%# 3. DATA TERMINAL: You are always the left half of the pill %>
-  <div class="w-64 shrink-0 flex items-center justify-end">
+  <%# 3. DATA DUEL: Fixed Spatial Identity + Stepped Intensity %>
+  <div class="w-72 shrink-0 flex items-center justify-end">
     <% if compare_user %>
-      <div class="flex items-center bg-[#f9faf9] border border-slate-100 rounded-xl overflow-hidden p-1">
+      <div class="flex items-center gap-1 bg-slate-50 p-1 rounded-xl border border-slate-100">
 
-        <%# ME: Fixed Left Anchor %>
-        <div class="flex items-center gap-3 px-3 py-1 bg-white rounded-lg shadow-sm border border-slate-100">
-          <span class="text-[10px] font-mono font-bold text-slate-400">
+        <%# YOU: The Anchor %>
+        <div class="flex items-center gap-3 px-3 py-1.5 bg-white rounded-lg shadow-sm border border-slate-200/60 relative">
+          <div class="absolute left-0 top-1.5 bottom-1.5 w-1 bg-[#2d5a43] rounded-r opacity-40"></div>
+          <span class="text-[10px] font-mono font-bold text-slate-300">
             <%= my_pred ? "#{my_pred.home_guess}-#{my_pred.away_guess}" : "—" %>
           </span>
-          <span class="text-lg font-mono font-black tracking-tighter <%= i_win ? 'text-[#2d5a43]' : 'text-[#0a1d13]' %>">
+          <div class="min-w-[40px] h-8 rounded-md flex items-center justify-center font-mono font-black text-sm border transition-all <%= badge_classes(my_pts) %>">
             +<%= my_pts %>
-          </span>
+          </div>
         </div>
 
-        <%# THEM: Always Right %>
-        <div class="flex items-center gap-3 px-3 py-1">
-          <span class="text-lg font-mono font-black tracking-tighter <%= comp_wins ? 'text-[#0a1d13]' : 'text-slate-300' %>">
+        <span class="px-1 text-[8px] font-black text-slate-200">VS</span>
+
+        <%# THEM %>
+        <div class="flex items-center gap-3 px-3 py-1.5">
+          <div class="min-w-[40px] h-8 rounded-md flex items-center justify-center font-mono font-black text-sm border transition-all <%= badge_classes(comp_pts) %>">
             +<%= match.started? ? comp_pts : "?" %>
-          </span>
-          <span class="text-[10px] font-mono font-bold text-slate-300">
+          </div>
+          <span class="text-[10px] font-mono font-bold text-slate-200">
             <%= (match.started? && comp_pred) ? "#{comp_pred.home_guess}-#{comp_pred.away_guess}" : "—" %>
           </span>
         </div>
       </div>
 
     <% else %>
-      <%# SOLO MODE: Maximum reduction %>
+      <%# SOLO MODE %>
       <div class="flex items-center gap-4">
-        <span class="text-xs font-mono font-bold <%= is_synced ? 'text-[#2d5a43]' : 'text-slate-400' %>">
+        <span class="text-xs font-mono font-bold text-slate-300">
           <%= my_pred ? "#{my_pred.home_guess}-#{my_pred.away_guess}" : "—" %>
         </span>
-        <div class="h-10 w-16 rounded-xl flex items-center justify-center font-mono font-black text-lg shadow-sm transition-all <%= is_synced ? 'bg-[#2d5a43] text-white' : 'bg-[#0a1d13] text-white' %>">
+        <div class="h-10 w-16 rounded-xl flex items-center justify-center font-mono font-black text-lg border transition-all <%= badge_classes(my_pts) %>">
           +<%= my_pts %>
         </div>
       </div>
