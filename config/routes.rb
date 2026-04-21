@@ -1,61 +1,57 @@
 Rails.application.routes.draw do
-  # 1. THE EXTERNAL GATEKEEPER
-  # Redirects boltaspá.com to boltaspá.com/is (or /en)
-  # We use 'get' here, not 'root', to avoid name collisions.
-  get '/', to: redirect("/#{I18n.default_locale}"), constraints: ->(req) { req.path == '/' }
+  resources :predictions, only: %i[index create]
+  resource :onboarding, only: :show
 
-  # 2. SYSTEM & MACHINE ROUTES (No Locale)
-  mount MissionControl::Jobs::Engine, at: '/jobs'
+  # --- AUTHENTICATION & ACCOUNT ---
+  get  'sign_up', to: 'registrations#new'
+  post 'sign_up', to: 'registrations#create'
+
+  resource  :session,   only: %i[new create destroy]
+  resources :passwords, only: %i[new create edit update], param: :token
+
+  # Vanity URL for social sharing
+  get 'join_league/(:invite_code)', to: 'memberships#new', as: :join_league
+  post 'join_league/(:invite_code)', to: 'memberships#create'
+
+  # --- SETTINGS ---
+  # Using a singular resource for settings makes the helper 'edit_settings_path'
+  resource :settings, only: %i[edit update], controller: 'users'
+
+  # --- THE CORE APP ---
+  resources :leagues, param: :slug, path: 'l' do
+    resources :league_competitions, only: [] do
+      resources :comments, only: [:create]
+    end
+
+    # Nested route for league competitions
+    get 'competitions/:competition_code/:year',
+        to: 'league_competitions#show',
+        as: :competition_by_year
+  end
+
+  get 'scoring' => 'pages#scoring'
+  resources :memberships, only: %i[create destroy]
+  resource :dashboard, only: :show
+
+  # OmniAuth
   get 'auth/:provider/callback', to: 'sessions#omniauth'
 
+  # --- ADMIN & OPS ---
+  namespace :admin do
+    resource :dashboard, only: :show
+  end
+
+  mount MissionControl::Jobs::Engine, at: '/jobs'
+
+  # --- SYSTEM & ERRORS ---
+  get 'invalid_record', to: 'errors#invalid_record'
   match '/404', to: 'errors#error404', via: :all
   match '/500', to: 'errors#error500', via: :all
 
-  # 3. THE LOCALIZED UI ENGINE
-  scope '/:locale', locale: /is|en/ do
-    # AUTHENTICATED ENTRY
-    # We use 'get' and a custom name to avoid the "Too many roots" error.
-    # This maps to e.g., boltaspá.com/is/
-    get '/', to: 'dashboard#show',
-             constraints: AuthConstraint,
-             as: :authenticated_root
-
-    # PUBLIC ENTRY (The official 'root')
-    # This also maps to e.g., boltaspá.com/is/ but only if AuthConstraint fails.
-    root to: 'welcome#show'
-
-    # --- THE CORE APP ---
-    resource :dashboard, only: :show
-    get 'scoring' => 'pages#scoring'
-
-    resources :predictions, only: %i[index create]
-    resource :onboarding, only: :show
-
-    # AUTHENTICATION
-    get  'sign_up', to: 'registrations#new'
-    post 'sign_up', to: 'registrations#create'
-    resource :session, only: %i[new create destroy]
-    resources :passwords, only: %i[new create edit update], param: :token
-
-    # LEAGUES
-    resources :leagues, param: :slug, path: 'l' do
-      resources :league_competitions, only: [] do
-        resources :comments, only: [:create]
-      end
-
-      get 'competitions/:competition_code/:year',
-          to: 'league_competitions#show',
-          as: :competition_by_year
-    end
-
-    # SETTINGS & MEMBERSHIPS
-    resource :settings, only: %i[edit update], controller: 'users'
-    resources :memberships, only: %i[create destroy]
-    get 'join_league/(:invite_code)', to: 'memberships#new', as: :join_league
-    post 'join_league/(:invite_code)', to: 'memberships#create'
-
-    namespace :admin do
-      resource :dashboard, only: :show
-    end
+  # --- ROOT LOGIC ---
+  constraints AuthConstraint do
+    root to: 'dashboard#show', as: :authenticated_root
   end
+
+  root to: 'welcome#show'
 end
