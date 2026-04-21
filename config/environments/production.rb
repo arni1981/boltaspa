@@ -96,20 +96,20 @@ Rails.application.configure do
   # ]
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
-  
+
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
 
   config.action_mailer.smtp_settings = {
-    address:              'smtp-relay.brevo.com',
-    port:                 587,
-    domain:               'yourdomain.com', # Your verified domain
-    user_name:            Rails.application.credentials.dig(:brevo, :smtp_user),
-    password:             Rails.application.credentials.dig(:brevo, :smtp_key),
-    authentication:       'login',
+    address: 'smtppro.zoho.com',
+    port: 587,
+    domain: 'boltaspa.is',
+    user_name: Rails.application.credentials.dig(:zoho, :user),
+    password: Rails.application.credentials.dig(:zoho, :pass),
+    authentication: :plain,
     enable_starttls_auto: true
   }
 
   # Ensure your default URL options match your production host
-  config.action_mailer.default_url_options = { host: 'yourdomain.com' }
+  config.action_mailer.default_url_options = { host: 'betraskor.is' }
 end
