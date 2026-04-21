@@ -111,5 +111,5 @@ Rails.application.configure do
   }
 
   # Ensure your default URL options match your production host
-  config.action_mailer.default_url_options = { host: 'betraskor.is' }
+  config.action_mailer.default_url_options = { host: 'boltaspa.is' }
 end
