@@ -101,7 +101,7 @@ Rails.application.configure do
   config.action_mailer.perform_deliveries = true
 
   config.action_mailer.smtp_settings = {
-    address: 'smtp.zoho.com',
+    address: 'smtppro.zoho.eu',
     port: 587,
     domain: 'boltaspa.is',
     user_name: Rails.application.credentials.dig(:zoho, :user),
