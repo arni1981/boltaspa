@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   match '/500', to: 'errors#error500', via: :all
 
   # 3. THE LOCALIZED UI ENGINE
-  scope '/:locale', locale: /#{I18n.available_locales.join('|')}/ do
+  scope '/:locale', locale: /is|en/ do
     # AUTHENTICATED ENTRY
     # We use 'get' and a custom name to avoid the "Too many roots" error.
     # This maps to e.g., boltaspá.com/is/
