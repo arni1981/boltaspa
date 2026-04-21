@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   resource :settings, only: %i[edit update], controller: 'users'
 
   # --- THE CORE APP ---
-  resources :leagues, param: :slug do
+  resources :leagues, param: :slug, path: 'l' do
     resources :league_competitions, only: [] do
       resources :comments, only: [:create]
     end

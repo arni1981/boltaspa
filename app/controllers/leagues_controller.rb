@@ -4,7 +4,7 @@ class LeaguesController < ApplicationController
   end
 
   def show
-    @league = Current.user.leagues.find_by_slug(params[:slug])
+    @league = Current.user.leagues.find_by_slug!(params[:slug])
   end
 
   def new

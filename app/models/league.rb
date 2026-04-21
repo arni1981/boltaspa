@@ -38,7 +38,12 @@ class League < ApplicationRecord
   end
 
   def generate_slug
-    self.slug = "#{name.parameterize}-#{SecureRandom.hex(3)}"
+    base = name.to_s.parameterize
+    candidate = base
+
+    candidate = "#{base}-#{SecureRandom.hex(3)}" while League.exists?(slug: candidate)
+
+    self.slug = candidate
   end
 
   def add_owner_as_member
