@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.2].define(version: 2026_04_21_114132) do
+ActiveRecord::Schema[8.2].define(version: 2026_04_21_120006) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -520,33 +520,6 @@ ActiveRecord::Schema[8.2].define(version: 2026_04_21_114132) do
       $function$
   SQL
 
-  create_function :calculate_prediction_points, sql_definition: <<-'SQL'
-      CREATE OR REPLACE FUNCTION public.calculate_prediction_points(home_score integer, away_score integer, home_guess integer, away_guess integer)
-       RETURNS integer
-       LANGUAGE sql
-       IMMUTABLE
-      AS $function$
-      SELECT CASE
-                 WHEN home_score = home_guess AND away_score = away_guess THEN 25
-
-                 ELSE
-                     (
-                         CASE
-                             WHEN SIGN(home_score - away_score) = SIGN(home_guess - away_guess)
-                                 THEN 10
-                             ELSE 0
-                             END
-                             +
-                         CASE
-                             WHEN SIGN(home_score - away_score) = SIGN(home_guess - away_guess)
-                                 THEN GREATEST(0, 10 - (ABS(home_score - home_guess) + ABS(away_score - away_guess)) * 2)
-                             ELSE GREATEST(0, 6 - (ABS(home_score - home_guess) + ABS(away_score - away_guess)) * 2)
-                             END
-                         )
-                 END;
-      $function$
-  SQL
-
   create_function :calculate_prediction_points_gpt, sql_definition: <<-'SQL'
       CREATE OR REPLACE FUNCTION public.calculate_prediction_points_gpt(home_score integer, away_score integer, home_guess integer, away_guess integer)
        RETURNS integer
@@ -598,6 +571,38 @@ ActiveRecord::Schema[8.2].define(version: 2026_04_21_114132) do
           )
       END;
             $function$
+  SQL
+
+  create_function :calculate_prediction_points, sql_definition: <<-'SQL'
+      CREATE OR REPLACE FUNCTION public.calculate_prediction_points(home_score integer, away_score integer, home_guess integer, away_guess integer)
+       RETURNS integer
+       LANGUAGE sql
+       IMMUTABLE
+      AS $function$
+      SELECT CASE
+        WHEN home_score = home_guess AND away_score = away_guess THEN 25
+
+        ELSE
+          (
+            -- Outcome
+            CASE
+              WHEN SIGN(home_score - away_score) = SIGN(home_guess - away_guess)
+                THEN 10
+              ELSE 0
+            END
+
+            +
+
+            -- Closeness (with light GD penalty)
+            GREATEST(
+              0,
+              10
+              - (ABS(home_score - home_guess) + ABS(away_score - away_guess)) * 2
+              - ABS((home_score - away_score) - (home_guess - away_guess)) * 1
+            )
+          )
+      END;
+      $function$
   SQL
 
   create_trigger :trg_prediction_lockout, sql_definition: <<-SQL
