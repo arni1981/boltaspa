@@ -107,7 +107,7 @@ Rails.application.configure do
     user_name: Rails.application.credentials.dig(:zoho, :user),
     password: Rails.application.credentials.dig(:zoho, :pass),
     authentication: :plain,
-    enable_starttls_auto: true
+    tls: true
   }
 
   # Ensure your default URL options match your production host
