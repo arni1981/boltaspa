@@ -37,7 +37,7 @@
         <span class="flex h-1.5 w-1.5 rounded-full bg-white animate-pulse"></span>
         <span class="text-[9px] font-black uppercase tracking-widest">Live</span>
       </div>
-      <div class="text-sm font-mono font-black text-[#0a1d13]"><%= match.minute %><span class="text-sky-500 animate-pulse">'</span></div>
+      <div class="text-sm font-mono font-black text-[#0a1d13]"><span class="text-sky-500 animate-pulse">'</span></div>
     <% else %>
       <div class="text-sm font-mono font-bold <%= match.finished? ? 'text-slate-300' : 'text-[#0a1d13]' %>">
         <%= match.finished? ? "FT" : l(match.kickoff_at, format: "%H:%M") %>
