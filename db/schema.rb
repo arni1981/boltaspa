@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.2].define(version: 2026_04_22_195346) do
+ActiveRecord::Schema[8.2].define(version: 2026_04_22_200034) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -591,14 +591,13 @@ ActiveRecord::Schema[8.2].define(version: 2026_04_22_195346) do
       SELECT
         CASE
           WHEN home_score = home_guess AND away_score = away_guess THEN 25
-          ELSE GREATEST(
-            0,
-            ROUND(
-              18
-              - dist * 3
-              - diff_error * 3
-            )
-          )::int
+          ELSE
+            GREATEST(
+              0,
+              ROUND(
+                18 * EXP(-0.35 * dist - 0.25 * diff_error)
+              )
+            )::int
         END
       FROM vars;
       $function$
