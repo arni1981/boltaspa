@@ -585,46 +585,25 @@ ActiveRecord::Schema[8.2].define(version: 2026_04_22_194308) do
           away_score,
           home_guess,
           away_guess,
-          SIGN(home_score - away_score)  AS actual_sign,
-          SIGN(home_guess - away_guess)  AS guess_sign
+          SIGN(home_score - away_score) AS actual_sign,
+          SIGN(home_guess - away_guess) AS guess_sign,
+          ABS(home_score - home_guess) + ABS(away_score - away_guess) AS dist,
+          ABS((home_score - away_score) - (home_guess - away_guess)) AS diff_error
       )
       SELECT
-        CASE
-          -- 1. Exact score
-          WHEN home_score = home_guess
-           AND away_score = away_guess
-          THEN 25
-
-          -- 2. Correct outcome (win/draw/loss)
-          WHEN actual_sign = guess_sign THEN
-            10
-            +
-            GREATEST(
-              0,
-              10
-              - (ABS(home_score - home_guess) + ABS(away_score - away_guess)) * 2
-              - ABS((home_score - away_score) - (home_guess - away_guess))
-            )
-
-          -- 3a. Predicted draw, actual winner
-          WHEN guess_sign = 0 AND actual_sign != 0 THEN
-            GREATEST(
-              0,
-              4
-              - (ABS(home_score - home_guess) + ABS(away_score - away_guess))
-            )
-
-          -- 3b. Predicted winner, actual draw  <-- FIX
-          WHEN actual_sign = 0 AND guess_sign != 0 THEN
-            GREATEST(
-              0,
-              4
-              - (ABS(home_score - home_guess) + ABS(away_score - away_guess))
-            )
-
-          -- 4. Wrong winner → zero
-          ELSE 0
-        END
+        ROUND(
+          (
+            25
+            - dist * 3
+            - diff_error * 2
+          )
+          *
+          CASE
+            WHEN actual_sign = guess_sign THEN 1.0     -- full credit
+            WHEN actual_sign = 0 OR guess_sign = 0 THEN 0.4  -- partial (draw mismatch)
+            ELSE 0.0                                  -- wrong winner
+          END
+        )::int
       FROM vars;
       $function$
   SQL
