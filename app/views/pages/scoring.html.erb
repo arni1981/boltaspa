@@ -6,65 +6,76 @@
       The Spirit<br>of the Game.
     </h1>
     <p class="text-xl text-slate-500 font-medium leading-relaxed max-w-lg">
-      Our 25-point engine is a high-stakes calculation. It rewards those who predict the
-      <span class="text-[#0a1d13] underline decoration-[#2d5a43] decoration-4 underline-offset-8">exact frequency</span> of the 90 minutes.
+      Our engine is a high-precision calculation. It rewards those who understand not just the winner, but the
+      <span class="text-[#0a1d13] underline decoration-[#2d5a43] decoration-4 underline-offset-8">fundamental flow</span> of the 90 minutes.
     </p>
   </header>
 
   <%# 2. THE THREE TIERS %>
   <div class="space-y-16 mb-32">
+    <%# TIER 1 %>
     <div class="group border-b-2 border-[#0a1d13] pb-8">
       <div class="flex items-center justify-between mb-4">
-        <h2 class="text-2xl font-black text-[#0a1d13] uppercase">Perfect Sync</h2>
+        <h2 class="text-2xl font-black text-[#0a1d13] uppercase tracking-tight">Perfect Sync</h2>
         <span class="text-4xl font-mono font-black text-[#2d5a43]">25</span>
       </div>
-      <p class="text-slate-600 text-lg leading-snug">The Bullseye. Total synchronization with reality.</p>
+      <p class="text-slate-600 text-lg leading-snug">The Bullseye. Total synchronization with reality. There is no tax for perfection.</p>
     </div>
 
+    <%# TIER 2 %>
     <div class="group border-b-2 border-slate-200 pb-8">
       <div class="flex items-center justify-between mb-4">
-        <h2 class="text-2xl font-black text-[#0a1d13] uppercase">The Spirit</h2>
-        <span class="text-4xl font-mono font-black text-[#0a1d13]">11 — 24</span>
+        <h2 class="text-2xl font-black text-[#0a1d13] uppercase tracking-tight">Correct Outcome</h2>
+        <span class="text-4xl font-mono font-black text-[#0a1d13]">10 — 20</span>
       </div>
-      <p class="text-slate-600 text-lg leading-snug">Correct outcome, but the distance tax applies. Every goal away from the result is a significant drop.</p>
+      <p class="text-slate-600 text-lg leading-snug">
+        You called the winner. You start with <span class="font-bold text-[#0a1d13]">10 points</span>.
+        Your accuracy bonus decays based on goal volume and goal difference errors.
+      </p>
     </div>
 
+    <%# TIER 3 %>
     <div class="group border-b-2 border-slate-100 pb-8">
       <div class="flex items-center justify-between mb-4">
-        <h2 class="text-2xl font-black text-slate-300 uppercase">The Result</h2>
-        <span class="text-4xl font-mono font-black text-slate-200">1 — 10</span>
+        <h2 class="text-2xl font-black text-slate-300 uppercase tracking-tight">The Mercy Draw</h2>
+        <span class="text-4xl font-mono font-black text-slate-200">1 — 4</span>
       </div>
-      <p class="text-slate-500 text-lg leading-snug">The "Survival Tier." You called the winner, but your vision of the game was fundamentally different.</p>
+      <p class="text-slate-500 text-lg leading-snug">You predicted a deadlock, but a winner emerged. A small reward for correctly identifying a tight contest.</p>
     </div>
   </div>
 
-  <%# 3. CORRECTED EXAMPLES / Reference Result: 3-1 %>
+  <%# 3. INTERACTIVE SIMULATION: Reference Result 3-1 %>
   <section class="mb-32">
     <header class="flex items-center justify-between mb-12">
-      <h3 class="text-[10px] font-black text-[#2d5a43] uppercase tracking-[0.4em]">Live Simulation / Benchmark</h3>
+      <h3 class="text-[10px] font-black text-[#2d5a43] uppercase tracking-[0.4em]">Engine Benchmark</h3>
       <div class="flex items-center gap-3">
-        <span class="text-[9px] font-bold text-slate-300 uppercase">Final Result</span>
-        <span class="px-4 py-1.5 bg-[#0a1d13] text-white font-mono font-black text-sm rounded-xl">3 - 1</span>
+        <span class="text-[9px] font-bold text-slate-300 uppercase tracking-widest">Actual Result</span>
+        <span class="px-5 py-2 bg-[#0a1d13] text-white font-mono font-black text-lg rounded-2xl shadow-xl shadow-midnight/20">3 - 1</span>
       </div>
     </header>
 
     <div class="space-y-4">
       <% [
-        { guess: "3 - 1", pts: "25", label: "Exact Sync", color: "text-[#2d5a43]" },
-        { guess: "4 - 2", pts: "21", label: "Spirit Bonus", color: "text-[#0a1d13]" },
-        { guess: "2 - 0", pts: "17", label: "Outcome (+8 penalty)", color: "text-[#0a1d13]" },
-        { guess: "1 - 0", pts: "11", label: "Distant Outcome", color: "text-[#0a1d13]" },
-        { guess: "5 - 0", pts: "6", label: "Basic Result", color: "text-slate-400" },
-        { guess: "0 - 1", pts: "0", label: "Incorrect", color: "text-slate-200" }
+        { guess: "3 - 1", pts: 25, label: "Perfect Sync", desc: "No penalties apply." },
+        { guess: "2 - 0", pts: 17, label: "Outcome Match", desc: "-4 goal dist / -2 GD error." },
+        { guess: "4 - 2", pts: 16, label: "Outcome Match", desc: "-4 goal dist / 0 GD error." },
+        { guess: "5 - 0", pts: 10, label: "Base Outcome", desc: "Decay hit the floor." },
+        { guess: "1 - 1", pts: 2,  label: "Mercy Draw", desc: "Correct on the tight spread." },
+        { guess: "0 - 1", pts: 0,  label: "Incorrect", desc: "Wrong winner." }
       ].each do |ex| %>
-        <div class="bg-white p-8 rounded-[2rem] border border-slate-100 flex items-center justify-between group hover:shadow-xl hover:shadow-slate-200/40 transition-all duration-500">
+        <div class="bg-white p-8 rounded-[2.5rem] border border-slate-100 flex items-center justify-between group transition-all duration-500">
           <div class="flex flex-col">
-            <span class="text-[10px] font-bold text-slate-300 uppercase tracking-widest mb-1">Predicted</span>
-            <span class="text-3xl font-black text-[#0a1d13] tracking-tighter"><%= ex[:guess] %></span>
+            <span class="text-[9px] font-bold text-slate-300 uppercase tracking-widest mb-2">Predicted</span>
+            <div class="flex items-baseline gap-4">
+              <span class="text-4xl font-black text-[#0a1d13] tracking-tighter"><%= ex[:guess] %></span>
+              <span class="text-xs font-medium text-slate-400 italic"><%= ex[:desc] %></span>
+            </div>
           </div>
           <div class="text-right">
-             <span class="text-[9px] font-black text-slate-300 uppercase tracking-widest block mb-1"><%= ex[:label] %></span>
-             <span class="text-4xl font-mono font-black <%= ex[:color] %> tracking-tighter">+<%= ex[:pts] %></span>
+             <span class="text-[10px] font-black text-slate-300 uppercase tracking-widest block mb-1"><%= ex[:label] %></span>
+             <span class="text-5xl font-mono font-black tracking-tighter <%= ex[:pts] == 25 ? 'text-[#2d5a43]' : 'text-[#0a1d13]' %> <%= 'opacity-20' if ex[:pts] == 0 %>">
+               +<%= ex[:pts] %>
+             </span>
           </div>
         </div>
       <% end %>
@@ -73,29 +84,32 @@
 
   <%# 4. TECHNICAL SPECIFICATION %>
   <section class="pt-20 border-t border-slate-100">
-    <div class="flex items-center gap-4 mb-12">
-      <h4 class="text-[10px] font-mono font-black text-slate-300 uppercase tracking-[0.3em]">Engine Architecture</h4>
-      <div class="h-px flex-1 bg-slate-100"></div>
-    </div>
+    <div class="bg-[#0a1d13] p-12 rounded-[3.5rem] shadow-2xl relative overflow-hidden">
+      <%# Decorative background pulse %>
+      <div class="absolute -right-20 -top-20 w-64 h-64 bg-[#2d5a43] blur-[120px] opacity-20"></div>
 
-    <div class="bg-[#0a1d13] p-12 rounded-[3rem] shadow-2xl">
-      <div class="flex items-center gap-2 mb-8">
+      <div class="flex items-center gap-3 mb-10">
         <div class="w-2.5 h-2.5 rounded-full bg-[#2d5a43]"></div>
-        <span class="text-[10px] font-mono text-white/40 uppercase tracking-widest">aggressive_decay_v8.sql</span>
+        <span class="text-[10px] font-mono text-white/40 uppercase tracking-[0.3em]">decay_engine_v2.sql</span>
       </div>
 
-      <pre class="font-mono text-[13px] text-[#2d5a43] leading-relaxed mb-10">
-<span class="text-white/30">-- Aggressive distance-based penalty system</span>
-<span class="text-white">IF</span> score_match(P, R) <span class="text-white">THEN</span> 25
-<span class="text-white">ELSEIF</span> outcome_match(P, R) <span class="text-white">THEN</span>
-  <span class="text-white">dist_penalty =</span> (abs(ph - rh) + abs(pa - ra)) * 4;
-  <span class="text-white">RETURN</span> max(1, 25 - dist_penalty);
-<span class="text-white">END IF;</span>
-      </pre>
+      <div class="prose prose-invert max-w-none">
+        <p class="text-white/60 text-sm leading-relaxed mb-8">
+          The Accuracy Bonus is calculated using two vectors:
+          <span class="text-white">Goal Distance</span> (sum of absolute differences) and
+          <span class="text-white">Spread Error</span> (the difference in goal differential).
+        </p>
 
-      <div class="pt-8 border-t border-white/5 text-center">
-        <span class="text-[11px] font-mono text-white/20 italic">
-          $$ Points = \max(1, 25 - 4 \sum |p_i - r_i|) $$
+        <div class="bg-black/40 rounded-2xl p-8 font-mono text-[13px] text-[#2d5a43] leading-relaxed">
+          <span class="text-white/30">-- Bonus decays from 10 down to 0</span><br>
+          <span class="text-white">Bonus</span> = 10 - (GoalDistance * 2) - SpreadError
+        </div>
+      </div>
+
+      <div class="mt-12 pt-10 border-t border-white/5 text-center">
+        <p class="text-[11px] font-mono text-white/30 uppercase tracking-[0.5em] mb-4">The Universal Formula</p>
+        <span class="text-lg font-mono text-white/80">
+          $$ P = 10 + \max(0, 10 - 2\sum |p_i - r_i| - |(p_1-p_2)-(r_1-r_2)|) $$
         </span>
       </div>
     </div>

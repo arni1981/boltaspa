@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.2].define(version: 2026_04_21_121105) do
+ActiveRecord::Schema[8.2].define(version: 2026_04_22_194308) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -606,8 +606,16 @@ ActiveRecord::Schema[8.2].define(version: 2026_04_21_121105) do
               - ABS((home_score - away_score) - (home_guess - away_guess))
             )
 
-          -- 3. Predicted draw, actual winner → small mercy reward
+          -- 3a. Predicted draw, actual winner
           WHEN guess_sign = 0 AND actual_sign != 0 THEN
+            GREATEST(
+              0,
+              4
+              - (ABS(home_score - home_guess) + ABS(away_score - away_guess))
+            )
+
+          -- 3b. Predicted winner, actual draw  <-- FIX
+          WHEN actual_sign = 0 AND guess_sign != 0 THEN
             GREATEST(
               0,
               4
