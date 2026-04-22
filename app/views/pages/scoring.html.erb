@@ -85,31 +85,29 @@
   <%# 4. TECHNICAL SPECIFICATION %>
   <section class="pt-20 border-t border-slate-100">
     <div class="bg-[#0a1d13] p-12 rounded-[3.5rem] shadow-2xl relative overflow-hidden">
-      <%# Decorative background pulse %>
-      <div class="absolute -right-20 -top-20 w-64 h-64 bg-[#2d5a43] blur-[120px] opacity-20"></div>
-
       <div class="flex items-center gap-3 mb-10">
         <div class="w-2.5 h-2.5 rounded-full bg-[#2d5a43]"></div>
-        <span class="text-[10px] font-mono text-white/40 uppercase tracking-[0.3em]">decay_engine_v2.sql</span>
+        <span class="text-[10px] font-mono text-white/40 uppercase tracking-[0.3em]">proximity_v9_stable.sql</span>
       </div>
 
       <div class="prose prose-invert max-w-none">
         <p class="text-white/60 text-sm leading-relaxed mb-8">
-          The Accuracy Bonus is calculated using two vectors:
-          <span class="text-white">Goal Distance</span> (sum of absolute differences) and
-          <span class="text-white">Spread Error</span> (the difference in goal differential).
+          We have achieved <span class="text-white font-bold">Mathematical Symmetry</span>.
+          Whether you predict a winner in a draw or a draw in a winning game, the
+          <span class="text-[#2d5a43]">Proximity Reward</span> calculates your points based
+          strictly on the total goal distance.
         </p>
 
         <div class="bg-black/40 rounded-2xl p-8 font-mono text-[13px] text-[#2d5a43] leading-relaxed">
-          <span class="text-white/30">-- Bonus decays from 10 down to 0</span><br>
-          <span class="text-white">Bonus</span> = 10 - (GoalDistance * 2) - SpreadError
+          <span class="text-white/30">-- Symmetrical Mercy Logic</span><br>
+          <span class="text-white">IF</span> outcome_missed <span class="text-white">THEN</span><br>
+          &nbsp;&nbsp;<span class="text-white">RETURN</span> max(0, 4 - total_goal_distance);
         </div>
       </div>
 
       <div class="mt-12 pt-10 border-t border-white/5 text-center">
-        <p class="text-[11px] font-mono text-white/30 uppercase tracking-[0.5em] mb-4">The Universal Formula</p>
         <span class="text-lg font-mono text-white/80">
-          $$ P = 10 + \max(0, 10 - 2\sum |p_i - r_i| - |(p_1-p_2)-(r_1-r_2)|) $$
+          $$ P_{miss} = \max(0, 4 - \sum |p_i - r_i|) $$
         </span>
       </div>
     </div>
