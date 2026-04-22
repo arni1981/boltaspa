@@ -12,4 +12,4 @@ pin_all_from 'app/javascript/custom', under: 'custom'
 pin_all_from 'app/javascript/debugging', under: 'debugging', preload: false
 
 # Third-party libraries
-pin "sweetalert2" # @11.26.24
+pin 'sweetalert2' # @11.26.24
