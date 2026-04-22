@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.2].define(version: 2026_04_22_200659) do
+ActiveRecord::Schema[8.2].define(version: 2026_04_22_200939) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -586,8 +586,8 @@ ActiveRecord::Schema[8.2].define(version: 2026_04_22_200659) do
 
           -- 2. CORRECT OUTCOME (Win/Draw/Loss)
           WHEN sign(home_score - away_score) = sign(home_guess - away_guess) THEN
-            GREATEST(10, 
-              20 
+            GREATEST(10,
+              20
               - (abs(home_score - home_guess) + abs(away_score - away_guess)) * 2
               - abs((home_score - away_score) - (home_guess - away_guess))
             )
