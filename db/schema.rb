@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.2].define(version: 2026_04_22_194308) do
+ActiveRecord::Schema[8.2].define(version: 2026_04_22_195346) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -585,25 +585,21 @@ ActiveRecord::Schema[8.2].define(version: 2026_04_22_194308) do
           away_score,
           home_guess,
           away_guess,
-          SIGN(home_score - away_score) AS actual_sign,
-          SIGN(home_guess - away_guess) AS guess_sign,
           ABS(home_score - home_guess) + ABS(away_score - away_guess) AS dist,
           ABS((home_score - away_score) - (home_guess - away_guess)) AS diff_error
       )
       SELECT
-        ROUND(
-          (
-            25
-            - dist * 3
-            - diff_error * 2
-          )
-          *
-          CASE
-            WHEN actual_sign = guess_sign THEN 1.0     -- full credit
-            WHEN actual_sign = 0 OR guess_sign = 0 THEN 0.4  -- partial (draw mismatch)
-            ELSE 0.0                                  -- wrong winner
-          END
-        )::int
+        CASE
+          WHEN home_score = home_guess AND away_score = away_guess THEN 25
+          ELSE GREATEST(
+            0,
+            ROUND(
+              18
+              - dist * 3
+              - diff_error * 3
+            )
+          )::int
+        END
       FROM vars;
       $function$
   SQL
