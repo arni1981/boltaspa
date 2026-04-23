@@ -12,6 +12,26 @@
         "reveal": "always",
         "panel": "new"
       }
+    },
+    {
+      "label": "boltspa: console",
+      "type": "shell",
+      "command": "./bin/rails console",
+      "group": "none",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "boltspa: credentials",
+      "type": "shell",
+      "command": "EDITOR=\"vi\" ./bin/rails credentials:edit --environment development",
+      "group": "none",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
     }
   ]
 }

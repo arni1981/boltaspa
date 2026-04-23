@@ -65,3 +65,7 @@ database.yml
 
 data.json
 .overmind.sock
+
+# Ignore key files for decrypting credentials and more.
+/config/credentials/*.key
+/config/credentials/development.yml.enc
