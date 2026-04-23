@@ -28,7 +28,7 @@ class LeagueCompetitionsController < ApplicationController
                               .where(match_id: @matches.map(&:id))
                               .index_by(&:match_id)
 
-    @comments = @league_competition.comments.where(matchday: @current_matchday).order(id: :desc)
+    @comments = @league_competition.comments.order(id: :desc)
 
     return unless params[:compare_user_id].present?
 
