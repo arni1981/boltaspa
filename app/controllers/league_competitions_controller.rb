@@ -2,20 +2,23 @@ class LeagueCompetitionsController < ApplicationController
   def show
     @league = Current.user.leagues.find_by_slug(params[:league_slug])
     @competition = Competition.find_by(code: params[:competition_code])
+    @season = @competition.seasons.find_by(year: params[:year])
 
     @league_competition = @league.league_competitions
-                                 .find_by(competition: @competition)
+                                 .find_by(competition: @competition,
+                                          season: @season)
 
     # Logic to find the current round
     @current_matchday = if params[:matchday].present?
                           params[:matchday].to_i
                         else
-                          @competition.current_season.current_matchday
+                          @season.current_matchday
                         end
 
     @matches = @competition
                .matches
                .where(matchday: @current_matchday)
+               .where(season: @season)
                .order(:kickoff_at)
                .includes(:home_team, :away_team)
 
