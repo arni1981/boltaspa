@@ -3,12 +3,15 @@ class LeagueCompetitionsController < ApplicationController
     @league = Current.user.leagues.find_by_slug(params[:league_slug])
     @competition = Competition.find_by(code: params[:competition_code])
 
-    @league_competition = @league.league_competitions.find_by(competition: Competition.find_by(code: params[:competition_code]))
+    @league_competition = @league.league_competitions
+                                 .find_by(competition: @competition)
 
     # Logic to find the current round
-    @current_matchday = params[:matchday].present? ? params[:matchday].to_i : @competition.current_season.current_matchday
-    @prev_matchday = [@current_matchday - 1, 1].max
-    @next_matchday = [@current_matchday + 1, 38].min
+    @current_matchday = if params[:matchday].present?
+                          params[:matchday].to_i
+                        else
+                          @competition.current_season.current_matchday
+                        end
 
     @matches = @competition
                .matches
@@ -18,17 +21,9 @@ class LeagueCompetitionsController < ApplicationController
 
     @grouped_matches = @matches.group_by { |m| m.kickoff_at.to_date }
 
-    @leaderboard = Standing.where(league_id: @league.id,
-                                  competition_id: @league_competition.competition,
-                                  season_id: @league_competition.season_id)
-                           .order(total_points: :desc)
-                           .includes(:user)
-
     @predictions_map = Current.user.predictions
                               .where(match_id: @matches.map(&:id))
                               .index_by(&:match_id)
-
-    @comments = @league_competition.comments.order(id: :desc)
 
     return unless params[:compare_user_id].present?
 

@@ -24,7 +24,7 @@ Rails.application.routes.draw do
     end
 
     # Nested route for league competitions
-    get 'competitions/:competition_code/:year',
+    get ':competition_code/:year',
         to: 'league_competitions#show',
         as: :competition_by_year
   end

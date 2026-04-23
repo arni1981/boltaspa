@@ -10,7 +10,7 @@
 <div class="max-w-[1400px] mx-auto pb-32 px-6">
 
   <%# 1. TOP THREE HERO (Manifesto Level) %>
-  <%= render 'podium', leaderboard: @leaderboard, current_user: Current.user %>
+  <%= render 'hero', leaderboard: @league_competition.leaderboard, current_user: Current.user %>
 
   <%# 2. THE DUAL-COLUMN ARCHITECTURE %>
   <div class="flex flex-col lg:flex-row gap-10 items-start">
@@ -25,7 +25,6 @@
           predictions_map: @predictions_map,
           compare_predictions_map: @compare_predictions_map,
           matches: @matches,
-          current_user: Current.user,
           request: request,
           params: params
       %>
@@ -33,11 +32,7 @@
 
     <%# SIDEBAR: THE STICKY SCOREBOARD %>
     <%= render 'right_sidebar', 
-        leaderboard: @leaderboard, 
-        current_user: Current.user,
-        league: @league,
         league_competition: @league_competition,
-        comments: @comments,
         current_matchday: @current_matchday %>
 
   </div>

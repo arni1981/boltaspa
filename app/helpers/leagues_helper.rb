@@ -1,7 +1,11 @@
 module LeaguesHelper
   def matchday_nav_link(direction, league, competition, current_round, compare_user)
     target_round = direction == :prev ? current_round - 1 : current_round + 1
-    is_disabled = direction == :prev ? current_round <= 1 : current_round >= 38
+    is_disabled = if direction == :prev
+                    current_round <= 1
+                  else
+                    current_round >= Match.where(competition: competition).maximum(:matchday)
+                  end
 
     path = league_competition_by_year_path(
       league_id: league.slug,

@@ -55,7 +55,7 @@
     <%# Home Team Container - FIXED WIDTH %>
     <div class="w-40 flex items-center justify-end gap-3 text-right">
       <span class="text-sm font-black text-[#0a1d13] uppercase tracking-tighter truncate"><%= match.home_team.short_name %></span>
-      <div class="w-7 h-7 shrink-0"><%= image_tag match.home_team.crest_url, class: "w-full h-full object-contain" %></div>
+      <div class="w-7 h-7 shrink-0"><%= image_tag match.home_team.crest_url, class: "w-full h-full object-contain", alt: "#{match.home_team.name} crest" %></div>
     </div>
 
     <%# The Score Pill - CENTERED ANCHOR %>
@@ -67,7 +67,7 @@
 
     <%# Away Team Container - FIXED WIDTH %>
     <div class="w-40 flex items-center justify-start gap-3 text-left">
-      <div class="w-7 h-7 shrink-0"><%= image_tag match.away_team.crest_url, class: "w-full h-full object-contain" %></div>
+      <div class="w-7 h-7 shrink-0"><%= image_tag match.away_team.crest_url, class: "w-full h-full object-contain", alt: "#{match.away_team.name} crest" %></div>
       <span class="text-sm font-black text-[#0a1d13] uppercase tracking-tighter truncate"><%= match.away_team.short_name %></span>
     </div>
   </div>

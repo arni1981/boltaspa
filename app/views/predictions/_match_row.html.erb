@@ -7,7 +7,7 @@
 
   <div class="w-1/3 flex items-center gap-4">
     <div class="w-10 h-10 bg-gray-50 rounded-xl flex items-center justify-center p-1.5 shrink-0 border border-gray-100 shadow-sm">
-      <%= image_tag match.home_team.crest_url, class: "w-full h-full object-contain" if match.home_team.crest_url.present? %>
+      <%= image_tag match.home_team.crest_url, class: "w-full h-full object-contain", alt: "#{match.home_team.name} crest" if match.home_team.crest_url.present? %>
     </div>
     <span class="text-[13px] font-black uppercase text-[#0a1d13] tracking-tight truncate">
       <%= match.home_team.short_name %>
@@ -32,7 +32,7 @@
       <%= match.away_team.short_name %>
     </span>
     <div class="w-10 h-10 bg-gray-50 rounded-xl flex items-center justify-center p-1.5 shrink-0 border border-gray-100 shadow-sm">
-      <%= image_tag match.away_team.crest_url, class: "w-full h-full object-contain" if match.away_team.crest_url.present? %>
+      <%= image_tag match.away_team.crest_url, class: "w-full h-full object-contain", alt: "#{match.away_team.name} crest" if match.away_team.crest_url.present? %>
     </div>
   </div>
 </div>

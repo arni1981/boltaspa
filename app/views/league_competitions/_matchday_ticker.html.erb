@@ -1,4 +1,4 @@
-<%# locals: (league:, league_competition:, matches:, current_matchday:, predictions_map:, compare_user: nil, compare_predictions_map: nil, current_user:, request:, params:) %>
+<%# locals: (league:, league_competition:, matches:, current_matchday:, predictions_map:, compare_user: nil, compare_predictions_map: nil, request:, params:) %>
 
 <%= turbo_stream_from league_competition %>
 
@@ -37,11 +37,11 @@
           </svg>
         </div>
 
-        <%= form_with url: request.path, method: :get, class: "absolute inset-0 z-10", 
+        <%= form_with url: league_competition_by_year_path(league, league_competition, year: league_competition.year), method: :get, class: "absolute inset-0 z-10", 
             data: { controller: "auto-submit", turbo_frame: "matchday_ticker", turbo_action: :advance } do |f| %>
           <%= f.hidden_field :matchday, value: current_matchday %>
           <%= f.select :compare_user_id, 
-              options_from_collection_for_select(league.members.where.not(id: current_user.id), :id, :name, params[:compare_user_id]),
+              options_from_collection_for_select(league.members.where.not(id: Current.user.id), :id, :name, params[:compare_user_id]),
               { prompt: t('.none_selected') },
               { class: "absolute inset-0 w-full h-full opacity-0 cursor-pointer appearance-none", 
                 data: { action: "change->auto-submit#submit" } } %>
