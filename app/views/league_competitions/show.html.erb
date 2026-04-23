@@ -10,56 +10,7 @@
 <div class="max-w-[1400px] mx-auto pb-32 px-6">
 
   <%# 1. TOP THREE HERO (Manifesto Level) %>
-  <%# 1. THE REFINED HERO SECTION %>
-  <section class="mb-14 relative">
-    <%# 1. THE TOP THREE PODIUM (Reduced Padding) %>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-[#0a1d13] rounded-[2rem] overflow-hidden shadow-2xl shadow-[#0a1d13]/30 border border-white/5 relative z-0">
-      <% @leaderboard.first(3).each_with_index do |rank_item, i| %>
-        <% is_me = rank_item.user == Current.user %>
-        <%# py-8 instead of p-12 creates the "Compact-Pro" height %>
-        <div class="py-8 px-10 flex flex-col items-center justify-center relative border-r border-white/5 last:border-0 <%= is_me ? 'bg-white/[0.03]' : '' %>">
-
-          <span class="text-[9px] font-black text-[#2d5a43] uppercase tracking-[0.4em] mb-2">
-            <%= (i + 1).to_s + t('.position_suffix', default: 'TH PLACE') %>
-          </span>
-
-          <span class="text-[14px] font-black text-white uppercase tracking-tight truncate w-full text-center px-2">
-            <%= rank_item.user.name %>
-          </span>
-
-          <div class="mt-2 flex items-baseline gap-1.5">
-            <span class="text-3xl font-mono font-black text-white tracking-tighter">
-              <%= rank_item.total_points %>
-            </span>
-            <span class="text-[8px] font-bold text-white/20 uppercase tracking-widest">Pts</span>
-          </div>
-
-          <% if is_me %>
-            <div class="absolute top-4 right-4">
-              <div class="w-1.5 h-1.5 rounded-full bg-[#2d5a43] shadow-[0_0_10px_rgba(45,90,67,0.8)]"></div>
-            </div>
-          <% end %>
-        </div>
-      <% end %>
-    </div>
-
-    <%# 2. THE FLOATING POSITION PILL (Slimmer & Tighter) %>
-    <% my_rank_item = @leaderboard.find { |r| r.user == Current.user } %>
-    <% if my_rank_item %>
-      <div class="absolute -bottom-5 left-1/2 -translate-x-1/2 w-full max-w-xs px-6">
-        <div class="bg-[#2d5a43] border border-white/10 rounded-xl px-6 py-3 shadow-[0_15px_30px_rgba(0,0,0,0.4)] flex items-center justify-between">
-          <div class="flex items-center gap-3">
-            <span class="text-[10px] font-mono font-black text-white/40"><%= my_rank_item.rank %>.</span>
-            <span class="text-[10px] font-black text-white uppercase tracking-widest">Your Position</span>
-          </div>
-          <div class="flex items-baseline gap-1.5">
-            <span class="text-lg font-mono font-black text-white leading-none"><%= my_rank_item.total_points %></span>
-            <span class="text-[8px] font-bold text-white/30 uppercase">Pts</span>
-          </div>
-        </div>
-      </div>
-    <% end %>
-  </section>
+  <%= render 'podium', leaderboard: @leaderboard, current_user: Current.user %>
 
   <%# 2. THE DUAL-COLUMN ARCHITECTURE %>
   <div class="flex flex-col lg:flex-row gap-10 items-start">
@@ -73,12 +24,21 @@
           compare_user: @compare_user,
           predictions_map: @predictions_map,
           compare_predictions_map: @compare_predictions_map,
-          matches: @matches
+          matches: @matches,
+          current_user: Current.user,
+          request: request,
+          params: params
       %>
     </main>
 
     <%# SIDEBAR: THE STICKY SCOREBOARD %>
-    <%= render 'right_sidebar' %>
+    <%= render 'right_sidebar', 
+        leaderboard: @leaderboard, 
+        current_user: Current.user,
+        league: @league,
+        league_competition: @league_competition,
+        comments: @comments,
+        current_matchday: @current_matchday %>
 
   </div>
 </div>

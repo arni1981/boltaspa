@@ -1,4 +1,5 @@
-<%= turbo_stream_from @league_competition %>
+<%# locals: (league:, league_competition:, comments:, current_matchday:) %>
+<%= turbo_stream_from league_competition %>
 
 <%= turbo_frame_tag :comments do %>
   <%# No extra borders or shadows here, it inherits from the sidebar parent %>
@@ -9,13 +10,13 @@
         <%= t('.title') %>
       </h3>
       <span class="text-[8px] font-mono text-slate-300 uppercase tracking-widest">
-        <%= @comments&.count %> Feed
+        <%= comments&.count %> Feed
       </span>
     </header>
 
     <%# THE FEED: High density, no-scrollbar %>
     <div class="px-8 py-5 space-y-4 max-h-[280px] overflow-y-auto no-scrollbar bg-white" id="banter_list">
-      <% @comments.each do |comment| %>
+      <% comments.each do |comment| %>
         <div class="group">
           <div class="flex items-baseline gap-2 mb-0.5">
             <span class="text-[10px] font-black text-[#0a1d13] uppercase tracking-tight">
@@ -34,10 +35,10 @@
 
     <%# THE INPUT: Pinned to the bottom of the sidebar section %>
     <div class="px-8 py-4 bg-white border-t border-slate-50 shrink-0">
-      <%= form_with model: [ @league, @league_competition, Comment.new ], 
+      <%= form_with model: [ league, league_competition, Comment.new ],
           class: "flex items-center gap-2",
           data: { turbo_frame: "_self" } do |f| %>
-        <%= f.hidden_field :matchday, value: @current_matchday %>
+        <%= f.hidden_field :matchday, value: current_matchday %>
 
         <%= f.text_field :body, 
             placeholder: t('.placeholder'), 
