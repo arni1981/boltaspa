@@ -78,77 +78,7 @@
     </main>
 
     <%# SIDEBAR: THE STICKY SCOREBOARD %>
-    <aside class="w-full lg:w-[420px] lg:sticky lg:top-8 order-1 lg:order-2">
-      <section class="bg-white border border-gray-100 rounded-[2.5rem] shadow-sm overflow-hidden">
-        <header class="px-8 py-6 bg-gray-50/50 border-b border-gray-100 flex items-center justify-between">
-          <div class="flex flex-col">
-            <h2 class="text-[10px] font-black text-[#0a1d13] uppercase tracking-[0.3em] leading-none mb-1">
-              <%= t('.leaderboard_title') %>
-            </h2>
-            <p class="text-[8px] font-bold text-slate-400 uppercase tracking-widest">Live Standings</p>
-          </div>
-          <span class="px-2 py-1 bg-gray-100 rounded text-[9px] font-black text-slate-500 uppercase tracking-tighter">
-            <%= @leaderboard.count %> Members
-          </span>
-        </header>
-
-        <div class="divide-y divide-gray-50 max-h-[calc(100vh-250px)] overflow-y-auto no-scrollbar">
-          <% @leaderboard.each do |rank_item| %>
-            <% is_me = rank_item.user == Current.user %>
-            <div class="flex items-center justify-between px-8 py-5 transition-colors <%= is_me ? 'bg-emerald-50/30' : 'hover:bg-gray-50/20' %>">
-
-              <div class="flex items-center gap-4 min-w-0">
-                <%# Rank Number %>
-                <div class="w-6 shrink-0">
-                  <span class="text-[13px] font-mono font-black <%= is_me ? 'text-[#2d5a43]' : 'text-slate-300' %>">
-                    <%= rank_item.rank %>
-                  </span>
-                </div>
-
-                <%# Competitor Identity %>
-                <div class="flex flex-col truncate">
-                  <span class="text-[12px] font-black text-[#0a1d13] uppercase tracking-tight truncate">
-                    <%= rank_item.user.name %>
-                  </span>
-                  <div class="flex items-center gap-2">
-                    <span class="text-[8px] font-bold text-slate-400 uppercase tracking-widest">
-                      <%= rank_item.exact_scores %> Exacts
-                    </span>
-                    <% if is_me %>
-                      <span class="w-1 h-1 rounded-full bg-[#2d5a43]"></span>
-                      <span class="text-[8px] font-black text-[#2d5a43] uppercase tracking-widest">You</span>
-                    <% end %>
-                  </div>
-                </div>
-              </div>
-
-              <%# Points Trend %>
-              <div class="flex flex-col items-end">
-                <span class="text-xl font-mono font-black tracking-tighter leading-none <%= is_me ? 'text-[#2d5a43]' : 'text-[#0a1d13]' %>">
-                  <%= rank_item.total_points %>
-                </span>
-                <% pts_today = rank_item.recent_form.last.to_i %>
-                <% if pts_today > 0 %>
-                  <span class="text-[10px] font-mono font-black text-emerald-500 mt-1">+<%= pts_today %></span>
-                <% else %>
-                  <span class="text-[10px] font-mono font-bold text-slate-200 mt-1">--</span>
-                <% end %>
-              </div>
-
-            </div>
-          <% end %>
-        </div>
-
-        <footer class="p-6 bg-gray-50/30 border-t border-gray-100 flex justify-center">
-          <div class="flex items-center gap-4">
-             <div class="flex items-center gap-1.5">
-               <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-               <span class="text-[8px] font-black text-slate-400 uppercase tracking-widest">Auto-Updating</span>
-             </div>
-          </div>
-        </footer>
-      </section>
-    </aside>
+    <%= render 'right_sidebar' %>
 
   </div>
 </div>
