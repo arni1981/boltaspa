@@ -32,5 +32,7 @@ module Boltaspa
     config.action_view.image_loading = 'lazy'
 
     config.mission_control.jobs.http_basic_auth_enabled = false
+
+    config.assets.integrity_hash_algorithm = 'sha256'
   end
 end
