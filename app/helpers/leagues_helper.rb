@@ -1,5 +1,7 @@
 module LeaguesHelper
   def matchday_nav_link(direction, league_competition, current_round, compare_user)
+    current_round = current_round.to_i
+
     target_round = direction == :prev ? current_round - 1 : current_round + 1
     is_disabled = if direction == :prev
                     current_round <= 1

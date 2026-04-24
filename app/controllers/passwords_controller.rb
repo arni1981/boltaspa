@@ -1,15 +1,16 @@
 class PasswordsController < ApplicationController
   allow_unauthenticated_access
-  before_action :set_user_by_token, only: %i[ edit update ]
-  rate_limit to: 10, within: 3.minutes, only: :create, with: -> { redirect_to new_password_path, alert: t('controllers.passwords.rate_limit_exceeded') }
+  before_action :set_user_by_token, only: %i[edit update]
+  rate_limit to: 10, within: 3.minutes, only: :create, with: lambda {
+    redirect_to new_password_path, alert: t('controllers.passwords.rate_limit_exceeded')
+  }
 
   def new
   end
 
   def create
-    if user = User.find_by(email_address: params[:email_address])
-      PasswordsMailer.reset(user).deliver_later
-    end
+    user = User.find_by(email_address: params[:email_address])
+    PasswordsMailer.reset(user).deliver_later if user
 
     redirect_to new_session_path, notice: t('controllers.passwords.reset_instructions_sent')
   end
@@ -27,9 +28,10 @@ class PasswordsController < ApplicationController
   end
 
   private
-    def set_user_by_token
-      @user = User.find_by_password_reset_token!(params[:token])
-    rescue ActiveSupport::MessageVerifier::InvalidSignature
-      redirect_to new_password_path, alert: t('controllers.passwords.invalid_reset_link')
-    end
+
+  def set_user_by_token
+    @user = User.find_by_password_reset_token!(params[:token])
+  rescue ActiveSupport::MessageVerifier::InvalidSignature
+    redirect_to new_password_path, alert: t('controllers.passwords.invalid_reset_link')
+  end
 end
