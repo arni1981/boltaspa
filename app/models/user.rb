@@ -16,13 +16,12 @@ class User < ApplicationRecord
             length: { minimum: 2, maximum: 60 },
             allow_blank: true
 
-  # after_create do
-  #   CreateContactJob.perform_later(email)
-  # end
-  #
-
   def upcoming_matches
     Match.upcoming_matches(competitions.ids)
          .includes(:home_team, :away_team, :competition)
+  end
+
+  def predictions_map(matches)
+    predictions.where(match_id: matches.map(&:id)).index_by(&:match_id)
   end
 end

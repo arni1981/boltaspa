@@ -3,7 +3,7 @@
     title: @league_competition.competition.name, 
     subtitle: t('.subtitle_template', year: @league_competition.year, matchday: @current_matchday),
     breadcrumbs: [ 
-      { name: @league.name, path: league_path(@league) },
+      { name: @league_competition.league.name, path: league_path(@league_competition.league) },
       { name: t('.your_standing_badge'), path: nil }
     ] %>
 
@@ -22,8 +22,8 @@
           current_matchday: @current_matchday,
           league: @league,
           compare_user: @compare_user,
-          predictions_map: @predictions_map,
-          compare_predictions_map: @compare_predictions_map,
+          predictions_map: Current.user.predictions_map(@matches),
+          compare_predictions_map: @compare_user&.predictions_map(@matches),
           matches: @matches,
           request: request,
           params: params

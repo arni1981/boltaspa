@@ -17,4 +17,12 @@ class LeagueCompetition < ApplicationRecord
             .order(total_points: :desc)
             .includes(:user)
   end
+
+  def matches_for(matchday)
+    competition
+      .matches
+      .where(season: season, matchday: matchday)
+      .includes(:home_team, :away_team)
+      .order(:kickoff_at)
+  end
 end
