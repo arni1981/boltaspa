@@ -12,6 +12,9 @@ class LeagueCompetitionsController < ApplicationController
 
     @grouped_matches = @matches.group_by { |m| m.kickoff_at.to_date }
 
-    @compare_user = @league.members.find(params[:compare_user_id]) if params[:compare_user_id].present?
+    return unless params[:compare_user_id].present?
+
+    @compare_user = @league_competition.league
+                                       .members.find(params[:compare_user_id])
   end
 end
