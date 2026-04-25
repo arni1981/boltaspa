@@ -5,7 +5,7 @@ class ReminderJob < ApplicationJob
     users = [User.first]
 
     users.each do |user|
-      ReminderMailer.deliver_later(user)
+      ReminderMailer.send_reminder(user).deliver_later
     end
   end
 
