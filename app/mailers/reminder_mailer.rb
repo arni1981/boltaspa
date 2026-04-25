@@ -5,6 +5,7 @@ class ReminderMailer < ApplicationMailer
   #   en.reminder_mailer.send_reminder.subject
   #
   def send_reminder(user)
+    @user = user
     mail to: user.email_address
   end
 end
