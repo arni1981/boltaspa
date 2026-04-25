@@ -1,9 +1,20 @@
 <h1><%= t('reminder_mailer.send_reminder.subject') %></h1>
 
 <p>
-  <%= @user.name %>, the matchday is approaching and some of your predictions are empty.
+  <%= t('.greeting', name: @user.name) %>
+</p>
+
+<p>
+  <%= t('.body_text') %>
 </p>
 
 <div style="margin-top: 32px;">
-  <%= link_to "Predict Now", predictions_url, class: "btn-pro" %>
+  <%= link_to t('.cta_button'), predictions_url, class: "btn-pro" %>
+</div>
+
+<div style="margin-top: 48px; padding-top: 24px; border-top: 1px solid #eeeeee;">
+  <p style="font-size: 11px; color: #9ca3af; margin: 0;">
+    <%= t('.opt_out_notice') %>
+    <%= link_to t('.settings_link'), settings_url, style: "color: #2d5a43; text-decoration: underline;" %>
+  </p>
 </div>

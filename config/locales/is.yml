@@ -15,6 +15,11 @@ is:
   reminder_mailer:
     send_reminder:
       subject: "[Boltaspá.is] Leikir dagsins"
+      greeting: "Hæ %{name},"
+      body_text: "Leikdagur nálgast og það vantar enn spár frá þér."
+      cta_button: "Spá núna"
+      opt_out_notice: "Þú færð þennan póst þar sem þú ert með áminningar virkar."
+      settings_link: "Breyta stillingum"
 
   "admin/dashboard":
     index:

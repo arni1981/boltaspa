@@ -11,6 +11,11 @@ en:
   reminder_mailer:
     send_reminder:
       subject: "[Boltaspá.is] Today's Matches"
+      greeting: "Hi %{name},"
+      body_text: "The matchday is approaching and some of your predictions are empty."
+      cta_button: "Predict Now"
+      opt_out_notice: "You are receiving this because you enabled matchday reminders."
+      settings_link: "Manage settings"
 
   welcome:
     show:
