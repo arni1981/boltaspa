@@ -1,0 +1,9 @@
+<h1><%= t('reminder_mailer.send_reminder.subject') %></h1>
+
+<p>
+  <%= @user.name %>, the matchday is approaching and some of your predictions are empty.
+</p>
+
+<div style="margin-top: 32px;">
+  <%= link_to "Predict Now", predictions_url, class: "btn-pro" %>
+</div>

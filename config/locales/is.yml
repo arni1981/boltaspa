@@ -10,7 +10,11 @@ is:
         password: Lykilorð
         password_confirmation: Lykilorð aftur
         name: Nafn
-        newsletter: Fá fréttabréf/tilkynningar frá Betraskor (mjög sjaldan)
+        send_reminder_email: "Áminning fyrir leiki"
+
+  reminder_mailer:
+    send_reminder:
+      subject: "[Boltaspá.is] Leikir dagsins"
 
   "admin/dashboard":
     index:
@@ -120,6 +124,10 @@ is:
       submit_button: "UPPFÆRA STILLINGAR"
       breadcrumb_home: "Heim"
       breadcrumb_current: "Stillingar"
+      section_notifications_title: "Tilkynningar"
+      preferences_badge: "Kjörstillingar"
+      send_reminder_email: "Senda áminningarpóst"
+      reminder_email_desc: "Fáðu tilkynningu þegar leikir eru að hefjast"
 
   # Layouts
   layouts:

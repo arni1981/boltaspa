@@ -1,7 +1,16 @@
-en:
+en:  
+  activerecord:
+    attributes:
+      user:
+        send_reminder_email: "Matchday notifications"
+
   common:
     home: Home
     today: Today
+
+  reminder_mailer:
+    send_reminder:
+      subject: "[Boltaspá.is] Today's Matches"
 
   welcome:
     show:
@@ -207,6 +216,10 @@ en:
       submit_button: "UPDATE SETTINGS"
       breadcrumb_home: "Home"
       breadcrumb_current: "Settings"
+      section_notifications_title: "Notifications"
+      preferences_badge: "Preferences"
+      send_reminder_email: "Send reminder emails"
+      reminder_email_desc: "Get notified when matches are about to start"
 
   # Dashboard
   dashboard:

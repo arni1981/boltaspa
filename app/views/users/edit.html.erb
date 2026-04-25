@@ -44,6 +44,35 @@
 
     <section class="bg-white border border-gray-200 rounded-[2.5rem] shadow-sm overflow-hidden">
       <header class="px-8 py-5 border-b border-gray-100 bg-[#0a1d13] flex items-center justify-between">
+        <h2 class="text-[11px] font-black text-gray-300 uppercase tracking-[0.2em]"><%= t('.section_notifications_title') %></h2>
+        <span class="text-[9px] font-bold text-sky-400 uppercase tracking-widest"><%= t('.preferences_badge') %></span>
+      </header>
+
+      <div class="p-8 md:p-10">
+        <label class="group flex items-center justify-between p-6 bg-[#f9faf9] border border-gray-100 rounded-2xl cursor-pointer hover:border-[#2d5a43]/30 transition-all">
+          <div class="flex items-center gap-5">
+            <div class="w-10 h-10 bg-white rounded-xl border border-gray-100 flex items-center justify-center shrink-0 shadow-sm group-hover:text-[#2d5a43] transition-colors">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+              </svg>
+            </div>
+            <div>
+              <h4 class="text-[13px] font-black text-[#0a1d13] uppercase tracking-tight mb-1"><%= t('.send_reminder_email') %></h4>
+              <p class="text-xs text-gray-500 font-medium"><%= t('.reminder_email_desc') %></p>
+            </div>
+          </div>
+
+          <div class="relative inline-flex items-center cursor-pointer">
+            <%= f.check_box :send_reminder_email, 
+                class: "sr-only peer" %>
+            <div class="w-14 h-8 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-[#2d5a43]"></div>
+          </div>
+        </label>
+      </div>
+    </section>
+
+    <section class="bg-white border border-gray-200 rounded-[2.5rem] shadow-sm overflow-hidden">
+      <header class="px-8 py-5 border-b border-gray-100 bg-[#0a1d13] flex items-center justify-between">
         <h2 class="text-[11px] font-black text-gray-300 uppercase tracking-[0.2em]"><%= t('.section_2_title') %></h2>
         <span class="text-[9px] font-bold text-emerald-400 uppercase tracking-widest"><%= t('.optional_badge') %></span>
       </header>

@@ -9,7 +9,7 @@ class UsersController < ApplicationController
 
     if @user.update(user_params)
       flash[:success] = t('users.update_success')
-      redirect_to settings_path
+      redirect_to edit_settings_path
     else
       render 'edit', status: :unprocessable_entity
     end
@@ -18,7 +18,7 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(%i[email password password_confirmation name avatar newsletter])
+    params.require(:user).permit(%i[email_address password password_confirmation name send_reminder_email])
   end
 
   def set_user
