@@ -2,9 +2,7 @@ class ReminderJob < ApplicationJob
   queue_as :default
 
   def perform
-    users = [User.first]
-
-    users.each do |user|
+    find_users.each do |user|
       ReminderMailer.send_reminder(user).deliver_later
     end
   end
