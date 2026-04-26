@@ -4,9 +4,9 @@ module PredictionsHelper
     all = goals.product(goals)
 
     groups = {
-      'Sigur' => all.select { |h, a| h > a }.sort_by { |h, a| [h + a, h] },
-      'Jafntefli' => all.select { |h, a| h == a },
-      'Tap' => all.select { |h, a| h < a }.sort_by { |h, a| [h + a, a] }
+      t('predictions.match_row.groups.home_win') => all.select { |h, a| h > a }.sort_by { |h, a| [h + a, h] },
+      t('predictions.match_row.groups.draw') => all.select { |h, a| h == a },
+      t('predictions.match_row.groups.away_win') => all.select { |h, a| h < a }.sort_by { |h, a| [h + a, a] }
     }
 
     capture do
