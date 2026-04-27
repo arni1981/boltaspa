@@ -279,6 +279,7 @@ is:
     index:
       page_title: "Mínar spár"
       subtitle: "Opnar spár"
+      breadcrumb_current: "Spár"
       status_label: "Staða gagna"
       status_open: "opnir"
       matchday_label: "Umferð %{number}"
