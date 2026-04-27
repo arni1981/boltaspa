@@ -7,25 +7,6 @@
   my_pts = my_pred&.points_won.to_i
   comp_pts = comp_pred&.points_won.to_i
 
-  # THE PERFORMANCE ENGINE
-  # Returns: [Background Class, Text Class, Border Class]
-  def performance_tier(pts)
-    case pts
-    when 0
-      # INACTIVE: Ghost state
-      ["bg-slate-50/50", "text-slate-300", "border-slate-100"]
-    when 25
-      # BULLSEYE: Brand reward
-      ["bg-[#2d5a43]", "text-white", "border-[#2d5a43] shadow-sm shadow-[#2d5a43]/20"]
-    when 12..24
-      # SUCCESS: Midnight high-contrast
-      ["bg-[#0a1d13]", "text-white", "border-[#0a1d13]"]
-    else
-      # NOMINAL: Standard ledger entry
-      ["bg-white", "text-[#0a1d13]", "border-slate-200"]
-    end
-  end
-
   my_style = performance_tier(my_pts)
   comp_style = performance_tier(comp_pts)
 %>
@@ -80,14 +61,14 @@
         <div class="w-[140px] flex items-center justify-between gap-4 px-5 py-2 bg-white relative shadow-[4px_0_12px_rgba(0,0,0,0.02)] z-10">
           <div class="absolute left-0 top-0 bottom-0 w-1 bg-[#2d5a43]"></div>
           <span class="text-xs font-mono font-bold text-slate-500"><%= my_pred ? "#{my_pred.home_guess}-#{my_pred.away_guess}" : "—" %></span>
-          <div class="min-w-[44px] h-9 rounded-lg flex items-center justify-center font-mono font-black text-sm border <%= my_style[0] %> <%= my_style[1] %> <%= my_style[2] %>">
+          <div class="min-w-11 h-9 rounded-lg flex items-center justify-center font-mono font-black text-sm border <%= my_style[0] %> <%= my_style[1] %> <%= my_style[2] %>">
             +<%= my_pts %>
           </div>
         </div>
 
         <%# THEM (Right Anchor) %>
         <div class="w-[140px] flex items-center justify-between gap-4 px-5 py-2">
-          <div class="min-w-[44px] h-9 rounded-lg flex items-center justify-center font-mono font-black text-sm border <%= comp_style[0] %> <%= comp_style[1] %> <%= comp_style[2] %>">
+          <div class="min-w-11 h-9 rounded-lg flex items-center justify-center font-mono font-black text-sm border <%= comp_style[0] %> <%= comp_style[1] %> <%= comp_style[2] %>">
             +<%= match.started? ? comp_pts : "?" %>
           </div>
           <span class="text-xs font-mono font-bold text-slate-300"><%= (match.started? && comp_pred) ? "#{comp_pred.home_guess}-#{comp_pred.away_guess}" : "—" %></span>
