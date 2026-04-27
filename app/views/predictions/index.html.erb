@@ -1,8 +1,5 @@
-<%# app/views/predictions/index.html.erb %>
-
 <%= render 'layouts/shared/page_header', 
     title: t('.page_title'), 
-    subtitle: t('.subtitle'),
     breadcrumbs: [{ name: t('common.home'), path: root_path }, { name: t('.breadcrumb_current') }] %>
 
 <%= form_with url: predictions_path, method: :post, id: "predictions-form" do |f| %>

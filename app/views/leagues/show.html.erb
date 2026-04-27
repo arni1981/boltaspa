@@ -1,7 +1,9 @@
 <%= render 'layouts/shared/page_header',
     title: @league.name,
-    subtitle: t('.page_subtitle'),
-    breadcrumbs: [{ name: t('.breadcrumb_leagues'), path: leagues_path }, { name: @league.name }] %>
+    breadcrumbs: [
+      { name: t('common.home'), path: root_path },
+      { name: t('.breadcrumb_leagues'), path: leagues_path }, 
+      { name: @league.name }] %>
 
 <div class="max-w-5xl mx-auto pb-48 px-4 md:px-8">
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-12">
