@@ -238,7 +238,7 @@ is:
   # League Competitions
   league_competitions:
     show:
-      subtitle_template: "Tímabilið %{year} • Umferð %{matchday} af 38"
+      subtitle_template: "%{year}"
       leaderboard_title: "Heildarstigalisti"
       leaderboard_note: "Staðan eftir 32. umferð"
       table_header_rank: "#"

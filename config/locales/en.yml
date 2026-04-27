@@ -242,7 +242,7 @@ en:
   # League Competitions
   league_competitions:
     show:
-      subtitle_template: "Season %{year} • Matchday %{matchday} of 38"
+      subtitle_template: "%{year}"
       leaderboard_title: "Overall Leaderboard"
       leaderboard_note: "Standings after matchday 32"
       table_header_rank: "#"

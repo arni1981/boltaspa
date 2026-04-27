@@ -1,7 +1,9 @@
 <%# app/views/leagues/show.html.erb %>
 <%= render 'layouts/shared/page_header', 
     title: @league_competition.competition.name, 
-    subtitle: t('.subtitle_template', year: @league_competition.year, matchday: @current_matchday),
+    subtitle: t('.subtitle_template', 
+      year: @league_competition.year
+    ),
     breadcrumbs: [ 
       { name: @league_competition.league.name, path: league_path(@league_competition.league) },
       { name: t('.your_standing_badge'), path: nil }
