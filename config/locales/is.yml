@@ -227,10 +227,13 @@ is:
     show:
       greeting_badge: "Boltaspá Pro"
       greeting_text: "Halló, %{name}"
+      total_members: "%{count} keppendur"
       members_count: "%{count} keppendur"
       season_label: "Tímabilið"
       percentile_label: "Efstu %{percentage}%"
       points_label: "Stig"
+      rank_of_total: "af %{count}"
+      not_started: "Ekki hafið"
       next_prediction_label: "Næsta opna spá"
       no_matches_label: "Engir leikir"
       open_slip_button: "Opna Seðil"

@@ -5,6 +5,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 gem 'bootsnap', require: false
 gem 'pg'
 gem 'propshaft'
+gem 'puma'
 gem 'rails', github: 'rails/rails'
 
 # --- The "Solid" Infrastructure (Queue/Cache/Cable) ---
@@ -43,7 +44,6 @@ end
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
-  gem 'puma'
   gem 'web-console'
 end
 

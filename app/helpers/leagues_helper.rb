@@ -28,4 +28,14 @@ module LeaguesHelper
       end
     end
   end
+
+  def rank_display(membership)
+    return '—' if membership.league.total_points.zero?
+
+    "##{membership.rank}"
+  end
+
+  def member_count_display(league)
+    t('.member_count', count: league.members_count)
+  end
 end

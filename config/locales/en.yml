@@ -231,10 +231,13 @@ en:
     show:
       greeting_badge: "Boltaspá Pro"
       greeting_text: "Hello, %{name}"
+      total_members: "%{count} competitors"
       members_count: "%{count} competitors"
       season_label: "Season"
       percentile_label: "Top %{percentage}%"
       points_label: "Points"
+      rank_of_total: "of %{count}"
+      not_started: "Not started"
       next_prediction_label: "Next open prediction"
       no_matches_label: "No matches"
       open_slip_button: "Open Slip"
