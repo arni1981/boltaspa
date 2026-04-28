@@ -21,7 +21,7 @@
           </h2>
         </div>
         <span class="text-[9px] font-black text-slate-300 uppercase tracking-[0.2em]">
-          <%= t('.total_members', count: league.members.count) %>
+          <%= t('.total_members', count: league.members.size) %>
         </span>
       </div>
 
@@ -59,7 +59,7 @@
                     <% end %>
                   </div>
                   <span class="text-[9px] font-black text-emerald-500 uppercase tracking-widest">
-                    <%= (standing&.total_points&.positive?) ? t('.rank_of_total', count: league.members.count) : t('.not_started') %>
+                    <%= (standing&.total_points&.positive?) ? t('.rank_of_total', count: league.members.size) : t('.not_started') %>
                   </span>
                 </div>
 
