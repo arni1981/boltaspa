@@ -52,17 +52,26 @@
 
   <%# PERSISTENT FOOTER %>
   <div class="p-4 bg-black/20 border-t border-white/5 mt-auto flex-shrink-0">
-    <% if Current.user %>
-      <div class="flex items-center gap-3 mb-4">
-        <div class="w-9 h-9 rounded-lg bg-[#2d5a43] border border-white/10 flex items-center justify-center shrink-0">
-          <span class="text-[11px] font-black text-white"><%= Current.user.name[0].upcase %></span>
-        </div>
-        <div class="flex-1 min-w-0">
-          <p class="text-[12px] font-black text-white truncate uppercase tracking-tight"><%= Current.user.name %></p>
-          <p class="text-[9px] font-bold text-slate-600 uppercase tracking-widest">@<%= Current.user.name.parameterize %></p>
-        </div>
+  <% if Current.user %>
+    <%= link_to settings_path, class: "group flex items-center gap-3 mb-6 p-1 rounded-xl transition-all" do %>
+
+      <%# The Avatar Container - Sharper corners, subtle border %>
+      <div class="w-10 h-10 rounded-xl bg-[#0a1d13] border border-white/5 overflow-hidden shrink-0 shadow-sm group-hover:border-[#2d5a43]/50 transition-all">
+        <%= image_tag Current.user.gravatar_url(size: 80), 
+            class: "w-full h-full object-cover grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all",
+            alt: Current.user.name %>
+      </div>
+
+      <div className="flex-1 min-w-0">
+        <p class="text-[12px] font-black text-white truncate tracking-tight group-hover:text-emerald-400 transition-colors">
+          <%= Current.user.name %>
+        </p>
+        <p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest">
+          @<%= Current.user.name.parameterize %>
+        </p>
       </div>
     <% end %>
+  <% end %>
 
     <div class="flex items-center justify-between px-1">
       <div class="flex items-center gap-4">

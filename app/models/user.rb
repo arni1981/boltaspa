@@ -16,6 +16,11 @@ class User < ApplicationRecord
             length: { minimum: 2, maximum: 60 },
             allow_blank: true
 
+  def gravatar_url(size: 80)
+    gravatar_id = Digest::MD5.hexdigest(email_address.downcase)
+    "https://gravatar.com/avatar/#{gravatar_id}.png?s=#{size}&d=mp"
+  end
+
   def upcoming_matches
     Match.upcoming_matches(competitions.ids)
          .includes(:home_team, :away_team, :competition)
