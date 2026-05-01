@@ -1,4 +1,4 @@
-en:  
+en:
   activerecord:
     attributes:
       user:
@@ -64,6 +64,7 @@ en:
       save_button: "Save Predictions"
       missing_count: "Missing %{count} predictions"
       all_ready: "All ready"
+      remaining: "Remaining: %{count}"
     match_row:
       select_placeholder: "Select..."
       other_option: "Other..."
@@ -123,12 +124,12 @@ en:
     show:
       create_league_badge: "01"
       create_league_label: "System // Architect"
-      create_league_title: "CREATE<br><span class=\"text-[#2d5a43]\">NEW</span> LEAGUE"
+      create_league_title: 'CREATE<br><span class="text-[#2d5a43]">NEW</span> LEAGUE'
       create_league_description: "Set up your own competition. You control the rules and your group."
       create_league_button: "START NEW LEAGUE"
       join_league_badge: "02"
       join_league_label: "System // Challenger"
-      join_league_title: "JOIN<br><span class=\"text-slate-400\">GROUP WITH</span> FRIEND"
+      join_league_title: 'JOIN<br><span class="text-slate-400">GROUP WITH</span> FRIEND'
       join_league_label_text: "Enter invite code"
       join_league_placeholder: "E.g. BOLTI-24"
       join_league_button: "JOIN LEAGUE"
@@ -298,4 +299,4 @@ en:
 
   time:
     formats:
-      only_time: ! '%H:%M'
+      only_time: ! "%H:%M"

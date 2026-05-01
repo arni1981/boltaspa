@@ -287,6 +287,7 @@ is:
       save_button: "Vista spár"
       missing_count: "Vantar %{count} spár"
       all_ready: "Allt tilbúið"
+      remaining: "Eftir: %{count}"
     match_row:
       select_placeholder: "Veldu..."
       other_option: "Annað..."
