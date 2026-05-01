@@ -20,7 +20,7 @@
         <%= render 'match_row', 
                     match: match, 
                     prediction: @predictions_map[match.id],
-                    is_updated: @updated_match_ids&.include?(match.id) %>
+                    is_updated: flash.to_h.fetch('updated_match_id', nil) == match.id %>
       <% end %>
     </div>
   <% end %>

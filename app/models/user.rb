@@ -29,4 +29,8 @@ class User < ApplicationRecord
   def predictions_map(matches)
     predictions.where(match_id: matches.map(&:id)).index_by(&:match_id)
   end
+
+  def unfinished_matches(matches)
+    matches.where.not(id: predictions.select(:match_id))
+  end
 end
