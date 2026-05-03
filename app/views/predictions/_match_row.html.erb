@@ -9,8 +9,11 @@
 
     <!-- HOME: Right-aligned, shrinks to accommodate center -->
     <div class="flex-1 flex items-center justify-end gap-2 md:gap-4 min-w-0">
-      <span class="text-[11px] md:text-[13px] font-black uppercase text-[#0a1d13] tracking-tight truncate leading-none">
+      <span class="md:hidden text-[11px] font-black uppercase text-[#0a1d13] tracking-tight leading-none">
         <%= match.home_team.tla %>
+      </span>
+      <span class="hidden md:block text-[13px] font-black uppercase text-[#0a1d13] tracking-tight truncate leading-none">
+        <%= match.home_team.short_name %>
       </span>
       <div class="w-8 h-8 md:w-10 md:h-10 bg-gray-50 rounded-xl flex items-center justify-center p-1.5 shrink-0 border border-gray-100 shadow-sm">
         <%= image_tag match.home_team.crest_url, class: "w-full h-full object-contain" if match.home_team.crest_url.present? %>
@@ -20,7 +23,7 @@
     <!-- CENTER: Tightened for Mobile -->
     <div class="w-20 md:w-48 flex flex-col items-center gap-1 mx-2 md:mx-4 shrink-0">
       <span class="text-[8px] md:text-[9px] font-black font-mono text-slate-300 uppercase tracking-widest">
-        <%= l match.kickoff_at, format: "%H:%M" %>
+        <%= l match.kickoff_at, format: :only_time %>
       </span>
       <div class="relative w-full">
         <select name="score_string"
@@ -37,8 +40,11 @@
       <div class="w-8 h-8 md:w-10 md:h-10 bg-gray-50 rounded-xl flex items-center justify-center p-1.5 shrink-0 border border-gray-100 shadow-sm">
         <%= image_tag match.away_team.crest_url, class: "w-full h-full object-contain" if match.away_team.crest_url.present? %>
       </div>
-      <span class="text-[11px] md:text-[13px] font-black uppercase text-[#0a1d13] tracking-tight truncate leading-none">
+      <span class="md:hidden text-[11px] font-black uppercase text-[#0a1d13] tracking-tight leading-none">
         <%= match.away_team.tla %>
+      </span>
+      <span class="hidden md:block text-[13px] font-black uppercase text-[#0a1d13] tracking-tight truncate leading-none">
+        <%= match.away_team.short_name %>
       </span>
     </div>
 
