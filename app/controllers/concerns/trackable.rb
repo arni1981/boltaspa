@@ -13,6 +13,7 @@ module Trackable
       path: request.fullpath,
       user_agent: request.user_agent,
       remote_ip: request.remote_ip,
+      params: params,
       user: Current&.user
     )
   rescue StandardError => e
