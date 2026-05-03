@@ -2,7 +2,6 @@
 
 <% today_matches, other_matches = matches.partition { |m| m.kickoff_at.to_date == Date.today } %>
 
-<%# Group both sets by date to preserve your day-header structure %>
 <% grouped_today = today_matches.group_by { |m| m.kickoff_at.to_date } %>
 <% grouped_others = other_matches.group_by { |m| m.kickoff_at.to_date } %>
 
