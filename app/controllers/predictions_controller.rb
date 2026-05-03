@@ -16,12 +16,8 @@ class PredictionsController < ApplicationController
 
     @match = Match.find(params[:match_id])
 
-    respond_to do |format|
-      format.turbo_stream do
-        @upcoming_matches = Current.user.upcoming_matches
-        @predictions_map = Current.user.predictions_map(@upcoming_matches)
-        @unfinished_matches = Current.user.unfinished_matches(@upcoming_matches)
-      end
-    end
+    @upcoming_matches = Current.user.upcoming_matches
+    @predictions_map = Current.user.predictions_map(@upcoming_matches)
+    @unfinished_matches = Current.user.unfinished_matches(@upcoming_matches)
   end
 end
