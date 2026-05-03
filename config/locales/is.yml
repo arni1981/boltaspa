@@ -254,6 +254,7 @@ is:
       points_label: "Stig"
       your_position_label: "Þín staða"
       latest_label: "Nýjast"
+      breadcrumb_leagues: Deildir
 
     comments_section:
       title: "Pallborðið"

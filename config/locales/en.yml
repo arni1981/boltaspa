@@ -260,6 +260,7 @@ en:
       points_label: "Points"
       your_position_label: "Your position"
       latest_label: "Latest"
+      breadcrumb_leagues: Leagues
 
     comments_section:
       title: "The Podium"
