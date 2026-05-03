@@ -8,7 +8,7 @@ class LeagueCompetition < ApplicationRecord
   has_many :standings
   has_many :comments
 
-  delegate :year, to: :season, prefix: false
+  delegate :year, :current_matchday, to: :season, prefix: false
 
   def leaderboard
     Standing.where(league_id: league.id,
