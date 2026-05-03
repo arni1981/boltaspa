@@ -1,5 +1,11 @@
 <%# locals: (league:, league_competition:, matches:, current_matchday:, predictions_map:, compare_user: nil, compare_predictions_map: nil, request:, params:) %>
 
+<% today_matches, other_matches = matches.partition { |m| m.kickoff_at.to_date == Date.today } %>
+
+<%# Group both sets by date to preserve your day-header structure %>
+<% grouped_today = today_matches.group_by { |m| m.kickoff_at.to_date } %>
+<% grouped_others = other_matches.group_by { |m| m.kickoff_at.to_date } %>
+
 <%= turbo_stream_from league_competition %>
 
 <%= turbo_frame_tag "matchday_ticker" do %>
@@ -50,33 +56,21 @@
     </header>
 
     <%# 2. MATCH LIST: Grouped by Date %>
+    <%# 2. MATCH LIST: Grouped by Date (Today First) %>
     <div class="divide-y divide-gray-50">
-      <% matches.group_by { |m| m.kickoff_at.to_date }.each do |date, date_matches| %>
-        <% is_today = date == Date.today %>
 
-        <%# Section Date Header %>
-        <div class="px-10 py-3 bg-gray-50/50 flex items-center justify-between border-y border-gray-50/50">
-          <span class="text-[10px] font-black uppercase tracking-[0.2em] <%= is_today ? 'text-[#2d5a43]' : 'text-slate-400' %>">
-            <%= is_today ? t('common.today') : l(date, format: "%A, %d. %B") %>
-          </span>
-
-          <% if is_today && date_matches.any?(&:live?) %>
-             <span class="flex items-center gap-1.5">
-               <span class="w-1.5 h-1.5 rounded-full bg-[#2d5a43] animate-pulse"></span>
-               <span class="text-[9px] font-black text-[#2d5a43] uppercase tracking-widest">Live Updates</span>
-             </span>
-          <% end %>
-        </div>
-
-        <%= render partial: 'matchday_ticker_single_match', 
-                   collection: date_matches, 
-                   as: :match,
-                   locals: { 
-                     predictions_map: predictions_map, 
-                     compare_predictions_map: compare_predictions_map,
-                     compare_user: compare_user 
-                   } %>
+      <%# A. RENDER TODAY FIRST %>
+      <% grouped_today.each do |date, date_matches| %>
+        <%= render "match_group", date: date, matches: date_matches, is_today: true, 
+                  predictions_map: predictions_map, compare_predictions_map: compare_predictions_map, compare_user: compare_user %>
       <% end %>
+
+      <%# B. RENDER THE REST OF THE ROUND %>
+      <% grouped_others.each do |date, date_matches| %>
+        <%= render "match_group", date: date, matches: date_matches, is_today: false, 
+                  predictions_map: predictions_map, compare_predictions_map: compare_predictions_map, compare_user: compare_user %>
+      <% end %>
+
     </div>
   </section>
 <% end %>
