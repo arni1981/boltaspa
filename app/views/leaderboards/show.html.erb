@@ -56,7 +56,7 @@
               <%# MATCHDAY CELLS %>
               <% @matchdays.each do |matchday| %>
                 <td class="px-4 py-6 text-center font-mono text-xs text-slate-400 group-hover:text-[#0a1d13] border-l border-gray-50/50">
-                  <%= standing.full_form_array.reverse[matchday - 1] || '0' %>
+                  <%= standing.full_form_array[matchday - 1] || '0' %>
                 </td>
               <% end %>
             </tr>
