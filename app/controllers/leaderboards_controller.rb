@@ -5,6 +5,6 @@ class LeaderboardsController < ApplicationController
                                  .find_by!(competitions: { code: params[:competition_code] },
                                            seasons: { year: params[:year] })
 
-    @matchdays = (1..35).to_a
+    @matchdays = (1..35).to_a.reverse
   end
 end

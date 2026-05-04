@@ -1,6 +1,8 @@
 class Standing < ApplicationRecord
   # self.table_name = 'standings_view_materialized'
-  self.table_name = 'standings_view'
+  self.table_name = 'standings_views'
+
+  self.implicit_order_column = :total_points
 
   belongs_to :user
   belongs_to :league_competition

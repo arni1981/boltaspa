@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.2].define(version: 2026_05_03_190454) do
+ActiveRecord::Schema[8.2].define(version: 2026_05_04_094123) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -605,7 +605,7 @@ ActiveRecord::Schema[8.2].define(version: 2026_05_03_190454) do
       CREATE TRIGGER trg_prediction_lockout BEFORE INSERT OR UPDATE OF home_guess, away_guess ON public.predictions FOR EACH ROW EXECUTE FUNCTION check_match_lockout()
   SQL
 
-  create_view "standings_view", sql_definition: <<-SQL
+  create_view "standings", sql_definition: <<-SQL
       WITH matchday_scores AS (
            SELECT lc.id AS league_competition_id,
               p.user_id,
@@ -620,7 +620,72 @@ ActiveRecord::Schema[8.2].define(version: 2026_05_03_190454) do
           ), form_agg AS (
            SELECT matchday_scores.league_competition_id,
               matchday_scores.user_id,
-              jsonb_agg(matchday_scores.matchday_points ORDER BY matchday_scores.matchday) AS full_form_array
+              jsonb_object_agg(matchday_scores.matchday, matchday_scores.matchday_points) AS full_form_array
+             FROM matchday_scores
+            GROUP BY matchday_scores.league_competition_id, matchday_scores.user_id
+          ), user_performance AS (
+           SELECT lc.id AS league_competition_id,
+              lc.season_id,
+              lc.competition_id,
+              ms.league_id,
+              p.user_id,
+              sum(p.points_won) AS total_points,
+              count(*) FILTER (WHERE (p.points_won = 3)) AS exact_scores,
+              count(*) AS predictions_count
+             FROM (((predictions p
+               JOIN matches m ON ((p.match_id = m.id)))
+               JOIN memberships ms ON ((ms.user_id = p.user_id)))
+               JOIN league_competitions lc ON (((lc.league_id = ms.league_id) AND (lc.competition_id = m.competition_id))))
+            WHERE ((m.status)::text = ANY (ARRAY[('FINISHED'::character varying)::text, ('IN_PLAY'::character varying)::text]))
+            GROUP BY lc.id, lc.season_id, lc.competition_id, ms.league_id, p.user_id
+          ), ranked AS (
+           SELECT up.league_competition_id,
+              up.season_id,
+              up.competition_id,
+              up.league_id,
+              up.user_id,
+              up.total_points,
+              up.exact_scores,
+              up.predictions_count,
+              COALESCE(fa.full_form_array, '[]'::jsonb) AS full_form_array,
+              rank() OVER w AS rank,
+              lag(up.total_points) OVER w AS prev_points,
+              lead(up.total_points) OVER w AS next_points
+             FROM (user_performance up
+               LEFT JOIN form_agg fa ON (((fa.league_competition_id = up.league_competition_id) AND (fa.user_id = up.user_id))))
+            WINDOW w AS (PARTITION BY up.season_id, up.competition_id, up.league_id ORDER BY up.total_points DESC, up.exact_scores DESC)
+          )
+   SELECT ranked.league_competition_id,
+      ranked.season_id,
+      ranked.competition_id,
+      ranked.league_id,
+      ranked.user_id,
+      ranked.total_points,
+      ranked.exact_scores,
+      ranked.predictions_count,
+      ranked.full_form_array,
+      ranked.rank,
+      ranked.prev_points,
+      ranked.next_points,
+      ((ranked.total_points = COALESCE(ranked.prev_points, ('-1'::integer)::bigint)) OR (ranked.total_points = COALESCE(ranked.next_points, ('-1'::integer)::bigint))) AS is_tied
+     FROM ranked;
+  SQL
+  create_view "standings_views", sql_definition: <<-SQL
+      WITH matchday_scores AS (
+           SELECT lc.id AS league_competition_id,
+              p.user_id,
+              m.matchday,
+              sum(p.points_won) AS matchday_points
+             FROM (((predictions p
+               JOIN matches m ON ((p.match_id = m.id)))
+               JOIN league_competitions lc ON ((lc.competition_id = m.competition_id)))
+               JOIN memberships ms ON (((ms.league_id = lc.league_id) AND (ms.user_id = p.user_id))))
+            WHERE ((m.status)::text = ANY (ARRAY[('FINISHED'::character varying)::text, ('IN_PLAY'::character varying)::text]))
+            GROUP BY lc.id, p.user_id, m.matchday
+          ), form_agg AS (
+           SELECT matchday_scores.league_competition_id,
+              matchday_scores.user_id,
+              jsonb_object_agg(matchday_scores.matchday, matchday_scores.matchday_points) AS full_form_array
              FROM matchday_scores
             GROUP BY matchday_scores.league_competition_id, matchday_scores.user_id
           ), user_performance AS (

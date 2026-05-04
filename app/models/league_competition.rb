@@ -10,14 +10,6 @@ class LeagueCompetition < ApplicationRecord
 
   delegate :year, :current_matchday, to: :season, prefix: false
 
-  def leaderboard
-    Standing.where(league_id: league.id,
-                   competition_id: competition.id,
-                   season_id: season.id)
-            .order(total_points: :desc)
-            .includes(:user)
-  end
-
   def matches_for(matchday)
     competition
       .matches
