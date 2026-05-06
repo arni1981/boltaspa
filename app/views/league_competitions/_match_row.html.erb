@@ -3,94 +3,82 @@
 <% 
   my_pred = predictions_map[match.id]
   comp_pred = compare_predictions_map&.[](match.id) if compare_user
-  
   my_pts = my_pred&.points_won.to_i
   comp_pts = comp_pred&.points_won.to_i
-
   my_style = performance_tier(my_pts)
   comp_style = performance_tier(comp_pts)
 %>
 
-<%= turbo_stream_from match %>
-
 <div id="<%= dom_id(match) %>" 
-     class="flex flex-col md:flex-row md:items-center px-4 md:px-8 py-4 md:py-5 border-b border-slate-100 bg-white hover:bg-[#f9faf9] transition-all duration-300">
+     class="group flex flex-col md:grid md:grid-cols-12 items-center px-4 md:px-8 py-5 border-b border-slate-100 bg-white hover:bg-[#f9faf9] transition-all duration-300">
 
-  <%# 1. TOP ROW: Time, Score, and Points (High Density) %>
-  <div class="flex items-center justify-between md:w-20 md:shrink-0 mb-3 md:mb-0">
-    <div class="flex items-center gap-3">
-      <%# Status %>
-      <div class="text-[10px] md:text-sm font-mono font-bold <%= match.finished? ? 'text-slate-300' : 'text-[#0a1d13]' %>">
-        <%= match.finished? ? "FT" : l(match.kickoff_at, format: "%H:%M") %>
-      </div>
-
-      <%# Mobile Score Pill (Only visible on small screens) %>
-      <div class="md:hidden flex items-center gap-2 px-3 py-1 bg-[#f9faf9] border border-slate-100 rounded-lg font-mono text-base font-black text-[#0a1d13]">
-        <span><%= match.started? ? match.home_score : "-" %></span>
-        <span class="text-slate-200">:</span>
-        <span><%= match.started? ? match.away_score : "-" %></span>
-      </div>
-    </div>
-
-    <%# Mobile Points Badge %>
-    <div class="md:hidden">
-      <div class="h-8 px-3 rounded-lg flex items-center justify-center font-mono font-black text-sm border <%= my_style[0] %> <%= my_style[1] %> <%= my_style[2] %>">
-        +<%= my_pts %>
-      </div>
+  <%# TRACK 1: METADATA (Reclaimed space from image_276f34) - 2 Cols %>
+  <div class="hidden md:flex md:col-span-2 flex-col justify-center border-r border-slate-50">
+    <div class="text-[11px] font-mono font-black <%= match.finished? ? 'text-slate-200' : 'text-[#0a1d13]' %> uppercase">
+      <%= match.finished? ? "Final" : l(match.kickoff_at, format: "%H:%M") %>
     </div>
   </div>
 
-  <%# 2. CENTER ENGINE: Team Names and Desktop Score %>
-  <div class="flex-1 flex items-center justify-between md:justify-center min-w-0 md:px-6">
+  <%# MOBILE ONLY HEADER %>
+  <div class="flex items-center justify-between w-full md:hidden mb-4">
+    <div class="text-[10px] font-mono font-bold text-slate-300 uppercase">
+       <%= l(match.kickoff_at, format: "%H:%M") %>
+    </div>
+    <div class="flex items-center gap-2 px-3 py-1 bg-[#f9faf9] border border-slate-100 rounded-lg font-mono text-base font-black text-[#0a1d13]">
+      <span><%= match.started? ? match.home_score : "-" %></span>
+      <span class="text-slate-200">:</span>
+      <span><%= match.started? ? match.away_score : "-" %></span>
+    </div>
+    <div class="h-8 px-3 rounded-lg flex items-center justify-center font-mono font-black text-sm border <%= my_style[0] %> <%= my_style[1] %> <%= my_style[2] %>">
+      +<%= my_pts %>
+    </div>
+  </div>
+
+  <%# TRACK 2: THE TEAM ENGINE (Fluid) - 6 Cols %>
+  <div class="w-full md:col-span-6 flex items-center justify-between md:justify-center px-0 md:px-4 min-w-0">
     <%# Home Team %>
-    <div class="flex-1 flex items-center justify-start md:justify-end gap-2 md:gap-3 min-w-0">
-      <span class="md:hidden text-[11px] font-black text-[#0a1d13] uppercase truncate shrink"><%= match.home_team.tla %></span>
-      <span class="hidden md:block text-sm font-black text-[#0a1d13] uppercase truncate"><%= match.home_team.short_name %></span>
-      <div class="w-6 h-6 md:w-7 md:h-7 shrink-0">
+    <div class="flex-1 flex items-center justify-start md:justify-end gap-3 min-w-0">
+      <span class="md:hidden text-[11px] font-black text-[#0a1d13] uppercase truncate"><%= match.home_team.tla %></span>
+      <span class="hidden md:block text-sm font-black text-[#0a1d13] uppercase truncate tracking-tight"><%= match.home_team.short_name %></span>
+      <div class="w-7 h-7 shrink-0 transition-transform group-hover:scale-110">
         <%= image_tag match.home_team.crest_url, class: "w-full h-full object-contain" %>
       </div>
     </div>
 
-    <%# Desktop Score Pill (Hidden on mobile to save space) %>
-    <div class="hidden md:flex mx-6 items-center gap-3 px-4 py-1.5 bg-[#f9faf9] border border-slate-100 rounded-xl font-mono text-xl font-black text-[#0a1d13]">
-      <span class="w-4 text-center"><%= match.started? ? match.home_score : "-" %></span>
+    <%# Desktop Score Pill %>
+    <div class="hidden md:flex mx-6 items-center gap-3 px-4 py-1.5 bg-[#f9faf9] border border-slate-100 rounded-xl font-mono text-xl font-black text-[#0a1d13] shrink-0">
+      <span><%= match.started? ? match.home_score : "-" %></span>
       <span class="text-slate-200">:</span>
-      <span class="w-4 text-center"><%= match.started? ? match.away_score : "-" %></span>
+      <span><%= match.started? ? match.away_score : "-" %></span>
     </div>
 
     <%# Away Team %>
-    <div class="flex-1 flex items-center justify-end md:justify-start gap-2 md:gap-3 min-w-0">
-      <div class="w-6 h-6 md:w-7 md:h-7 shrink-0">
+    <div class="flex-1 flex items-center justify-end md:justify-start gap-3 min-w-0">
+      <div class="w-7 h-7 shrink-0 transition-transform group-hover:scale-110">
         <%= image_tag match.away_team.crest_url, class: "w-full h-full object-contain" %>
       </div>
-      <span class="md:hidden text-[11px] font-black text-[#0a1d13] uppercase truncate shrink"><%= match.away_team.tla %></span>
-      <span class="hidden md:block text-sm font-black text-[#0a1d13] uppercase truncate"><%= match.away_team.short_name %></span>
+      <span class="md:hidden text-[11px] font-black text-[#0a1d13] uppercase truncate"><%= match.away_team.tla %></span>
+      <span class="hidden md:block text-sm font-black text-[#0a1d13] uppercase truncate tracking-tight"><%= match.away_team.short_name %></span>
     </div>
   </div>
 
-  <%# 3. DESKTOP DATA UNIT (Right Column) %>
-  <div class="hidden md:flex md:w-[320px] shrink-0 items-center justify-end">
+  <%# TRACK 3: PREDICTIONS / COMPARISON - 4 Cols %>
+  <div class="hidden md:flex md:col-span-4 items-center justify-end pl-6">
     <% if compare_user %>
-      <div class="flex items-stretch border border-slate-100 rounded-2xl overflow-hidden bg-slate-50/50">
-        <div class="w-[140px] flex items-center justify-between gap-4 px-5 py-2 bg-white relative">
+      <div class="flex items-stretch border border-slate-100 rounded-2xl overflow-hidden bg-slate-50/50 w-full max-w-[280px]">
+        <div class="flex-1 flex items-center justify-between gap-3 px-4 py-2 bg-white relative">
           <div class="absolute left-0 top-0 bottom-0 w-1 bg-[#2d5a43]"></div>
-          <span class="text-xs font-mono font-bold text-slate-500"><%= my_pred ? "#{my_pred.home_guess}-#{my_pred.away_guess}" : "—" %></span>
-          <div class="min-w-11 h-9 rounded-lg flex items-center justify-center font-mono font-black text-sm border <%= my_style[0] %> <%= my_style[1] %> <%= my_style[2] %>">
-            +<%= my_pts %>
-          </div>
+          <span class="text-[10px] font-mono font-bold text-slate-500"><%= my_pred ? "#{my_pred.home_guess}-#{my_pred.away_guess}" : "—" %></span>
+          <span class="text-sm font-black text-[#2d5a43]">+<%= my_pts %></span>
         </div>
-        <div class="w-[140px] flex items-center justify-between gap-4 px-5 py-2">
-          <div class="min-w-11 h-9 rounded-lg flex items-center justify-center font-mono font-black text-sm border <%= comp_style[0] %> <%= comp_style[1] %> <%= comp_style[2] %>">
-            +<%= match.started? ? comp_pts : "?" %>
-          </div>
-          <span class="text-xs font-mono font-bold text-slate-300"><%= (match.started? && comp_pred) ? "#{comp_pred.home_guess}-#{comp_pred.away_guess}" : "—" %></span>
+        <div class="flex-1 flex items-center justify-between gap-3 px-4 py-2">
+          <span class="text-sm font-black text-slate-400">+<%= comp_pts %></span>
+          <span class="text-[10px] font-mono font-bold text-slate-300"><%= comp_pred ? "#{comp_pred.home_guess}-#{comp_pred.away_guess}" : "—" %></span>
         </div>
       </div>
     <% else %>
       <div class="flex items-center gap-5">
-        <span class="text-xs font-mono font-bold text-slate-500">
-          <%= my_pred ? "#{my_pred.home_guess}-#{my_pred.away_guess}" : "—" %>
-        </span>
+        <span class="text-xs font-mono font-bold text-slate-500"><%= my_pred ? "#{my_pred.home_guess}-#{my_pred.away_guess}" : "—" %></span>
         <div class="h-11 w-16 rounded-xl flex items-center justify-center font-mono font-black text-lg border <%= my_style[0] %> <%= my_style[1] %> <%= my_style[2] %>">
           +<%= my_pts %>
         </div>
