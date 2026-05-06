@@ -8,17 +8,21 @@
       { name: t('.breadcrumb_leagues'), path: leagues_path }, 
       { name: @league_competition.league.name, path: league_path(@league_competition.league) }] %>
 
-<%# max-w-[1400px] is the ceiling, but we must handle everything below it %>
-<div class="max-w-[1400px] mx-auto pb-32 px-4 md:px-6 overflow-hidden">
+<div class="max-w-[1400px] mx-auto pb-32 px-4 md:px-6 overflow-x-hidden">
 
-  <%# 1. HERO: Fully responsive stack %>
   <%= render 'hero', standings: @league_competition.standings, current_user: Current.user %>
 
-  <%# 2. GRID ARCHITECTURE: Using CSS Grid instead of Flex to prevent blowouts %>
-  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
 
-    <%# MAIN CONTENT: 8 columns on desktop, full width on mobile %>
-    <main class="lg:col-span-8 order-2 lg:order-1 min-w-0">
+    <%# SIDEBAR: Above on mobile, 4-cols on desktop %>
+    <aside class="w-full lg:col-span-4 order-1 lg:order-2 lg:sticky lg:top-10 mb-10 lg:mb-0">
+      <%= render 'right_sidebar', 
+          league_competition: @league_competition,
+          current_matchday: @current_matchday %>
+    </aside>
+
+    <%# MAIN CONTENT: 8-cols on desktop, fluid center %>
+    <main class="lg:col-span-8 order-2 lg:order-1 min-w-0 w-full">
       <%= render 'matchday_ticker', 
           league_competition: @league_competition,
           current_matchday: @current_matchday,
@@ -31,13 +35,6 @@
           params: params
       %>
     </main>
-
-    <%# SIDEBAR: 4 columns on desktop, sits above on mobile %>
-    <aside class="lg:col-span-4 order-1 lg:order-2 lg:sticky lg:top-10">
-      <%= render 'right_sidebar', 
-          league_competition: @league_competition,
-          current_matchday: @current_matchday %>
-    </aside>
 
   </div>
 </div>
