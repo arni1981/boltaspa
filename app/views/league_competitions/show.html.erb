@@ -6,16 +6,28 @@
       { name: t('.breadcrumb_leagues'), path: leagues_path }, 
       { name: @league_competition.league.name, path: league_path(@league_competition.league) }] %>
 
-<div class="max-w-350 mx-auto pb-32 px-6">
+<%# max-w-350 is likely the cause of the overflow if it's a fixed pixel value. 
+    Use a standard Tailwind max-width or a percentage-based one. %>
+<div class="max-w-[1400px] mx-auto pb-32 px-4 md:px-6 overflow-x-hidden">
 
-  <%# 1. TOP THREE HERO (Manifesto Level) %>
+  <%# 1. HERO: Stays at the top %>
   <%= render 'hero', standings: @league_competition.standings, current_user: Current.user %>
 
   <%# 2. THE DUAL-COLUMN ARCHITECTURE %>
-  <div class="flex flex-col lg:flex-row gap-10 items-start">
+  <%# We use 'flex-col' by default (mobile) and 'lg:flex-row' for big screens %>
+  <div class="flex flex-col lg:flex-row gap-8 lg:gap-10 items-start">
+
+    <%# SIDEBAR: In mobile, this now sits ABOVE the matches (order-1) 
+        In desktop, it moves to the right (lg:order-2) %>
+    <aside class="w-full lg:w-[380px] order-1 lg:order-2 lg:sticky lg:top-10 mb-10 lg:mb-0">
+      <%= render 'right_sidebar', 
+          league_competition: @league_competition,
+          current_matchday: @current_matchday %>
+    </aside>
 
     <%# MAIN CONTENT: THE TICKER %>
-    <main class="flex-1 w-full order-2 lg:order-1">
+    <%# min-w-0 is the CSS secret that allows the ticker to shrink without forcing a scroll %>
+    <main class="flex-1 w-full min-w-0 order-2 lg:order-1">
       <%= render 'matchday_ticker', 
           league_competition: @league_competition,
           current_matchday: @current_matchday,
@@ -28,11 +40,6 @@
           params: params
       %>
     </main>
-
-    <%# SIDEBAR: THE STICKY SCOREBOARD %>
-    <%= render 'right_sidebar', 
-        league_competition: @league_competition,
-        current_matchday: @current_matchday %>
 
   </div>
 </div>
