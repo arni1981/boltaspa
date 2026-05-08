@@ -1,0 +1,25 @@
+<%# locals: (league_competition:) %>
+
+<%= turbo_frame_tag :comments do %>
+  <div class="flex flex-col bg-white overflow-hidden">
+    <%# 1. HEADER %>
+    <header class="px-8 py-4 bg-slate-50/30 border-b border-slate-50 flex justify-between items-center shrink-0">
+      <h3 class="text-[9px] font-black text-[#0a1d13] uppercase tracking-[0.3em]">
+        <%= t('.title', default: 'PALLBORÐIÐ') %>
+      </h3>
+      <span class="text-[8px] font-mono text-slate-300 uppercase tracking-widest">
+        <%= league_competition.comments&.count %> Feed
+      </span>
+    </header>
+
+    <%# 2. FEED: Fixed height with no-scrollbar %>
+    <div class="px-8 py-5 space-y-5 max-h-[320px] min-h-[200px] overflow-y-auto no-scrollbar" id="banter_list">
+      <%= render league_competition.comments.ordered.ordered %>
+    </div>
+
+    <%# 3. INPUT: Fixed within bounds %>
+    <div class="px-8 py-5 bg-white border-t border-slate-50 shrink-0">
+      <%= render 'comments/form', league_competition: league_competition %>
+    </div>
+  </div>
+<% end %>

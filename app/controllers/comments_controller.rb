@@ -1,19 +1,22 @@
 class CommentsController < ApplicationController
-  def create
-    @lc = LeagueCompetition.find(params[:league_competition_id])
+  before_action :set_league_competition
+  def index
+  end
 
-    @lc.comments.create(
-      matchday: params.dig(:comment, :matchday),
+  def create
+    @league_competition.comments.create!(
+      matchday: 0, # deprecated, will remove soon
       body: params.dig(:comment, :body),
       user_id: Current.user.id
     )
 
-    redirect_to league_competition_by_year_path(
-      league_id: @lc.league.slug,
-      competition_code: @lc.competition.code,
-      year: @lc.year,
-      compare_user_id: params.dig(:comment, :compare_user_id),
-      matchday: params.dig(:comment, :matchday)
-    )
+    redirect_to [@league_competition, :comments]
+  end
+
+  private
+
+  def set_league_competition
+    @league_competition =
+      Current.user.league_competitions.find(params[:league_competition_id])
   end
 end

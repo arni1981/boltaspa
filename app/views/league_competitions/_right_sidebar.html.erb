@@ -7,9 +7,7 @@
     <%# We allow this section to shrink if the standings need more room, but keep it at the top %>
     <div class="shrink-0 bg-white min-h-0 flex flex-col border-b border-slate-100">
       <div class="overflow-y-auto no-scrollbar bg-white" id="banter_feed">
-        <%= render 'comments_section', 
-            league_competition: league_competition, 
-            current_matchday: current_matchday %>
+        <%= render 'comments/comments', league_competition: league_competition %>
       </div>
     </div>
 

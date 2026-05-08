@@ -18,12 +18,12 @@ Rails.application.routes.draw do
   # Using a singular resource for settings makes the helper 'edit_settings_path'
   resource :settings, only: %i[edit update], controller: 'users'
 
+  resources :league_competitions, only: [] do
+    resources :comments, only: %i[index create]
+  end
+
   # --- THE CORE APP ---
   resources :leagues, param: :slug, path: 'l' do
-    resources :league_competitions, only: [] do
-      resources :comments, only: [:create]
-    end
-
     # Nested route for league competitions
     get ':competition_code/:year',
         to: 'league_competitions#show',
