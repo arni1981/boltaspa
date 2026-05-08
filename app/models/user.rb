@@ -33,4 +33,18 @@ class User < ApplicationRecord
   def unfinished_matches(matches)
     matches.where.not(id: predictions.select(:match_id))
   end
+
+  def self.from_omniauth(request)
+    user = User.find_by(google_id: request[:uid])
+
+    unless user
+      user = User.find_or_create_by(email_address: request[:info][:email])
+      user.update(
+        google_id: request[:uid],
+        name: request[:info][:name]
+      )
+    end
+
+    user
+  end
 end

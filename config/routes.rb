@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resource :onboarding, only: :show
 
   # --- AUTHENTICATION & ACCOUNT ---
+  get '/auth/:provider/callback', to: 'sessions#omniauth'
   get  'sign_up', to: 'registrations#new'
   post 'sign_up', to: 'registrations#create'
 

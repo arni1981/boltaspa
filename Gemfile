@@ -32,6 +32,9 @@ gem 'rollbar'
 
 gem 'image_processing', '~> 1.2'
 
+gem 'omniauth-google-oauth2'
+gem 'omniauth-rails_csrf_protection'
+
 # --- Development & Test Groups ---
 group :development, :test do
   gem 'debug'      # Debugger
