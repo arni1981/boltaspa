@@ -39,13 +39,13 @@ class Match < ApplicationRecord
     MatchPointsCalculatorJob.perform_later(id)
   end
 
-  def self.upcoming_matches(competition_ids, window: 10, minimum: 5)
+  def self.upcoming_matches(competition_ids, window: 10, minimum: 10)
     match_ids = find_by_sql([
                               'SELECT id FROM upcoming_matches_func(ARRAY[?], ?, ?)',
                               Array(competition_ids),
                               window,
                               minimum
-                            ]).map(&:id)
+                            ]).pluck(:id)
 
     Match.where(id: match_ids)
          .includes(:home_team, :away_team, :competition)

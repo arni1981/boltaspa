@@ -87,11 +87,11 @@ is:
       start_predicting: "Byrja að spá"
       sign_in: "Skrá inn"
       current_competition_label: "Núverandi keppni"
-      world_cup_2026: "Heimsmeistarakeppni 2026"
-      world_cup_description: "Full keppnisumfjöllun. Lifandi stigatafla."
+      world_cup_2026: "HM 2026"
+      world_cup_description: "Allir leikir. Lifandi stigatafla."
       coming_soon_label: "Kemur bráðlega"
       season_returns_title: "Tímabilið snýr aftur"
-      season_returns_description: "Enski boltinn // Meistaradeild Evrópu // Innlend deildir"
+      season_returns_description: "Enski boltinn // Meistaradeild Evrópu"
       footer: "2026"
 
   layouts:
