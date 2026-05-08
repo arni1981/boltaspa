@@ -5,8 +5,6 @@
 <% grouped_today = today_matches.group_by { |m| m.kickoff_at.to_date } %>
 <% grouped_others = other_matches.group_by { |m| m.kickoff_at.to_date } %>
 
-<%= turbo_stream_from league_competition %>
-
 <%= turbo_frame_tag "matchday_ticker" do %>
   <section class="mb-10 bg-white border border-gray-100 rounded-[2.5rem] shadow-sm overflow-hidden">
 
