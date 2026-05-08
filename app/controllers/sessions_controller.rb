@@ -27,8 +27,11 @@ class SessionsController < ApplicationController
     auth = request.env['omniauth.auth']
 
     user = User.find_or_create_by(uid: auth.uid, provider: auth.provider) do |u|
-      pass = SecureRandom.hex(15)
       u.email_address = auth.info.email
+      u.name = auth.info.name
+      u.image_url = auth.info.image
+
+      pass = SecureRandom.hex(15)
       u.password = pass
       u.password_confirmation = pass
     end
