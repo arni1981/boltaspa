@@ -24,6 +24,8 @@ class SessionsController < ApplicationController
   end
 
   def omniauth
+    Rails.logger.debug request.env['omniauth.auth']
+
     auth = request.env['omniauth.auth']
 
     email = auth[:info][:email]
