@@ -26,21 +26,37 @@ class SessionsController < ApplicationController
   def omniauth
     auth = request.env['omniauth.auth']
 
-    user = User.find_or_create_by(uid: auth[:uid]) do |u|
-      u.email_address = auth[:info][:email]
-      u.name = auth[:info][:name]
-      u.image_url = auth[:info][:image]
+    email = auth[:info][:email]
 
-      pass = SecureRandom.hex(15)
-      u.password = pass
-      u.password_confirmation = pass
+    unless auth[:info][:verified]
+      redirect_to new_session_path, alert: 'Google email not verified'
+      return
     end
 
-    if user.persisted?
-      start_new_session_for user
-      redirect_to root_path, notice: t('controllers.sessions.signed_in_with_google')
+    user = User.find_by(uid: auth[:uid]) || User.find_by(email_address: email)
+
+    if user
+      if user.uid.blank? && user.provider.blank?
+        user.update!(
+          uid: auth[:uid],
+          provider: auth[:provider]
+        )
+      end
     else
-      redirect_to new_session_path, alert: t('controllers.sessions.could_not_sign_in_with_google')
+      password = SecureRandom.hex(16)
+
+      user = User.create!(
+        uid: auth[:uid],
+        provider: auth[:provider],
+        email_address: email,
+        name: auth[:info][:name],
+        password: password,
+        password_confirmation: password
+      )
     end
+
+    start_new_session_for user
+
+    redirect_to root_path, notice: t('controllers.sessions.signed_in_with_google')
   end
 end
