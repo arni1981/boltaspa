@@ -30,10 +30,10 @@ class SessionsController < ApplicationController
 
     email = auth[:info][:email]
 
-    # unless auth[:info][:verified]
-    #   redirect_to new_session_path, alert: 'Google email not verified'
-    #   return
-    # end
+    unless auth[:info][:email_verified]
+      redirect_to new_session_path, alert: 'Google email not verified'
+      return
+    end
 
     user = User.find_by(uid: auth[:uid]) || User.find_by(email_address: email)
 
@@ -57,6 +57,6 @@ class SessionsController < ApplicationController
 
     start_new_session_for user
 
-    redirect_to root_path, notice: t('controllers.sessions.signed_in_with_google')
+    redirect_to root_path
   end
 end
