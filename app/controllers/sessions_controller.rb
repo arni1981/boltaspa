@@ -24,24 +24,23 @@ class SessionsController < ApplicationController
   end
 
   def omniauth
-    Rails.logger.debug request.env['omniauth.auth']
+    logger.info request.env['omniauth.auth']
 
     auth = request.env['omniauth.auth']
 
     email = auth[:info][:email]
 
-    unless auth[:info][:verified]
-      redirect_to new_session_path, alert: 'Google email not verified'
-      return
-    end
+    # unless auth[:info][:verified]
+    #   redirect_to new_session_path, alert: 'Google email not verified'
+    #   return
+    # end
 
     user = User.find_by(uid: auth[:uid]) || User.find_by(email_address: email)
 
     if user
-      if user.uid.blank? && user.provider.blank?
+      if user.uid.blank?
         user.update!(
-          uid: auth[:uid],
-          provider: auth[:provider]
+          uid: auth[:uid]
         )
       end
     else
@@ -49,7 +48,6 @@ class SessionsController < ApplicationController
 
       user = User.create!(
         uid: auth[:uid],
-        provider: auth[:provider],
         email_address: email,
         name: auth[:info][:name],
         password: password,
