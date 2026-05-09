@@ -1,7 +1,8 @@
 <%# locals: (league_competition:, comment: nil) %>
 
-<%= form_with model: [ league_competition, Comment.new ],
-    class: "flex items-center gap-2 relative" do |f| %>
+<%= form_with model: [ league_competition, Comment.new ], 
+  class: "flex items-center gap-2 relative", 
+  data: {controller: "reset-form", action: "turbo:submit-end->reset-form#reset"} do |f| %>
 
   <div class="relative flex-1">
     <%= f.text_field :body, 
