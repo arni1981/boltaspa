@@ -24,6 +24,8 @@ class MatchesJob < ApplicationJob
         match.stage          = m['stage']
         match.group          = m['group']
 
+        Rails.logger.error "Villa í api #{m.inspect}" if match.id == 350 && match.home_score != 1
+
         match.save
       end
     end
