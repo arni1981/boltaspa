@@ -8,12 +8,11 @@ class Comment < ApplicationRecord
   scope :ordered, -> { order(created_at: :desc) }
 
   after_create_commit lambda {
-    broadcast_replace_later_to(
+    broadcast_prepend_later_to(
       league_competition,
       :comments,
-      target: ActionView::RecordIdentifier.dom_id(league_competition, :comments),
-      partial: 'comments/panel',
-      locals: { league_competition: league_competition }
+      target: 'banter_list',
+      partial: 'comments/comment'
     )
   }
 end

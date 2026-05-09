@@ -10,7 +10,7 @@ class CommentsController < ApplicationController
       user_id: Current.user.id
     )
 
-    redirect_to [@league_competition, :comments]
+    head 201
   end
 
   private
