@@ -6,6 +6,8 @@
       { name: t('.breadcrumb_leagues'), path: leagues_path }, 
       { name: @league_competition.league.name, path: league_path(@league_competition.league) }] %>
 
+<%= turbo_stream_from @league_competition %>
+
 <div class="max-w-[1400px] mx-auto pb-32 px-4 md:px-6 overflow-x-hidden">
 
   <%= render 'hero', standings: @league_competition.standings, current_user: Current.user %>
