@@ -12,6 +12,9 @@ class MatchesJob < ApplicationJob
       next if team_map[m.dig('awayTeam', 'id')].nil?
 
       Match.find_or_initialize_by(external_id: m['id']).tap do |match|
+        # Safe guard if api was wrong so it won't get overridden
+        next if match.locked?
+
         match.competition_id = competition_id
         match.home_team_id   = team_map[m.dig('homeTeam', 'id')]
         match.away_team_id   = team_map[m.dig('awayTeam', 'id')]
