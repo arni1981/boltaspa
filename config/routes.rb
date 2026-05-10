@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  post 'no_js/create', as: :no_js
+
   resources :predictions, only: %i[index create]
   resource :onboarding, only: :show
 

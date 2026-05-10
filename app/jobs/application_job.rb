@@ -10,10 +10,6 @@ class ApplicationJob < ActiveJob::Base
       f.response :json
     end
 
-    response = connection.get.body
-
-    Rails.logger.info "[API]: #{response.inspect}"
-
-    response
+    connection.get.body
   end
 end
