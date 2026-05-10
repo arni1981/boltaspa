@@ -1,5 +1,5 @@
 class NoJsController < ApplicationController
-  skip_before_action :verify_authenticity_token
+  allow_unauthenticated_access
 
   def show
     # Log the event to your Rails log or a dedicated table
