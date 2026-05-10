@@ -18,6 +18,7 @@ Rails.application.routes.draw do
 
   # --- SETTINGS ---
   # Using a singular resource for settings makes the helper 'edit_settings_path'
+  get 'settings', to: 'users#edit', as: :settings
   resource :settings, only: %i[edit update], controller: 'users'
 
   resources :league_competitions, only: [] do
