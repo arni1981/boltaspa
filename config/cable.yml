@@ -3,16 +3,14 @@
 # not a terminal started via bin/rails console! Add "console" to any action or any ERB template view
 # to make the web console appear.
 development:
-  adapter: redis
+  adapter: solid_cable
   polling_interval: 0.1.seconds
   message_retention: 1.day
-  channel_prefix: boltaspa
 
 test:
   adapter: test
 
 production:
-  adapter: redis
+  adapter: solid_cable
   polling_interval: 0.1.seconds
   message_retention: 1.day
-  channel_prefix: boltaspa
