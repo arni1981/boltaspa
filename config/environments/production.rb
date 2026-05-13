@@ -67,7 +67,7 @@ Rails.application.configure do
 
   # Use a different cache store in production.
   config.cache_store = :redis_cache_store, {
-    namespace: 'boltaspa_',
+    namespace: 'boltaspa',
     compress: true
   }
 

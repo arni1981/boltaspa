@@ -11,7 +11,6 @@ gem 'rails', github: 'rails/rails'
 # --- The "Solid" Infrastructure (Queue/Cache/Cable) ---
 gem 'mission_control-jobs' # Dashboard for Solid Queue
 gem 'redis'
-gem 'solid_cable'
 gem 'solid_queue'
 
 # --- Authentication & Social ---
