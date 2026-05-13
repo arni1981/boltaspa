@@ -45,7 +45,6 @@ Rails.application.routes.draw do
   # --- ADMIN & OPS ---
   namespace :admin do
     resource :dashboard, only: :show
-    resources :change_users, only: %i[create destroy]
   end
 
   mount MissionControl::Jobs::Engine, at: '/jobs'

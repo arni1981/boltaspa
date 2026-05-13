@@ -37,23 +37,13 @@
   </div>
 
   <%# --- 04. ACTIVITY LOGS --- %>
-<%# --- 04. ACTIVITY LOGS --- %>
   <div class="grid grid-cols-3 gap-16 mb-16">
     <div>
       <h2 class="font-black uppercase mb-4 border-b border-[#0a1d13] pb-2 text-[#2d5a43]">Latest Sign-ups</h2>
       <% @latest_users.each do |user| %>
-        <div class="group flex justify-between items-center py-3 border-b border-gray-100">
-          <div class="flex flex-col">
-            <span class="font-bold"><%= user.name %></span>
-            <span class="text-[10px] text-gray-400"><%= time_ago_in_words(user.created_at) %> ago</span>
-          </div>
-
-          <%# THE IMPERSONATOR: Subtle button that appears on hover %>
-          <%= button_to admin_change_users_path(user_id: user.id), 
-              method: :post,
-              class: "opacity-0 group-hover:opacity-100 transition-opacity bg-[#0a1d13] text-white text-[11px] font-black uppercase px-2 py-1 tracking-tighter" do %>
-            Herma
-          <% end %>
+        <div class="flex justify-between py-3 border-b border-gray-100">
+          <span class="font-bold"><%= user.name %></span>
+          <span class="text-gray-400"><%= time_ago_in_words(user.created_at) %> ago</span>
         </div>
       <% end %>
     </div>
@@ -61,18 +51,9 @@
     <div>
       <h2 class="font-black uppercase mb-4 border-b border-[#0a1d13] pb-2 text-[#2d5a43]">Latest Visits</h2>
       <% @latest_visits.each do |visit| %>
-        <div class="group flex justify-between items-center py-3 border-b border-gray-100">
-          <div class="flex flex-col">
-            <span class="font-bold"><%= visit.user.name %></span>
-            <span class="text-[10px] text-gray-400"><%= time_ago_in_words(visit.created_at) %> ago</span>
-          </div>
-
-          <%# THE IMPERSONATOR %>
-          <%= button_to admin_change_users_path(user_id: visit.user.id), 
-              method: :post,
-              class: "opacity-0 group-hover:opacity-100 transition-opacity bg-[#0a1d13] text-white text-[9px] font-black uppercase px-2 py-1 tracking-tighter" do %>
-            Herma
-          <% end %>
+        <div class="flex justify-between py-3 border-b border-gray-100">
+          <span class="font-bold"><%= visit.user.name %></span>
+          <span class="text-gray-400"><%= time_ago_in_words(visit.created_at) %> ago</span>
         </div>
       <% end %>
     </div>
