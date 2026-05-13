@@ -68,7 +68,6 @@ Rails.application.configure do
   # Use a different cache store in production.
   config.cache_store = :redis_cache_store, {
     namespace: 'boltaspa_',
-    network_timeout: 5,
     compress: true
   }
 
