@@ -1,0 +1,40 @@
+AllCops:
+  NewCops: enable
+  Exclude:
+    - "db/schema.rb"
+    - "bin/*"
+    - "node_modules/**/*"
+    - "vendor/**/*"
+
+# Removes the "Frozen string literal comment is missing" warning
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+# Removes the "Missing top-level documentation comment" warning for classes/modules
+Style/Documentation:
+  Enabled: false
+
+# Relaxes the strict line length (default is often 80)
+Layout/LineLength:
+  Max: 120
+  AllowedPatterns: ['\A\s*#']
+
+# Allows you to use "self" where it makes code clearer
+Style/RedundantSelf:
+  Enabled: false
+
+# Stops complaining about block length in specs or migrations
+Metrics/BlockLength:
+  ExcludedMethods:
+    ["describe", "context", "it", "test", "draw", "configure", "group"]
+  Exclude:
+    - "db/migrate/*.rb"
+    - "spec/**/*.rb"
+
+# Prevents "Assignment Branch Condition" (ABC) size warnings for slightly complex methods
+Metrics/AbcSize:
+  Max: 30
+
+# Increases allowed method length before it complains
+Metrics/MethodLength:
+  Max: 20

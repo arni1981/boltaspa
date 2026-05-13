@@ -12,7 +12,6 @@ module Admin
       @latest_leagues = League.order(created_at: :desc).includes(:owner).limit(10)
       @latest_visits = Visit.where(created_at: 24.hours.ago..).select('max(created_at) as created_at, user_id').group(:user_id)
 
-      # High-engagement users (Most predictions)
       @top_predictors = User.joins(:predictions)
                             .group(:id)
                             .select('users.*, count(predictions.id) as predictions_count')
@@ -23,7 +22,6 @@ module Admin
         queue_backlog: SolidQueue::Job.where(finished_at: nil).count,
         queue_failed: SolidQueue::FailedExecution.count,
         cache_entries: SolidCache::Entry.count,
-        # Roughly estimate cache size if using MySQL/Postgres
         cache_size_mb: (SolidCache::Entry.sum('length(key) + length(value)') / 1.megabyte.to_f).round(2)
       }
 

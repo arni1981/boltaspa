@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  get 'no_js', to: 'no_js#show', as: :no_js
-
   resources :predictions, only: %i[index create]
   resource :onboarding, only: :show
 
@@ -47,6 +45,7 @@ Rails.application.routes.draw do
   # --- ADMIN & OPS ---
   namespace :admin do
     resource :dashboard, only: :show
+    resources :change_users, only: %i[create destroy]
   end
 
   mount MissionControl::Jobs::Engine, at: '/jobs'

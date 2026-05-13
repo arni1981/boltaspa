@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 module Admin
+  # Base
   class BaseController < ApplicationController
-    before_action do
-      redirect_to root_path unless Current.user&.admin?
-    end
+    before_action :require_admin!
   end
 end
