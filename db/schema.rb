@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.2].define(version: 2026_05_13_114027) do
+ActiveRecord::Schema[8.2].define(version: 2026_05_15_190920) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -506,23 +506,23 @@ ActiveRecord::Schema[8.2].define(version: 2026_05_13_114027) do
        LANGUAGE sql
        STABLE
       AS $function$
-      WITH limit_match AS (SELECT kickoff_at::date AS limit_date
-                           FROM matches
-                           WHERE competition_id = ANY (p_competition_ids)
-                             AND kickoff_at > NOW()
-                           ORDER BY kickoff_at
-                           OFFSET p_min_matches - 1 LIMIT 1),
-           cutoff AS (SELECT GREATEST(
-                                             CURRENT_DATE + p_window,
-                                             COALESCE((SELECT limit_date FROM limit_match), CURRENT_DATE + p_window)
-                             ) AS cutoff_date)
-      SELECT m.*
-      FROM matches m
-               CROSS JOIN cutoff
-      WHERE m.competition_id = ANY (p_competition_ids)
-        AND m.kickoff_at >= NOW()
-        AND m.kickoff_at < cutoff_date + INTERVAL '1 day'
-      ORDER BY m.kickoff_at;
+            WITH limit_match AS (SELECT kickoff_at::date AS limit_date
+                                 FROM matches
+                                 WHERE competition_id = ANY (p_competition_ids)
+                                   AND kickoff_at > NOW()
+                                 ORDER BY kickoff_at
+                                 OFFSET p_min_matches - 1 LIMIT 1),
+                 cutoff AS (SELECT GREATEST(
+                                                   CURRENT_DATE + p_window,
+                                                   COALESCE((SELECT limit_date FROM limit_match), CURRENT_DATE + p_window)
+                                   ) AS cutoff_date)
+            SELECT m.*
+            FROM matches m
+                     CROSS JOIN cutoff
+            WHERE m.competition_id = ANY (p_competition_ids)
+              AND m.kickoff_at >= (NOW() + INTERVAL '10 minutes')
+              AND m.kickoff_at < cutoff_date + INTERVAL '1 day'
+            ORDER BY m.kickoff_at;
       $function$
   SQL
 
