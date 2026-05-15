@@ -8,7 +8,7 @@ export default class extends Controller {
 
   // @todo: Move to a dedicated controller
   pulse(event) {
-    const { success, response } = event.detail
+    const { success } = event.detail
 
     if (success) {
       const row = this.element.querySelector('.match-row')
@@ -17,7 +17,7 @@ export default class extends Controller {
         row.classList.remove("is-success-pulse")
       }, { once: true })
     } else {
-      // The served will handle this by issueing a redirect
+      // The server will handle this by issueing a redirect
     }
   }
 }

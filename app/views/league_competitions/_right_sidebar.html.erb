@@ -8,7 +8,10 @@
     <div class="shrink-0 bg-white min-h-0 flex flex-col border-b border-slate-100">
       <div class="overflow-y-auto no-scrollbar bg-white" id="banter_feed">
         <%= turbo_stream_from [league_competition, :comments] %>
-        <%= render 'comments/panel', league_competition: league_competition %>
+
+        <%= turbo_frame_tag dom_id(league_competition, :comments_panel) do %>
+          <%= render 'comments/panel', league_competition: league_competition %>
+        <% end %>
       </div>
     </div>
 

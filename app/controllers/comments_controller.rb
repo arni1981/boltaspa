@@ -10,7 +10,7 @@ class CommentsController < ApplicationController
       user_id: Current.user.id
     )
 
-    head 201
+    head :created
   end
 
   private

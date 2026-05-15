@@ -13,7 +13,7 @@ class PredictionsController < ApplicationController
     home, away = params[:score_string].split('-')
 
     if prediction.update(home_guess: home, away_guess: away)
-      head :ok
+      head :created
     else
       flash[:error] = prediction.errors.full_messages.to_sentence
       redirect_to predictions_path
