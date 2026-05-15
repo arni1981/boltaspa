@@ -1,6 +1,10 @@
 is:
   activerecord:
     attributes:
+      prediction:
+        home_guess: Heimamörk
+        away_guess: Útimörk
+        kickoff_at_validation: Spár eru læstar 10 mín fyrir leik.
       league:
         league_competitions: Mót
         name: Nafn

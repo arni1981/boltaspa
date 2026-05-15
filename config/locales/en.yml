@@ -1,6 +1,10 @@
 en:
   activerecord:
     attributes:
+      prediction:
+        home_guess: Home goals
+        away_guess: Away goals
+        kickoff_at_validation: Prediction locked 10 min before kickoff
       user:
         send_reminder_email: "Matchday notifications"
 
