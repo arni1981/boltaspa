@@ -1,3 +1,1 @@
-<%= turbo_frame_tag dom_id(@league_competition, :comments_panel) do %>
-  <%= render partial: 'comments/panel', locals: { league_competition: @league_competition } %>
-<% end %>
+<%= render partial: 'comments/panel', locals: { league_competition: @league_competition } %>
