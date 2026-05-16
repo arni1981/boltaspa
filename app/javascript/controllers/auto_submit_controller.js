@@ -2,22 +2,30 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="auto-submit"
 export default class extends Controller {
+  static targets = ['row']
+  static classes = ['success']
+
   submit() {
     this.element.requestSubmit()
   }
 
-  // @todo: Move to a dedicated controller
   pulse(event) {
     const { success } = event.detail
 
     if (success) {
-      const row = this.element.querySelector('.match-row')
-      row.classList.add("is-success-pulse")
-      row.addEventListener('animationend', () => {
-        row.classList.remove("is-success-pulse")
-      }, { once: true })
-    } else {
-      // The server will handle this by issueing a redirect
+      // 1. Strip the class immediately in case it's already there from a fast previous click
+      this.rowTarget.classList.remove(this.successClass)
+
+      // 2. Force a browser reflow (the magical trick to reset CSS animations)
+      void this.rowTarget.offsetWidth
+
+      // 3. Add it back cleanly to re-trigger the keyframes from 0%
+      this.rowTarget.classList.add(this.successClass)
+      this.element.disabled = true
+
+      this.rowTarget.addEventListener('animationend',
+        () => this.rowTarget.classList.remove(this.successClass), { once: true }
+      )
     }
   }
 }
