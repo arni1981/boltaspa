@@ -5,14 +5,6 @@ module ApplicationHelper
               .find { |obj| obj.respond_to?(:errors) && obj.errors&.any? }
   end
 
-  def plural_count(count, singular, plural)
-    if count % 10 == 1 && count % 100 != 11
-      "#{count} #{singular}"
-    else
-      "#{count} #{plural}"
-    end
-  end
-
   def nav_link_to(label, path)
     is_active = current_page?(path)
 
