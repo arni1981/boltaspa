@@ -21,7 +21,6 @@ export default class extends Controller {
 
       // 3. Add it back cleanly to re-trigger the keyframes from 0%
       this.rowTarget.classList.add(this.successClass)
-      this.element.disabled = true
 
       this.rowTarget.addEventListener('animationend',
         () => this.rowTarget.classList.remove(this.successClass), { once: true }

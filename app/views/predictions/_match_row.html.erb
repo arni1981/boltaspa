@@ -2,7 +2,9 @@
 <% current_val = prediction ? "#{prediction.home_guess}-#{prediction.away_guess}" : "" %>
 
 <%= form_with url: predictions_path, method: :post, id: "#{dom_id(match)}", 
-  data: {controller: 'auto-submit', action: 'turbo:submit-end->auto-submit#pulse', "auto-submit-success-class": "is-success-pulse"} do |f| %>
+  data: {controller: 'auto-submit', 
+        action: 'turbo:submit-end->auto-submit#pulse', 
+        "auto-submit-success-class": "is-success-pulse"} do |f| %>
   <%= f.hidden_field :match_id, value: match.id %>
 
   <div
