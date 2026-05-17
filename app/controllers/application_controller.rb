@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  stale_when_importmap_changes
+
   allow_browser versions: :modern
 
   include Authentication
