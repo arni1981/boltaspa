@@ -1,56 +1,58 @@
 source 'https://gem.coop'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-# --- Core Rails & Database ---
+# --- Core Framework & Servers ---
 gem 'bootsnap', require: false
-gem 'pg'
-gem 'propshaft'
 gem 'puma'
 gem 'rails', github: 'rails/rails'
 
-# --- The "Solid" Infrastructure (Queue/Cache/Cable) ---
+# --- Database & Advanced SQL Engine ---
+gem 'fx'
+gem 'pg'
+gem 'scenic'
+
+# --- The "Solid" Infrastructure Stack ---
 gem 'mission_control-jobs' # Dashboard for Solid Queue
 gem 'solid_cable'
 gem 'solid_cache'
 gem 'solid_queue'
 
-# --- Authentication & Social ---
+# --- Authentication & Identity ---
 gem 'bcrypt'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-rails_csrf_protection'
 
-gem 'faraday'
-gem 'fx'
-gem 'scenic'
-
-# --- Frontend & UI ---
+# --- Frontend Asset Pipeline & UI Frameworks ---
 gem 'importmap-rails'
+gem 'propshaft'
 gem 'stimulus-rails'
 gem 'tailwindcss-rails', '~> 4.4'
 gem 'turbo-rails'
 
-# --- Monitoring & Analytics ---
-gem 'rollbar'
-
+# --- Services & Utilities ---
+gem 'faraday'
 gem 'image_processing', '~> 1.2'
 
-gem 'omniauth-google-oauth2'
-gem 'omniauth-rails_csrf_protection'
+# --- Production Observability ---
+gem 'rollbar'
 
-# --- Development & Test Groups ---
+# --- Development & Test Components ---
 group :development, :test do
-  gem 'debug'      # Debugger
+  gem 'debug'
   gem 'faker'
-  gem 'overmind'   # Procfile manager
+  gem 'overmind'
   gem 'rubocop-rails-omakase'
-  gem 'solargraph' # Language Server
+  gem 'solargraph'
 end
 
+# --- Development Environment Optimization ---
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
-  gem 'rack-mini-profiler'
   gem 'web-console'
 end
 
+# --- Integration Testing ---
 group :test do
   gem 'capybara'
   gem 'selenium-webdriver'

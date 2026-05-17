@@ -1,14 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=JetBrains+Mono:wght@700&display=swap');
 
 body {
-    font-family: 'Sora', ui-sans-serif, system-ui, -apple-system, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  font-family: 'Sora', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Optional: Use JetBrains Mono for your codes/numbers */
 .font-mono {
-    font-family: 'JetBrains Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
 }
 
 
@@ -17,19 +17,24 @@ body {
 /* 1. Actionable (Amber): Warm full-row wash */
 /* Triggers when the select is empty */
 .match-row:has(select option:checked[value=""]):not(.is-success-pulse) {
-  background-color: #fff9e6 !important; /* Slightly more saturated warm amber */
+  background-color: #fff9e6 !important;
+  /* Slightly more saturated warm amber */
 }
 
 /* 2. Success Afterglow (Emerald): Deep branded pulse */
 @keyframes emerald-fade {
-  0% { 
-    background-color: #dcfce7; /* emerald-100: strong and clear */
+  0% {
+    background-color: #dcfce7;
+    /* emerald-100: strong and clear */
   }
+
   20% {
-    background-color: #dcfce7; /* Hold for a beat so it's not "weak" */
+    background-color: #dcfce7;
+    /* Hold for a beat so it's not "weak" */
   }
-  100% { 
-    background-color: white; 
+
+  100% {
+    background-color: white;
   }
 }
 
@@ -49,10 +54,30 @@ body {
 
 /* Hover state: only active on non-status rows to keep it "Quiet" */
 .match-row:hover:not(.is-success-pulse):not(:has(select option:checked[value=""])) {
-  background-color: #f9faf9; /* Your project's off-white background color */
+  background-color: #f9faf9;
+  /* Your project's off-white background color */
 }
 
 /* Clean up the select focus to match the Forest Green brand */
 .match-row select:focus {
   @apply ring-2 ring-[#2d5a43] bg-white;
+}
+
+/* Live indicator */
+@keyframes system-live-pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.is-live-indicator {
+  /* Authentic Coventry City Sky Blue */
+  color: #059dd9 !important;
+  animation: system-live-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }

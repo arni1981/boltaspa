@@ -277,6 +277,9 @@ is:
     matchday_ticker_single_match:
       your_prediction: "Þín spá"
 
+    match_row:
+      live: Beint
+
 
   predictions:
     create:

@@ -18,20 +18,37 @@
 
   <%# 1. LEFT TRACK: Time/Status (Desktop 1-col) %>
   <div class="hidden md:flex md:col-span-1">
-    <div class="text-sm font-mono font-bold <%= match.finished? ? 'text-slate-300' : 'text-[#0a1d13]' %>">
-      <%= match.finished? ? "FT" : l(match.kickoff_at, format: "%H:%M") %>
+    <div class="text-sm font-mono font-bold">
+      <% if match.live? %>
+        <div class="flex items-center gap-1.5 is-live-indicator">
+          <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span>
+          <span><%= t('.live') %></span>
+        </div>
+      <% else %>
+        <div class="<%= match.finished? ? 'text-slate-300' : 'text-[#0a1d13]' %>">
+          <%= match.finished? ? "FT" : l(match.kickoff_at, format: "%H:%M") %>
+        </div>
+      <% end %>
     </div>
   </div>
 
   <%# MOBILE VIEW: Restoration of your original high-density header %>
   <div class="flex items-center justify-between md:hidden mb-3">
     <div class="flex items-center gap-3">
-      <div class="text-[10px] font-mono font-bold <%= match.finished? ? 'text-slate-300' : 'text-[#0a1d13]' %>">
-        <%= match.finished? ? "FT" : l(match.kickoff_at, format: "%H:%M") %>
+      <div class="text-[10px] font-mono font-bold">
+        <% if match.live? %>
+          <span class="is-live-indicator tracking-wider"><%= t('.live') %></span>
+        <% else %>
+          <span class="<%= match.finished? ? 'text-slate-300' : 'text-[#0a1d13]' %>">
+            <%= match.finished? ? "FT" : l(match.kickoff_at, format: "%H:%M") %>
+          </span>
+        <% end %>
       </div>
-      <div class="flex items-center gap-2 px-3 py-1 bg-[#f9faf9] border border-slate-100 rounded-lg font-mono text-base font-black text-[#0a1d13]">
+
+      <%# Update the mobile score container border to pop during live execution %>
+      <div class="flex items-center gap-2 px-3 py-1 bg-[#f9faf9] border <%= match.live? ? 'border-sky-200' : 'border-slate-100' %> rounded-lg font-mono text-base font-black text-[#0a1d13]">
         <span><%= match.started? ? match.home_score : "-" %></span>
-        <span class="text-slate-200">:</span>
+        <span class="<%= match.live? ? 'text-sky-400 is-live-indicator' : 'text-slate-200' %>">:</span>
         <span><%= match.started? ? match.away_score : "-" %></span>
       </div>
     </div>
