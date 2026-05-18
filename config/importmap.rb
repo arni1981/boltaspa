@@ -1,5 +1,4 @@
 # Pin npm packages by running ./bin/importmap
-enable_integrity!
 
 # Core application and framework libraries
 pin 'application'
