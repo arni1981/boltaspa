@@ -13,7 +13,15 @@ class PredictionsController < ApplicationController
     home, away = params[:score_string].split('-')
 
     if prediction.update(home_guess: home, away_guess: away)
-      head :created
+      respond_to do |format|
+        format.turbo_stream do
+          @match = Match.find(params[:match_id])
+          @upcoming_matches = Current.user.upcoming_matches
+          @predictions_map = Current.user.predictions_map(@upcoming_matches)
+          @unfinished_matches = Current.user.unfinished_matches(@upcoming_matches)
+        end
+        format.html { redirect_to predictions_path }
+      end
     else
       flash[:error] = prediction.errors.full_messages.to_sentence
       redirect_to predictions_path

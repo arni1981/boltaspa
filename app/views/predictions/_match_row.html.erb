@@ -1,15 +1,11 @@
 <%# locals: (match:, prediction:, is_updated: false) -%>
 <% current_val = prediction ? "#{prediction.home_guess}-#{prediction.away_guess}" : "" %>
 
-<%= form_with url: predictions_path, method: :post, id: "#{dom_id(match)}", 
-  data: {controller: 'auto-submit', 
-        action: 'turbo:submit-end->auto-submit#pulse', 
-        "auto-submit-success-class": "is-success-pulse"} do |f| %>
+<%= form_with url: predictions_path, method: :post, id: "#{dom_id(match)}", data: {controller: 'auto-submit'} do |f| %>
   <%= f.hidden_field :match_id, value: match.id %>
 
   <div
-    class="match-row min-h-22 px-3 md:px-10 flex items-center transition-colors group relative bg-white"
-    data-auto-submit-target="row"
+    class="<%= "#{is_updated ? 'is-success-pulse' : ''} match-row min-h-22 px-3 md:px-10 flex items-center transition-colors group relative bg-white" %>"
   >
     <!-- HOME: Right-aligned, shrinks to accommodate center -->
     <div class="flex-1 flex items-center justify-end gap-2 md:gap-4 min-w-0">
