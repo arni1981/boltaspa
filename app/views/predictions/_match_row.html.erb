@@ -38,7 +38,9 @@
         prompt: '-',
         disabled: !match.predictable?,
         class: "w-full h-9 md:h-12 border-0 text-center font-mono text-xs md:text-sm font-black appearance-none transition-all px-0 rounded-lg md:rounded-2xl " \
-              "#{match.predictable? ? 'bg-gray-50 text-[#0a1d13] focus:ring-2 focus:ring-[#2d5a43] cursor-pointer' : 'bg-slate-100 text-slate-400 cursor-not-allowed select-none'}" %>
+              "#{match.predictable? ? 'bg-gray-50 text-[#0a1d13] focus:ring-2 focus:ring-[#2d5a43] cursor-pointer' : 'bg-slate-100 text-slate-400 cursor-not-allowed select-none'}", 
+        data: {action: 'auto-submit#submit:prevent'}              
+        %>
     </div>
   </div>
 

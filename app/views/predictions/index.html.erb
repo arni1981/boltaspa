@@ -2,7 +2,7 @@
     title: t('.page_title'), 
     breadcrumbs: [{ name: t('common.home'), path: root_path }, { name: t('.breadcrumb_current') }] %>
 
-<%= form_with url: predictions_path do |f| %>
+<%= form_with url: predictions_path, data: {controller: 'auto-submit'} do |f| %>
   <div class="max-w-2xl pb-48 px-2 md:px-0 mx-auto">
 
     <%# Group by the actual calendar date %>
