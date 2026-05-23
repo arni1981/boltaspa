@@ -25,16 +25,18 @@
     <% end %>
   </div>
 
-  <div id="sticky_bottom" class="fixed bottom-8 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none transition-all">
-    <div class="pointer-events-auto bg-[#0a1d13] border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] rounded-2xl p-1.5 flex items-center justify-center min-w-[220px] h-[64px] shrink-0">
+  <noscript>
+    <div id="sticky_bottom" class="fixed bottom-8 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none transition-all">
+      <div class="pointer-events-auto bg-[#0a1d13] border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] rounded-2xl p-1.5 flex items-center justify-center min-w-[220px] h-[64px] shrink-0">
 
-      <%= f.button data: {turbo_submits_with: 'Vista ...'}, class: "inline-flex items-center justify-between w-full h-full px-10 bg-[#2d5a43] text-white rounded-xl font-black text-[11px] uppercase tracking-widest hover:bg-[#1a3f2d] transition-all group active:scale-95 whitespace-nowrap" do %>
-        <span>Vista Spár</span>
-        <svg class="w-4 h-4 ml-4 transform group-hover:translate-x-1 transition-transform shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
-        </svg>
-      <% end %>
+        <%= f.button data: {turbo_submits_with: 'Vista ...'}, class: "inline-flex items-center justify-between w-full h-full px-10 bg-[#2d5a43] text-white rounded-xl font-black text-[11px] uppercase tracking-widest hover:bg-[#1a3f2d] transition-all group active:scale-95 whitespace-nowrap" do %>
+          <span>Vista Spár</span>
+          <svg class="w-4 h-4 ml-4 transform group-hover:translate-x-1 transition-transform shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+          </svg>
+        <% end %>
 
+      </div>
     </div>
-  </div>
+  </noscript>
 <% end %>
