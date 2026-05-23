@@ -14,8 +14,8 @@ class Prediction < ApplicationRecord
             allow_nil: true
 
   def match_not_started
-    return unless match.kickoff_at < 10.minutes.from_now
+    return unless match.kickoff_at < Match::PREDICTION_LOCK_WINDOW.from_now
 
-    errors.add(:base, I18n.t('activerecord.attributes.predictions.kickoff_at_valid'))
+    errors.add(:base, I18n.t('activerecord.attributes.prediction.kickoff_at_validation'))
   end
 end

@@ -1,52 +1,56 @@
-<%# locals: (match:, prediction:, is_updated: false) -%>
+<%# locals: (match:, prediction:, is_updated: false, error: nil) -%>
 <% current_val = prediction ? "#{prediction.home_guess}-#{prediction.away_guess}" : "" %>
 
-<%= form_with url: predictions_path, method: :post, id: "#{dom_id(match)}", data: {controller: 'auto-submit'} do |f| %>
-  <%= f.hidden_field :match_id, value: match.id %>
+<div id="<%= dom_id(match) %>"
+     class="<%= 'is-success-pulse' if is_updated %> <%= 'border-l-4 border-l-red-500 bg-red-50/20' if error %> <%= 'opacity-75' unless match.predictable? %> match-row min-h-24 px-3 md:px-10 flex items-center transition-all group relative bg-white border-b border-slate-100">
 
-  <div
-    class="<%= "#{is_updated ? 'is-success-pulse' : ''} match-row min-h-22 px-3 md:px-10 flex items-center transition-colors group relative bg-white" %>"
-  >
-    <!-- HOME: Right-aligned, shrinks to accommodate center -->
-    <div class="flex-1 flex items-center justify-end gap-2 md:gap-4 min-w-0">
-      <span class="md:hidden text-[11px] font-black uppercase text-[#0a1d13] tracking-tight leading-none">
-        <%= match.home_team.tla %>
-      </span>
-      <span class="hidden md:block text-[13px] font-black uppercase text-[#0a1d13] tracking-tight truncate leading-none">
-        <%= match.home_team.short_name %>
-      </span>
-      <div class="w-8 h-8 md:w-10 md:h-10 bg-gray-50 rounded-xl flex items-center justify-center p-1.5 shrink-0 border border-gray-100 shadow-sm">
-        <%= image_tag match.home_team.crest_url, class: "w-full h-full object-contain" if match.home_team.crest_url.present? %>
-      </div>
-    </div>
-
-    <!-- CENTER: Tightened for Mobile -->
-    <div class="w-20 md:w-48 flex flex-col items-center gap-1 mx-2 md:mx-4 shrink-0">
-      <span class="text-[8px] md:text-[9px] font-black font-mono text-slate-300 uppercase tracking-widest">
-        <%= l match.kickoff_at, format: :only_time %>
-      </span>
-      <div class="relative w-full">
-        <select name="score_string"
-                data-action="auto-submit#submit"
-                class="w-full h-9 md:h-12 bg-gray-50 border-0 rounded-lg md:rounded-2xl text-center font-mono text-xs md:text-sm font-black appearance-none text-[#0a1d13] focus:ring-2 focus:ring-[#2d5a43] transition-all cursor-pointer px-0">
-          <option value="">-</option>
-          <%= score_group_options(current_val) %>
-        </select>
-      </div>
-    </div>
-
-    <!-- AWAY: Left-aligned, mirrors Home -->
-    <div class="flex-1 flex items-center justify-start gap-2 md:gap-4 min-w-0">
-      <div class="w-8 h-8 md:w-10 md:h-10 bg-gray-50 rounded-xl flex items-center justify-center p-1.5 shrink-0 border border-gray-100 shadow-sm">
-        <%= image_tag match.away_team.crest_url, class: "w-full h-full object-contain" if match.away_team.crest_url.present? %>
-      </div>
-      <span class="md:hidden text-[11px] font-black uppercase text-[#0a1d13] tracking-tight leading-none">
-        <%= match.away_team.tla %>
-      </span>
-      <span class="hidden md:block text-[13px] font-black uppercase text-[#0a1d13] tracking-tight truncate leading-none">
-        <%= match.away_team.short_name %>
+  <% if error %>
+    <div class="absolute inset-x-0 -top-3 z-20 flex justify-center pointer-events-none">
+      <span class="bg-red-600 text-white border border-red-700 text-[10px] font-black uppercase px-3 py-1 rounded-md shadow-md tracking-wider animate-fade-in whitespace-nowrap">
+        <%= prediction.errors.full_messages.to_sentence %>
       </span>
     </div>
+  <% end %>
 
+  <div class="flex-1 flex items-center justify-end gap-2 md:gap-4 min-w-0 z-10">
+    <span class="md:hidden text-[11px] font-black uppercase tracking-tight leading-none <%= match.predictable? ? 'text-[#0a1d13]' : 'text-slate-400' %>">
+      <%= match.home_team.tla %>
+    </span>
+    <span class="hidden md:block text-[13px] font-black uppercase tracking-tight truncate leading-none <%= match.predictable? ? 'text-[#0a1d13]' : 'text-slate-400' %>">
+      <%= match.home_team.short_name %>
+    </span>
+    <div class="w-8 h-8 md:w-10 md:h-10 bg-gray-50 rounded-xl flex items-center justify-center p-1.5 shrink-0 border border-gray-100 shadow-sm transition-colors <%= 'group-hover:bg-white' if match.predictable? %>">
+      <%= image_tag match.home_team.crest_url, class: "w-full h-full object-contain #{'grayscale opacity-50' unless match.predictable?}" if match.home_team.crest_url.present? %>
+    </div>
   </div>
-<% end %>
+
+  <div class="w-20 md:w-48 flex flex-col items-center gap-1 mx-2 md:mx-4 shrink-0 z-10">
+    <span class="text-[8px] md:text-[9px] font-black font-mono uppercase tracking-widest <%= match.predictable? ? 'text-slate-300' : 'text-red-400 font-bold' %>">
+      <%= match.predictable? ? l(match.kickoff_at, format: :only_time) : t('.locked_status', default: 'LÆST') %>
+    </span>
+    <div class="relative w-full">
+
+    <%= select_tag "predictions[#{match.id}]",
+        options_for_select(
+          match.predictable? ? score_group_options(current_val) : [], 
+          selected: current_val
+        ),
+        prompt: '-',
+        disabled: !match.predictable?,
+        class: "w-full h-9 md:h-12 border-0 text-center font-mono text-xs md:text-sm font-black appearance-none transition-all px-0 rounded-lg md:rounded-2xl " \
+              "#{match.predictable? ? 'bg-gray-50 text-[#0a1d13] focus:ring-2 focus:ring-[#2d5a43] cursor-pointer' : 'bg-slate-100 text-slate-400 cursor-not-allowed select-none'}" %>
+    </div>
+  </div>
+
+  <div class="flex-1 flex items-center justify-start gap-2 md:gap-4 min-w-0 z-10">
+    <div class="w-8 h-8 md:w-10 md:h-10 bg-gray-50 rounded-xl flex items-center justify-center p-1.5 shrink-0 border border-gray-100 shadow-sm transition-colors <%= 'group-hover:bg-white' if match.predictable? %>">
+      <%= image_tag match.away_team.crest_url, class: "w-full h-full object-contain #{'grayscale opacity-50' unless match.predictable?}" if match.away_team.crest_url.present? %>
+    </div>
+    <span class="md:hidden text-[11px] font-black uppercase tracking-tight leading-none <%= match.predictable? ? 'text-[#0a1d13]' : 'text-slate-400' %>">
+      <%= match.away_team.tla %>
+    </span>
+    <span class="hidden md:block text-[13px] font-black uppercase tracking-tight truncate leading-none <%= match.predictable? ? 'text-[#0a1d13]' : 'text-slate-400' %>">
+      <%= match.away_team.short_name %>
+    </span>
+  </div>
+</div>

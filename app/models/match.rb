@@ -1,4 +1,6 @@
 class Match < ApplicationRecord
+  PREDICTION_LOCK_WINDOW = 10.minutes
+
   belongs_to :competition
   belongs_to :season
 
@@ -22,7 +24,11 @@ class Match < ApplicationRecord
   end
 
   def minute
-    15
+    ''
+  end
+
+  def predictable?
+    kickoff_at > Match::PREDICTION_LOCK_WINDOW.from_now
   end
 
   def short_name_string(separator = ' - ')

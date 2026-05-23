@@ -1,5 +1,3 @@
 <% flash.each do |type, content| %>
-  <% next unless type.in? ['success', 'notice', 'error', 'warning'] %>
-
   <%= turbo_stream_action_tag :toast, content:, type: %>
 <% end %>

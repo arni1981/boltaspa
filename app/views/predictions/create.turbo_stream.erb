@@ -1,13 +1,19 @@
-<%= turbo_stream.replace dom_id(@match) do %>
-  <%= render "match_row", 
-              match: @match, 
-              prediction: @predictions_map[@match.id],
-              is_updated: true %>
+<% @updated_match_ids.each do |match_id| %>
+  <%= turbo_stream.replace "match_#{match_id}" do %>
+    <%= render "match_row", 
+                match: @matches.find { |m| m.id == match_id }, 
+                prediction: @predictions_map[match_id],
+                is_updated: true %>
+  <% end %>
 <% end %>
 
-<%= turbo_stream.replace "sticky_bottom" do %>
-  <%= render "sticky_bottom", 
-    predictions_map: @predictions_map, 
-    upcoming_matches: @upcoming_matches,
-    unfinished_matches: @unfinished_matches %>
+<% @errors.each do |prediction| %>
+  <% match_id = prediction.match_id %>
+
+  <%= turbo_stream.replace "match_#{match_id}" do %>
+    <%= render "match_row", 
+                match: @matches.find { |m| m.id == match_id }, 
+                prediction: prediction,
+                error: true %>
+  <% end %>
 <% end %>
