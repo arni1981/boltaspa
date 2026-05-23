@@ -10,6 +10,7 @@ class PredictionsController < ApplicationController
   def create
     @updated_match_ids = []
     @errors = []
+    @predictions = Current.user.predictions.where(id: params[:predictions].keys).includes(:match)
 
     params[:predictions].each do |match_id, score_string|
       next if score_string.blank?
@@ -17,7 +18,9 @@ class PredictionsController < ApplicationController
       home, away = score_string.split('-')
 
       # Locate in memory or initialize a brand new prediction object
-      prediction = Current.user.predictions.find_or_initialize_by(match_id: match_id)
+      prediction = @predictions.find do |p|
+        p.match_id == match_id
+      end || Current.user.predictions.find_or_initialize_by(match_id: match_id)
 
       prediction.assign_attributes(home_guess: home, away_guess: away)
       is_changed = prediction.changed?
@@ -37,6 +40,7 @@ class PredictionsController < ApplicationController
 
     respond_to do |format|
       format.turbo_stream
+      format.html { redirect_to predictions_path }
     end
   end
 end
