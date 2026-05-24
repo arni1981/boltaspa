@@ -3,5 +3,5 @@ class Season < ApplicationRecord
 
   has_many :matches
 
-  attr_readonly :year
+  # attr_readonly :year
 end
