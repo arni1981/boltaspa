@@ -60,8 +60,8 @@
   <%# 2. CENTER ENGINE: Restoration of fluid team names (Desktop 7-cols) %>
   <div class="flex-1 md:col-span-7 flex items-center justify-between md:justify-center min-w-0 md:px-4 mb-1 md:mb-0">
     <div class="flex-1 flex items-center justify-start md:justify-end gap-2 md:gap-3 min-w-0">
-      <span class="md:hidden text-[11px] font-black text-[#0a1d13] uppercase truncate shrink"><%= match.home_team.tla %></span>
-      <span class="hidden md:block text-sm font-black text-[#0a1d13] uppercase truncate"><%= match.home_team.short_name %></span>
+      <span class="md:hidden text-[11px] font-black text-[#0a1d13] uppercase truncate shrink"><%= localized_tla(match.home_team) %></span>
+      <span class="hidden md:block text-sm font-black text-[#0a1d13] uppercase truncate"><%= localized_short_name(match.home_team) %></span>
       <div class="w-6 h-6 md:w-7 md:h-7 shrink-0">
         <%= image_tag match.home_team.crest_url, class: "w-full h-full object-contain" %>
       </div>
@@ -78,8 +78,8 @@
       <div class="w-6 h-6 md:w-7 md:h-7 shrink-0">
         <%= image_tag match.away_team.crest_url, class: "w-full h-full object-contain" %>
       </div>
-      <span class="md:hidden text-[11px] font-black text-[#0a1d13] uppercase truncate shrink"><%= match.away_team.tla %></span>
-      <span class="hidden md:block text-sm font-black text-[#0a1d13] uppercase truncate"><%= match.away_team.short_name %></span>
+      <span class="md:hidden text-[11px] font-black text-[#0a1d13] uppercase truncate shrink"><%= localized_tla(match.away_team) %></span>
+      <span class="hidden md:block text-sm font-black text-[#0a1d13] uppercase truncate"><%= localized_short_name(match.away_team) %></span>
     </div>
   </div>
 

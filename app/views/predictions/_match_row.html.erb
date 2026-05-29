@@ -14,10 +14,10 @@
 
   <div class="flex-1 flex items-center justify-end gap-2 md:gap-4 min-w-0 z-10">
     <span class="md:hidden text-[11px] font-black uppercase tracking-tight leading-none <%= match.predictable? ? 'text-[#0a1d13]' : 'text-slate-400' %>">
-      <%= match.home_team.tla %>
+      <%= localized_tla(match.home_team) %>
     </span>
-    <span class="hidden md:block text-[13px] font-black uppercase tracking-tight truncate leading-none <%= match.predictable? ? 'text-[#0a1d13]' : 'text-slate-400' %>">
-      <%= match.home_team.short_name %>
+    <span class="hidden md:block text-[13px] font-black uppercase tracking-tight leading-none <%= match.predictable? ? 'text-[#0a1d13]' : 'text-slate-400' %>">
+      <%= localized_short_name(match.home_team) %>
     </span>
     <div class="w-8 h-8 md:w-10 md:h-10 bg-gray-50 rounded-xl flex items-center justify-center p-1.5 shrink-0 border border-gray-100 shadow-sm transition-colors <%= 'group-hover:bg-white' if match.predictable? %>">
       <%= image_tag match.home_team.crest_url, class: "w-full h-full object-contain #{'grayscale opacity-50' unless match.predictable?}" if match.home_team.crest_url.present? %>
@@ -49,10 +49,10 @@
       <%= image_tag match.away_team.crest_url, class: "w-full h-full object-contain #{'grayscale opacity-50' unless match.predictable?}" if match.away_team.crest_url.present? %>
     </div>
     <span class="md:hidden text-[11px] font-black uppercase tracking-tight leading-none <%= match.predictable? ? 'text-[#0a1d13]' : 'text-slate-400' %>">
-      <%= match.away_team.tla %>
+      <%= localized_tla(match.away_team) %>
     </span>
-    <span class="hidden md:block text-[13px] font-black uppercase tracking-tight truncate leading-none <%= match.predictable? ? 'text-[#0a1d13]' : 'text-slate-400' %>">
-      <%= match.away_team.short_name %>
+    <span class="hidden md:block text-[13px] font-black uppercase tracking-tight leading-none <%= match.predictable? ? 'text-[#0a1d13]' : 'text-slate-400' %>">
+      <%= localized_short_name(match.away_team) %>
     </span>
   </div>
 </div>

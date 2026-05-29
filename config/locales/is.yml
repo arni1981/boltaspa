@@ -351,4 +351,53 @@ is:
       join_failed: "Ekki tókst að skrá í deild."
     leagues:
       league_created: "Deildin var stofnuð"
-
+  
+  team_names:
+    ury: { name: "Úrúgvæ", tla: "ÚRÚ" }
+    ger: { name: "Þýskaland", tla: "ÞÝS" }
+    esp: { name: "Spánn", tla: "SPÁ" }
+    par: { name: "Paragvæ", tla: "PAR" }
+    arg: { name: "Argentína", tla: "ARG" }
+    gha: { name: "Gana", tla: "GAN" }
+    bra: { name: "Brasilía", tla: "BRA" }
+    por: { name: "Portúgal", tla: "POR" }
+    jpn: { name: "Japan", tla: "JAP" }
+    mex: { name: "Mexíkó", tla: "MEX" }
+    eng: { name: "England", tla: "ENG" }
+    usa: { name: "Bandaríkin", tla: "BND" }
+    kor: { name: "Suður-Kórea", tla: "KÓR" }
+    fra: { name: "Frakkland", tla: "FRA" }
+    rsa: { name: "Suður-Afríka", tla: "SAF" }
+    alg: { name: "Alsír", tla: "ALS" }
+    aus: { name: "Ástralía", tla: "ÁST" }
+    nzl: { name: "Nýja-Sjáland", tla: "NÝS" }
+    sui: { name: "Sviss", tla: "SVI" }
+    ecu: { name: "Ekvador", tla: "EKV" }
+    swe: { name: "Svíþjóð", tla: "SVÍ" }
+    cze: { name: "Tékkland", tla: "TÉK" }
+    cro: { name: "Króatía", tla: "KRÓ" }
+    ksa: { name: "Sádi-Arabía", tla: "SÁD" }
+    tun: { name: "Túnis", tla: "TÚN" }
+    tur: { name: "Tyrkland", tla: "TYR" }
+    sen: { name: "Senegal", tla: "SEN" }
+    bel: { name: "Belgía", tla: "BEL" }
+    mar: { name: "Marokkó", tla: "MAR" }
+    aut: { name: "Austurríki", tla: "AUS" }
+    col: { name: "Kólumbía", tla: "KÓL" }
+    egy: { name: "Egyptaland", tla: "EGY" }
+    can: { name: "Kanada", tla: "KAN" }
+    hai: { name: "Haítí", tla: "HAÍ" }
+    irn: { name: "Íran", tla: "ÍRA" }
+    bih: { name: "Bosnía", tla: "BOS" }
+    pan: { name: "Panama", tla: "PAN" }
+    cpv: { name: "Grænhöfðaeyjar", tla: "GHO" }
+    cod: { name: "Lýðveldið Kongó", tla: "KON" }
+    civ: { name: "Fílabeinsströndin", tla: "FÍL" }
+    qat: { name: "Katar", tla: "KAT" }
+    jor: { name: "Jórdanía", tla: "JÓR" }
+    irq: { name: "Írak", tla: "ÍRA" }
+    uzb: { name: "Úsbekistan", tla: "ÚSB" }
+    ned: { name: "Holland", tla: "HOL" }
+    nor: { name: "Noregur", tla: "NOR" }
+    sco: { name: "Skotland", tla: "SKO" }
+    cur: { name: "Kúrasao", tla: "KÚR" }
