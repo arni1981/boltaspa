@@ -10,12 +10,16 @@ class PredictionsController < ApplicationController
   def create
     @updated_match_ids = []
     @errors = []
-    @predictions = Current.user.predictions.where(id: params[:predictions].keys).includes(:match)
+    @predictions = Current.user.predictions.where(id: prediction_params.keys).includes(:match)
 
-    params[:predictions].each do |match_id, score_string|
-      next if score_string.blank?
+    prediction_params.each do |match_id, score_string|
+      home = score_string[:home_guess]
+      away = score_string[:away_guess]
 
-      home, away = score_string.split('-')
+      next if home.blank? && away.blank?
+
+      home ||= 0
+      away ||= 0
 
       # Locate in memory or initialize a brand new prediction object
       prediction = @predictions.find do |p|
@@ -36,11 +40,15 @@ class PredictionsController < ApplicationController
     # Only fetch predictions map for matches that successfully committed to the DB
     @predictions_map = Current.user.predictions_map(Match.where(id: @updated_match_ids))
 
-    @matches = Match.where(id: params[:predictions].keys)
+    @matches = Match.where(id: prediction_params.keys)
 
     respond_to do |format|
       format.turbo_stream
       format.html { redirect_to predictions_path }
     end
+  end
+
+  def prediction_params
+    params.fetch(:predictions, {})
   end
 end
