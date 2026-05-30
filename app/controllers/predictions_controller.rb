@@ -10,7 +10,7 @@ class PredictionsController < ApplicationController
   def create
     @updated_match_ids = []
     @errors = []
-    @predictions = Current.user.predictions.where(id: prediction_params.keys).includes(:match)
+    @predictions = Current.user.predictions.where(match_id: prediction_params.keys).includes(:match)
 
     prediction_params.each do |match_id, score_string|
       home = score_string[:home_guess]
