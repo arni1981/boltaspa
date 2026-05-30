@@ -18,15 +18,12 @@ class PredictionsController < ApplicationController
 
       next if home.blank? && away.blank?
 
-      home ||= 0
-      away ||= 0
-
       # Locate in memory or initialize a brand new prediction object
       prediction = @predictions.find do |p|
         p.match_id == match_id
       end || Current.user.predictions.find_or_initialize_by(match_id: match_id)
 
-      prediction.assign_attributes(home_guess: home, away_guess: away)
+      prediction.assign_attributes(home_guess: home.to_i, away_guess: away.to_i)
       is_changed = prediction.changed?
 
       if prediction.save
