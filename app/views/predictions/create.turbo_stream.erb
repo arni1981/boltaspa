@@ -1,7 +1,7 @@
 <% @updated_match_ids.each do |match_id| %>
   <%= turbo_stream.replace "match_#{match_id}" do %>
     <%= render "match_row", 
-                match: @matches.find { |m| m.id == match_id }, 
+                match: @matches_indexed[match_id], 
                 prediction: @predictions_map[match_id],
                 is_updated: true %>
   <% end %>
@@ -12,7 +12,7 @@
 
   <%= turbo_stream.replace "match_#{match_id}" do %>
     <%= render "match_row", 
-                match: @matches.find { |m| m.id == match_id }, 
+                match: @matches_indexed[match_id], 
                 prediction: prediction,
                 error: true %>
   <% end %>

@@ -1,4 +1,3 @@
-<%# app/views/predictions/_match_row.html.erb %>
 <%# locals: (match:, prediction:, is_updated: false, error: nil) -%>
 
 <% home_current = prediction&.home_guess %>
@@ -9,12 +8,17 @@
   class="relative bg-white border border-slate-100 rounded-2xl p-4 transition-all select-none <%= 'opacity-60' unless match.predictable? %> <%= 'is-success-pulse' if is_updated %> match-row"
 >
 
-  <%# Grouped field validation errors handling %>
-  <% if error %>
-    <div class="absolute inset-x-0 -top-3 flex justify-center z-20 pointer-events-none">
-      <span class="bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-lg shadow-lg animate-fade-in whitespace-nowrap">
-        <%= prediction.errors.full_messages.to_sentence %>
-      </span>
+  <%# CLEANED UP ERROR SECTOR: Grouped cleanly at the top of the card %>
+  <% if error && prediction&.errors&.any? %>
+    <div class="mb-4 w-full animate-fade-in">
+      <div class="bg-red-50 border border-red-200 text-red-700 text-xs font-semibold px-4 py-2.5 rounded-xl leading-relaxed">
+        <div class="flex items-start gap-2">
+          <svg class="w-4 h-4 text-red-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <span><%= prediction.errors.full_messages.to_sentence %></span>
+        </div>
+      </div>
     </div>
   <% end %>
 
@@ -42,11 +46,9 @@
         </div>
 
         <div class="min-w-0">
-          <%# TLA: Purely for narrow mobile viewports %>
           <div class="md:hidden text-[12px] font-mono font-bold text-[#0a1d13] uppercase leading-none">
             <%= localized_tla(match.home_team) %>
           </div>
-          <%# Short Name: Displays exclusively on desktop with upgraded font sizes %>
           <div class="hidden md:block text-[14px] font-bold text-[#0a1d13] leading-none truncate">
             <%= localized_short_name(match.home_team) %>
           </div>
@@ -54,7 +56,7 @@
       </div>
 
       <div class="flex gap-1 sm:gap-1.5 shrink-0">
-        <% (0..5).each do |score| %>
+        <% (0..4).each do |score| %>
           <% selected = home_current == score %>
           <label class="cursor-pointer">
             <input
@@ -65,7 +67,6 @@
               <%= 'checked' if selected %>
               <%= 'disabled' unless match.predictable? %>
             >
-            <%# Upgraded font sizes and responsive button spacing bounds %>
             <div class="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 rounded-lg sm:rounded-xl flex items-center justify-center text-xs md:text-sm font-bold font-mono transition-all border bg-slate-50 text-slate-400 border-slate-100 peer-checked:bg-[#0a1d13] peer-checked:text-white peer-checked:border-[#0a1d13] hover:text-slate-600">
               <%= score %>
             </div>
@@ -84,11 +85,9 @@
         </div>
 
         <div class="min-w-0">
-          <%# TLA: Purely for narrow mobile viewports %>
           <div class="md:hidden text-[12px] font-mono font-bold text-[#0a1d13] uppercase leading-none">
             <%= localized_tla(match.away_team) %>
           </div>
-          <%# Short Name: Displays exclusively on desktop with upgraded font sizes %>
           <div class="hidden md:block text-[14px] font-bold text-[#0a1d13] leading-none truncate">
             <%= localized_short_name(match.away_team) %>
           </div>
@@ -96,7 +95,7 @@
       </div>
 
       <div class="flex gap-1 sm:gap-1.5 shrink-0">
-        <% (0..5).each do |score| %>
+        <% (0..4).each do |score| %>
           <% selected = away_current == score %>
           <label class="cursor-pointer">
             <input
@@ -107,7 +106,6 @@
               <%= 'checked' if selected %>
               <%= 'disabled' unless match.predictable? %>
             >
-            <%# Upgraded font sizes and responsive button spacing bounds %>
             <div class="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 rounded-lg sm:rounded-xl flex items-center justify-center text-xs md:text-sm font-bold font-mono transition-all border bg-slate-50 text-slate-400 border-slate-100 peer-checked:bg-[#38bdf8] peer-checked:text-white peer-checked:border-[#38bdf8] hover:text-slate-600">
               <%= score %>
             </div>

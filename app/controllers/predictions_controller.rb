@@ -10,7 +10,7 @@ class PredictionsController < ApplicationController
   def create
     @updated_match_ids = []
     @errors = []
-    @predictions = Current.user.predictions.where(match_id: prediction_params.keys).includes(:match)
+    @predictions = Current.user.predictions.where(match_id: match_ids).includes(:match)
 
     prediction_params.each do |match_id, score_string|
       home = score_string[:home_guess]
@@ -37,7 +37,7 @@ class PredictionsController < ApplicationController
     # Only fetch predictions map for matches that successfully committed to the DB
     @predictions_map = Current.user.predictions_map(Match.where(id: @updated_match_ids))
 
-    @matches = Match.where(id: prediction_params.keys)
+    @matches_indexed = Match.where(id: match_ids).index_by(&:id)
 
     respond_to do |format|
       format.turbo_stream
@@ -45,7 +45,13 @@ class PredictionsController < ApplicationController
     end
   end
 
+  private
+
   def prediction_params
     params.fetch(:predictions, {})
+  end
+
+  def match_ids
+    prediction_params.keys
   end
 end
