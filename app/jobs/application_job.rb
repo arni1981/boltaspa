@@ -5,7 +5,7 @@ class ApplicationJob < ActiveJob::Base
     url = BASE_URL + endpoint
 
     connection = Faraday.new(url: url) do |f|
-      f.headers['X-Auth-Token'] = Rails.application.credentials('FOOTBALL_DATA_AUTH_TOKEN'.downcase)
+      f.headers['X-Auth-Token'] = Rails.application.credentials['FOOTBALL_DATA_AUTH_TOKEN'.downcase]
       f.request :json
       f.response :json
     end
