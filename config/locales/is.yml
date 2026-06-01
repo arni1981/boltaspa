@@ -148,6 +148,7 @@ is:
         nav_create_league: "Stofna deild"
         nav_join_league: "Ganga í deild"
         nav_signin: "Innskráning"
+        nav_scoring_system: Sigagjöf og reglur
         my_leagues_title: "Deildirnar mínar"
         settings_link: "Stillingar"
         signout_link: "Skrá út"

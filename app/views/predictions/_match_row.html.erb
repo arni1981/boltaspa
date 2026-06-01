@@ -64,8 +64,8 @@
               name="predictions[<%= match.id %>][home_guess]"
               value="<%= score %>"
               class="sr-only peer"
-              <%= 'checked' if selected %>
-              <%= 'disabled' unless match.predictable? %>
+              <% if selected %> checked <% end %>
+              <% if !match.predictable? %> disabled <% end %>
             >
             <div class="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 rounded-lg sm:rounded-xl flex items-center justify-center text-xs md:text-sm font-bold font-mono transition-all border bg-slate-50 text-slate-400 border-slate-100 peer-checked:bg-[#0a1d13] peer-checked:text-white peer-checked:border-[#0a1d13] hover:text-slate-600">
               <%= score %>
@@ -103,8 +103,8 @@
               name="predictions[<%= match.id %>][away_guess]"
               value="<%= score %>"
               class="sr-only peer"
-              <%= 'checked' if selected %>
-              <%= 'disabled' unless match.predictable? %>
+              <% if selected %> checked <% end %>
+              <% if !match.predictable? %> disabled <% end %>
             >
             <div class="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 rounded-lg sm:rounded-xl flex items-center justify-center text-xs md:text-sm font-bold font-mono transition-all border bg-slate-50 text-slate-400 border-slate-100 peer-checked:bg-[#38bdf8] peer-checked:text-white peer-checked:border-[#38bdf8] hover:text-slate-600">
               <%= score %>

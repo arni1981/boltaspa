@@ -46,6 +46,7 @@ en:
         nav_create_league: "Create League"
         nav_join_league: "Join League"
         nav_signin: "Sign In"
+        nav_scoring_system: Points system and rules
         my_leagues_title: "My Leagues"
         settings_link: "Account"
         signout_link: "Sign Out"

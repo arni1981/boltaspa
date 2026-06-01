@@ -16,7 +16,8 @@
           { label: t('.nav_overview'), path: root_path, icon: 'grid' },
           { label: t('.nav_predictions'), path: predictions_path, icon: 'clock' },
           { label: t('.nav_create_league'), path: new_league_path, icon: 'plus' },
-          { label: t('.nav_join_league'), path: join_league_path, icon: 'users' }
+          { label: t('.nav_join_league'), path: join_league_path, icon: 'users' },
+          { label: t('.nav_scoring_system'), path: scoring_path, icon: 'book' }
         ].each do |item| %>
         <% is_active = current_page?(item[:path]) %>
         <%= link_to(item[:path], class: "group flex items-center gap-3 px-4 py-2.5 rounded-xl text-[11px] font-black uppercase tracking-[0.15em] transition-all #{is_active ? 'bg-white/5 text-[#2d5a43]' : 'text-slate-500 hover:text-white hover:bg-white/[0.02]'}") do %>
