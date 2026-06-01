@@ -10,7 +10,7 @@ class Prediction < ApplicationRecord
             presence: true
 
   validates :home_guess, :away_guess,
-            numericality: { only_integer: true, in: 0..4 },
+            numericality: { only_integer: true, in: 0..5 },
             allow_nil: true
 
   def match_not_started
