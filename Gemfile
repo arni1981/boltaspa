@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 # --- Core Framework & Servers ---
 gem 'bootsnap', require: false
 gem 'puma'
-gem 'rails', github: 'rails/rails'
+gem 'rails'
 
 # --- Database & Advanced SQL Engine ---
 gem 'fx'
