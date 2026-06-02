@@ -27,7 +27,7 @@ is:
 
   "admin/dashboard":
     index:
-      page_title: 'Stjórnendahorn'
+      page_title: "Stjórnendahorn"
 
   "admin/profiles":
     show:
@@ -101,6 +101,22 @@ is:
   layouts:
     footer:
       copyright_html: "Boltaspa.is"
+    shared:
+      sidebar:
+        brand_name: "Boltaspá"
+        nav_overview: "Yfirlit"
+        nav_predictions: "Spá í leiki"
+        nav_create_league: "Stofna deild"
+        nav_join_league: "Ganga í deild"
+        nav_signin: "Innskráning"
+        nav_scoring_system: "Stigagjöf og reglur"
+        my_leagues_title: "Deildirnar mínar"
+        settings_link: "Stillingar"
+        signout_link: "Skrá út"
+        bottom_nav:
+          home: "Heim"
+          predictions: "Spá"
+          leagues: "Deildir"
 
   custom_errors:
     not_found:
@@ -137,25 +153,6 @@ is:
       preferences_badge: "Kjörstillingar"
       send_reminder_email: "Senda áminningarpóst"
       reminder_email_desc: "Fáðu tilkynningu þegar leikir eru að hefjast"
-
-  # Layouts
-  layouts:
-    shared:
-      sidebar:
-        brand_name: "Boltaspá"
-        nav_overview: "Yfirlit"
-        nav_predictions: "Spá í leiki"
-        nav_create_league: "Stofna deild"
-        nav_join_league: "Ganga í deild"
-        nav_signin: "Innskráning"
-        nav_scoring_system: Sigagjöf og reglur
-        my_leagues_title: "Deildirnar mínar"
-        settings_link: "Stillingar"
-        signout_link: "Skrá út"
-        bottom_nav:
-          home: "Heim"
-          predictions: "Spá"
-          leagues: "Deildir"
 
   common:
     home: Heim
@@ -214,6 +211,61 @@ is:
       breadcrumb_leagues: "Deildir"
       breadcrumb_current: "Deildir"
       invite_new_members: "Bjóða nýjum félögum"
+
+  pages:
+    scoring:
+      title: "Stigagjöf og reglur"
+      breadcrumb_current: "Reglur"
+      deadline_title: "Skilafrestur spáa"
+      deadline_description: "Lokað er fyrir allar spár nákvæmlega 10 mínútum áður en leikur hefst (samkvæmt opinberum upphafstíma leiksins)."
+      deadline_example_badge: "Dæmi"
+      deadline_example_text: "Ef leikur hefst klukkan 19:00, læsist leikurinn sjálfkrafa klukkan 18:50. Eftir það er ómögulegt að breyta eða vista spá."
+      core_concept_title: "Hvernig virkar kerfið?"
+      core_concept_description: "Stigagjöfin reiknast sjálfkrafa út frá þremur flokkum eftir að leik lýkur. Kerfið verðlaunar rétt úrslit ríkulega en dregur úr stigum eftir því sem spáin fjarlægist lokastaðann."
+      points_distribution_title: "Stigaliðir"
+      tier_1_points: "25"
+      tier_1_title: "Hárrétt niðurstaða"
+      tier_1_description: "Bæði heimalið og útilið með nákvæmlega rétta markatölu."
+      tier_2_points: "10-20"
+      tier_2_title: "Rétt úrslit (Heimasigur / Jafntefli / Útisigur)"
+      tier_2_description: "Þú spáir réttum sigurvegara eða jafntefli byggt á tákni. Þú byrjar með 20 stig en færð frádrátt fyrir skekkju í mörkum og markamismun. Þú færð þó aldrei færri en 10 stig ef táknið er rétt."
+      tier_3_points: "0-4"
+      tier_3_title: "Nálægðarstig (Hræætan)"
+      tier_3_description: "Ef þú klúðrar úrslitunum geturðu samt krækt í allt að 4 sárabótastig ef mörkin sem þú spáðir voru nálægt lokastaðnum."
+      example_a_title: "Dæmi A: Leikur endar með sigri (2 - 1)"
+      example_a_subtitle: "Ef lokastaða leiksins er 2 - 1:"
+      example_a_exact_label: "Þín spá: 2 - 1"
+      example_a_exact_points: "+25 stig"
+      example_a_exact_description: "Hárrétt úrslit gefa fullan bónus."
+      example_a_correct_outcome_imperfect_gd_label: "Þín spá: 3 - 1"
+      example_a_correct_outcome_imperfect_gd_points: "+17 stig"
+      example_a_correct_outcome_imperfect_gd_description: "Rétt tákn (heimasigur). Skekkjan er 1 mark á heimaliðinu og 1 mark á markamismuninum (20 - (1 × 2) - 1 = 17)."
+      example_a_correct_outcome_perfect_total_label: "Þín spá: 1 - 0"
+      example_a_correct_outcome_perfect_total_points: "+16 stig"
+      example_a_correct_outcome_perfect_total_description: "Rétt tákn (heimasigur). Markamismunurinn er réttur (+1), en heildarmarkaskekkjan er 2 mörk."
+      example_a_correct_outcome_perfect_gd_label: "Þín spá: 4 - 3"
+      example_a_correct_outcome_perfect_gd_points: "+12 stig"
+      example_a_correct_outcome_perfect_gd_description: "Rétt úrslit (heimasigur) og rétt markamismunur (+1). Þótt mörkin séu mörg, bjargar rétti mismunurinn spánni."
+      example_a_correct_outcome_high_error_label: "Þín spá: 4 - 0"
+      example_a_correct_outcome_high_error_points: "+11 stig"
+      example_a_correct_outcome_high_error_description: "Rétt úrslit (heimasigur). Mikil markaskekkja dregur úr stigum en fer ekki neðar en lágmarksgildið fyrir rétt tákn."
+      example_a_wrong_outcome_high_scavenger_label: "Þín spá: 1 - 1"
+      example_a_wrong_outcome_high_scavenger_points: "+3 stig"
+      example_a_wrong_outcome_high_scavenger_description: "Rangt tákn (jafntefli), en nálægðarstig gefa samt 3 stig þar sem heildarmarkaskekkjan var aðeins 1 mark á heimaliðinu (4 - 1 = 3)."
+      example_a_wrong_outcome_precise_label: "Þín spá: 1 - 2"
+      example_a_wrong_outcome_precise_points: "+2 stig"
+      example_a_wrong_outcome_precise_description: "Rangt tákn (útisigur í stað heimasigurs), en nálægðarstig gefa 2 stig vegna þess að heildarmarkaskekkjan var aðeins 2 mörk (4 - 2 = 2)."
+      example_b_title: "Dæmi B: Leikur endar með jafntefli (1 - 1)"
+      example_b_subtitle: "Ef lokastaða leiksins er 1 - 1:"
+      example_b_exact_draw_label: "Þín spá: 1 - 1"
+      example_b_exact_draw_points: "+25 stig"
+      example_b_exact_draw_description: "Hárrétt jafntefli gefur fullan bónus."
+      example_b_symmetrical_draw_label: "Þín spá: 2 - 2"
+      example_b_symmetrical_draw_points: "+16 stig"
+      example_b_symmetrical_draw_description: "Rétt tákn (jafntefli). Mismunurinn passar (0), en mörkin eru tveimur of mörg."
+      example_b_wrong_outcome_scavenger_label: "Þín spá: 2 - 1"
+      example_b_wrong_outcome_scavenger_points: "+3 stig"
+      example_b_wrong_outcome_scavenger_description: "Rangt tákn (heimasigur), en nálægðarstig gefa samt 3 stig þar sem heildarmarkaskekkjan var aðeins 1 mark."
 
   # Memberships
   memberships:
@@ -281,7 +333,6 @@ is:
     match_row:
       live: Beint
 
-
   predictions:
     create:
       success_notice: Spár hafa verið uppfærðar.
@@ -310,12 +361,12 @@ is:
     show:
       create_league_badge: "01"
       create_league_label: "System // Architect"
-      create_league_title: "STOFNA<br><span class=\"text-[#2d5a43]\">NÝJA</span> DEILD"
+      create_league_title: 'STOFNA<br><span class="text-[#2d5a43]">NÝJA</span> DEILD'
       create_league_description: "Settu upp þína eigin keppni. Þú stjórnar reglunum og hópnum þínum."
       create_league_button: "BYRJA NÝJA DEILD"
       join_league_badge: "02"
       join_league_label: "System // Challenger"
-      join_league_title: "SLÁST Í<br><span class=\"text-slate-400\">HÓP MEÐ</span> VINI"
+      join_league_title: 'SLÁST Í<br><span class="text-slate-400">HÓP MEÐ</span> VINI'
       join_league_label_text: "Sláðu inn boðskóða"
       join_league_placeholder: "T.D. BOLTI-24"
       join_league_button: "GANGA Í DEILD"
@@ -352,7 +403,7 @@ is:
       join_failed: "Ekki tókst að skrá í deild."
     leagues:
       league_created: "Deildin var stofnuð"
-  
+
   team_names:
     ury: { name: "Úrúgvæ", tla: "ÚRÚ" }
     ger: { name: "Þýskaland", tla: "ÞÝS" }

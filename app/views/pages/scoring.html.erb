@@ -1,8 +1,6 @@
-<%# app/views/predictions/rules.html.erb %>
-
 <%= render 'layouts/shared/page_header',
-    title: "Stigagjöf og reglur",
-    breadcrumbs: [{ name: t('common.home'), path: root_path }, { name: "Reglur" }] %>
+    title: t('.title'),
+    breadcrumbs: [{ name: t('common.home'), path: root_path }, { name: t('.breadcrumb_current') }] %>
 
 <div class="max-w-2xl mx-auto px-4 pb-32">
 
@@ -11,69 +9,50 @@
     <div class="absolute top-0 right-0 w-32 h-32 bg-[#f9faf9] rounded-bl-full -z-10 opacity-50"></div>
     <div class="flex items-center gap-3 mb-3">
       <div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
-      <h2 class="text-[16px] font-bold text-[#0a1d13]">Skilafrestur spáa</h2>
+      <h2 class="text-[16px] font-bold text-[#0a1d13]"><%= t('.deadline_title') %></h2>
     </div>
-    <p class="text-[14px] text-slate-600 leading-relaxed">
-      Lokað er fyrir allar spár nákvæmlega <strong class="text-[#0a1d13]">10 mínútum áður en leikur hefst</strong> (samkvæmt opinberum upphafstíma leiksins).
-    </p>
+    <p class="text-[14px] text-slate-600 leading-relaxed"><%= t('.deadline_description') %></p>
     <div class="mt-4 p-3 bg-slate-50 rounded-xl flex items-center gap-3 border border-slate-100">
-      <span class="text-[11px] font-mono font-bold uppercase tracking-wider text-red-600 bg-red-50 px-2 py-0.5 rounded-md shrink-0">
-        Dæmi
-      </span>
-      <p class="text-[12px] text-slate-500 font-mono">
-        Ef leikur hefst klukkan 19:00, læsist leikurinn í kerfinu sjálfkrafa klukkan 18:50. Eftir það er ómögulegt að breyta eða vista spá.
-      </p>
+      <span class="text-[11px] font-mono font-bold uppercase tracking-wider text-red-600 bg-red-50 px-2 py-0.5 rounded-md shrink-0"><%= t('.deadline_example_badge') %></span>
+      <p class="text-[12px] text-slate-500 font-mono"><%= t('.deadline_example_text') %></p>
     </div>
   </div>
 
   <%# 2. CORE CONCEPT CARD %>
   <div class="bg-white border border-slate-100 rounded-2xl p-6 md:p-8 shadow-sm mb-6">
-    <h2 class="text-[16px] font-bold text-[#0a1d13] mb-3">Hvernig virkar kerfið?</h2>
-    <p class="text-[14px] text-slate-600 leading-relaxed">
-      Stigagjöfin reiknast sjálfkrafa út frá þremur nákvæmum flokkum eftir að leik lýkur. Kerfið verðlaunar ríkulega fyrir hárrétt úrslit,
-      en dregur úr stigum eftir því sem spáin fjarlægist lokastöðuna.
-    </p>
+    <h2 class="text-[16px] font-bold text-[#0a1d13] mb-3"><%= t('.core_concept_title') %></h2>
+    <p class="text-[14px] text-slate-600 leading-relaxed"><%= t('.core_concept_description') %></p>
   </div>
 
   <%# 3. POINTS DISTRIBUTION CARD %>
   <div class="bg-white border border-slate-100 rounded-2xl p-6 md:p-8 shadow-sm mb-6">
-    <h2 class="text-[16px] font-bold text-[#0a1d13] mb-4">Stigaliðir</h2>
+    <h2 class="text-[16px] font-bold text-[#0a1d13] mb-4"><%= t('.points_distribution_title') %></h2>
 
     <div class="space-y-4">
       <%# Tier 1 %>
       <div class="flex items-start gap-4 pb-4 border-b border-slate-50">
-        <div class="h-8 min-w-[32px] px-2 rounded-xl bg-[#0a1d13] flex items-center justify-center text-white font-bold font-mono text-xs md:text-sm shrink-0 shadow-sm">
-          25
-        </div>
+        <div class="h-8 min-w-[32px] px-2 rounded-xl bg-[#0a1d13] flex items-center justify-center text-white font-bold font-mono text-xs md:text-sm shrink-0 shadow-sm"><%= t('.tier_1_points') %></div>
         <div class="min-w-0">
-          <div class="text-[14px] font-bold text-[#0a1d13] leading-tight">Hárrétt niðurstaða</div>
-          <div class="text-[12px] text-slate-500 mt-1">Bæði heimalið og útilið með nákvæmlega rétta markatölu.</div>
+          <div class="text-[14px] font-bold text-[#0a1d13] leading-tight"><%= t('.tier_1_title') %></div>
+          <div class="text-[12px] text-slate-500 mt-1"><%= t('.tier_1_description') %></div>
         </div>
       </div>
 
       <%# Tier 2 %>
       <div class="flex items-start gap-4 pb-4 border-b border-slate-50">
-        <div class="h-8 min-w-[32px] px-2.5 rounded-xl bg-[#2d5a43] flex items-center justify-center text-white font-bold font-mono text-xs md:text-sm shrink-0 shadow-sm whitespace-nowrap">
-          10-20
-        </div>
+        <div class="h-8 min-w-[32px] px-2.5 rounded-xl bg-[#2d5a43] flex items-center justify-center text-white font-bold font-mono text-xs md:text-sm shrink-0 shadow-sm whitespace-nowrap"><%= t('.tier_2_points') %></div>
         <div class="min-w-0">
-          <div class="text-[14px] font-bold text-[#0a1d13] leading-tight">Rétt úrslit (Heimasigur / Jafntefli / Útisigur)</div>
-          <div class="text-[12px] text-slate-500 mt-1">
-            Þú spáir réttum sigurvegara eða jafntefli byggt á hlutfalli mismunarins (<span class="font-mono bg-slate-50 px-1 py-0.5 rounded text-slate-600">sign</span>). Þú byrjar með 20 stig en færð frádrátt fyrir skekkju í mörkum og markamismun. Þú færð þó <strong>aldrei minna en 10 stig</strong> ef táknið er rétt.
-          </div>
+          <div class="text-[14px] font-bold text-[#0a1d13] leading-tight"><%= t('.tier_2_title') %></div>
+          <div class="text-[12px] text-slate-500 mt-1"><%= t('.tier_2_description') %></div>
         </div>
       </div>
 
       <%# Tier 3 %>
       <div class="flex items-start gap-4">
-        <div class="h-8 min-w-[32px] px-2 rounded-xl bg-slate-100 flex items-center justify-center text-slate-700 font-bold font-mono text-xs md:text-sm shrink-0 shadow-sm whitespace-nowrap">
-          0-4
-        </div>
+        <div class="h-8 min-w-[32px] px-2 rounded-xl bg-slate-100 flex items-center justify-center text-slate-700 font-bold font-mono text-xs md:text-sm shrink-0 shadow-sm whitespace-nowrap"><%= t('.tier_3_points') %></div>
         <div class="min-w-0">
-          <div class="text-[14px] font-bold text-[#0a1d13] leading-tight">Nálægðarstig (Hræætan)</div>
-          <div class="text-[12px] text-slate-500 mt-1">
-            Ef þú klúðrar úrslitunum (spáir t.d. heimasigri en leikurinn endar með jafntefli) geturðu samt krækt í allt að 4 sárabótastig ef mörkin sem þú spáðir voru nálægt lokastöðunni.
-          </div>
+          <div class="text-[14px] font-bold text-[#0a1d13] leading-tight"><%= t('.tier_3_title') %></div>
+          <div class="text-[12px] text-slate-500 mt-1"><%= t('.tier_3_description') %></div>
         </div>
       </div>
     </div>
@@ -81,106 +60,106 @@
 
   <%# 4. SCENARIO A: DECISIVE WIN %>
   <div class="bg-white border border-slate-100 rounded-2xl p-6 md:p-8 shadow-sm mb-6">
-    <h2 class="text-[16px] font-bold text-[#0a1d13] mb-1">Dæmi A: Leikur endar með sigri (2 - 1)</h2>
-    <p class="text-[12px] font-mono text-slate-400 mb-6">Ef lokastaða leiksins er 2 - 1:</p>
+    <h2 class="text-[16px] font-bold text-[#0a1d13] mb-1"><%= t('.example_a_title') %></h2>
+    <p class="text-[12px] font-mono text-slate-400 mb-6"><%= t('.example_a_subtitle') %></p>
 
     <div class="space-y-4">
       <%# Example 1: Exact Sync %>
       <div class="p-4 bg-slate-50 rounded-xl">
         <div class="flex items-center justify-between mb-1">
-          <span class="text-[13px] font-bold text-[#0a1d13]">Þín spá: 2 - 1</span>
-          <span class="text-xs font-bold font-mono text-white bg-[#0a1d13] px-2 py-0.5 rounded-md">+25 stig</span>
+          <span class="text-[13px] font-bold text-[#0a1d13]"><%= t('.example_a_exact_label') %></span>
+          <span class="text-xs font-bold font-mono text-white bg-[#0a1d13] px-2 py-0.5 rounded-md"><%= t('.example_a_exact_points') %></span>
         </div>
-        <p class="text-[11px] text-slate-500">Hárrétt úrslit gefa fullan bónus.</p>
+        <p class="text-[11px] text-slate-500"><%= t('.example_a_exact_description') %></p>
       </div>
 
       <%# Example 2: Correct Outcome, Imperfect GD %>
       <div class="p-4 bg-slate-50 rounded-xl">
         <div class="flex items-center justify-between mb-1">
-          <span class="text-[13px] font-bold text-[#0a1d13]">Þín spá: 3 - 1</span>
-          <span class="text-xs font-bold font-mono text-white bg-[#2d5a43] px-2 py-0.5 rounded-md">+17 stig</span>
+          <span class="text-[13px] font-bold text-[#0a1d13]"><%= t('.example_a_correct_outcome_imperfect_gd_label') %></span>
+          <span class="text-xs font-bold font-mono text-white bg-[#2d5a43] px-2 py-0.5 rounded-md"><%= t('.example_a_correct_outcome_imperfect_gd_points') %></span>
         </div>
-        <p class="text-[11px] text-slate-500">Rétt tákn (heimasigur). Skekkjan er 1 mark á heimaliðinu og 1 mark á markamismuninum (20 - (1 × 2) - 1 = 17).</p>
+        <p class="text-[11px] text-slate-500"><%= t('.example_a_correct_outcome_imperfect_gd_description') %></p>
       </div>
 
-      <%# Example 3: Correct Outcome, Perfect GD %>
+      <%# Example 3: Correct Outcome, Perfect Total %>
       <div class="p-4 bg-slate-50 rounded-xl">
         <div class="flex items-center justify-between mb-1">
-          <span class="text-[13px] font-bold text-[#0a1d13]">Þín spá: 1 - 0</span>
-          <span class="text-xs font-bold font-mono text-white bg-[#2d5a43] px-2 py-0.5 rounded-md">+16 stig</span>
+          <span class="text-[13px] font-bold text-[#0a1d13]"><%= t('.example_a_correct_outcome_perfect_total_label') %></span>
+          <span class="text-xs font-bold font-mono text-white bg-[#2d5a43] px-2 py-0.5 rounded-md"><%= t('.example_a_correct_outcome_perfect_total_points') %></span>
         </div>
-        <p class="text-[11px] text-slate-500">Rétt tákn (heimasigur). Mismunurinn er réttur (+1), en vantar 2 mörk upp á heildarsamsvörun (20 - (2 × 2) - 0 = 16).</p>
+        <p class="text-[11px] text-slate-500"><%= t('.example_a_correct_outcome_perfect_total_description') %></p>
       </div>
 
-      <%# Example 4: Correct Outcome, Perfect Goal Difference Margin %>
+      <%# Example 4: Correct Outcome, Perfect GD %>
       <div class="p-4 bg-slate-50 rounded-xl">
         <div class="flex items-center justify-between mb-1">
-          <span class="text-[13px] font-bold text-[#0a1d13]">Þín spá: 4 - 3</span>
-          <span class="text-xs font-bold font-mono text-white bg-[#2d5a43] px-2 py-0.5 rounded-md">+12 stig</span>
+          <span class="text-[13px] font-bold text-[#0a1d13]"><%= t('.example_a_correct_outcome_perfect_gd_label') %></span>
+          <span class="text-xs font-bold font-mono text-white bg-[#2d5a43] px-2 py-0.5 rounded-md"><%= t('.example_a_correct_outcome_perfect_gd_points') %></span>
         </div>
-        <p class="text-[11px] text-slate-500">Rétt úrslit (heimasigur) og fullkominn markamismunur (+1). Þótt mörkin séu mörg, þá bjargar rétti mismunurinn spánni (20 - (4 × 2) - 0 = 12).</p>
+        <p class="text-[11px] text-slate-500"><%= t('.example_a_correct_outcome_perfect_gd_description') %></p>
       </div>
 
       <%# Example 5: Correct Outcome, High Error Margin %>
       <div class="p-4 bg-slate-50 rounded-xl">
         <div class="flex items-center justify-between mb-1">
-          <span class="text-[13px] font-bold text-[#0a1d13]">Þín spá: 4 - 0</span>
-          <span class="text-xs font-bold font-mono text-white bg-[#2d5a43] px-2 py-0.5 rounded-md">+11 stig</span>
+          <span class="text-[13px] font-bold text-[#0a1d13]"><%= t('.example_a_correct_outcome_high_error_label') %></span>
+          <span class="text-xs font-bold font-mono text-white bg-[#2d5a43] px-2 py-0.5 rounded-md"><%= t('.example_a_correct_outcome_high_error_points') %></span>
         </div>
-        <p class="text-[11px] text-slate-500">Rétt tákn (heimasigur). Mikil markaskekkja dregur úr stigum en hrynur ekki niður úr gólfinu (20 - (3 × 2) - 3 = 11).</p>
+        <p class="text-[11px] text-slate-500"><%= t('.example_a_correct_outcome_high_error_description') %></p>
       </div>
 
       <%# Example 6: Incorrect Outcome, High Scavenger %>
       <div class="p-4 bg-slate-50 rounded-xl">
         <div class="flex items-center justify-between mb-1">
-          <span class="text-[13px] font-bold text-[#0a1d13]">Þín spá: 1 - 1</span>
-          <span class="text-xs font-bold font-mono text-slate-600 bg-slate-200 px-2 py-0.5 rounded-md">+3 stig</span>
+          <span class="text-[13px] font-bold text-[#0a1d13]"><%= t('.example_a_wrong_outcome_high_scavenger_label') %></span>
+          <span class="text-xs font-bold font-mono text-slate-600 bg-slate-200 px-2 py-0.5 rounded-md"><%= t('.example_a_wrong_outcome_high_scavenger_points') %></span>
         </div>
-        <p class="text-[11px] text-slate-500">Rangt tákn (jafntefli), en Hræætan gefur 3 stig þar sem heildarmarkaskekkjan var aðeins 1 mark á heimaliðinu (4 - 1 = 3).</p>
+        <p class="text-[11px] text-slate-500"><%= t('.example_a_wrong_outcome_high_scavenger_description') %></p>
       </div>
 
       <%# Example 7: Incorrect Outcome, Precise Goal Volume (The Scavenger) %>
       <div class="p-4 bg-slate-50 rounded-xl">
         <div class="flex items-center justify-between mb-1">
-          <span class="text-[13px] font-bold text-[#0a1d13]">Þín spá: 1 - 2</span>
-          <span class="text-xs font-bold font-mono text-slate-600 bg-slate-200 px-2 py-0.5 rounded-md">+2 stig</span>
+          <span class="text-[13px] font-bold text-[#0a1d13]"><%= t('.example_a_wrong_outcome_precise_label') %></span>
+          <span class="text-xs font-bold font-mono text-slate-600 bg-slate-200 px-2 py-0.5 rounded-md"><%= t('.example_a_wrong_outcome_precise_points') %></span>
         </div>
-        <p class="text-[11px] text-slate-500">Rangt tákn (útisigur í stað heimasigurs), en Hræætan gefur þér samt 2 stig vegna þess að heildarmarkaskekkjan þín var aðeins 2 mörk samtals (4 - 2 = 2).</p>
+        <p class="text-[11px] text-slate-500"><%= t('.example_a_wrong_outcome_precise_description') %></p>
       </div>
     </div>
   </div>
 
   <%# 5. SCENARIO B: SCORE DRAW %>
   <div class="bg-white border border-slate-100 rounded-2xl p-6 md:p-8 shadow-sm">
-    <h2 class="text-[16px] font-bold text-[#0a1d13] mb-1">Dæmi B: Leikur endar með jafntefli (1 - 1)</h2>
-    <p class="text-[12px] font-mono text-slate-400 mb-6">Ef lokastaða leiksins er 1 - 1:</p>
+    <h2 class="text-[16px] font-bold text-[#0a1d13] mb-1"><%= t('.example_b_title') %></h2>
+    <p class="text-[12px] font-mono text-slate-400 mb-6"><%= t('.example_b_subtitle') %></p>
 
     <div class="space-y-4">
       <%# Example 1: Exact Draw Sync %>
       <div class="p-4 bg-slate-50 rounded-xl">
         <div class="flex items-center justify-between mb-1">
-          <span class="text-[13px] font-bold text-[#0a1d13]">Þín spá: 1 - 1</span>
-          <span class="text-xs font-bold font-mono text-white bg-[#0a1d13] px-2 py-0.5 rounded-md">+25 stig</span>
+          <span class="text-[13px] font-bold text-[#0a1d13]"><%= t('.example_b_exact_draw_label') %></span>
+          <span class="text-xs font-bold font-mono text-white bg-[#0a1d13] px-2 py-0.5 rounded-md"><%= t('.example_b_exact_draw_points') %></span>
         </div>
-        <p class="text-[11px] text-slate-500">Hárrétt jafntefli gefur fullan bónus.</p>
+        <p class="text-[11px] text-slate-500"><%= t('.example_b_exact_draw_description') %></p>
       </div>
 
       <%# Example 2: Symmetrical Draw Error %>
       <div class="p-4 bg-slate-50 rounded-xl">
         <div class="flex items-center justify-between mb-1">
-          <span class="text-[13px] font-bold text-[#0a1d13]">Þín spá: 2 - 2</span>
-          <span class="text-xs font-bold font-mono text-white bg-[#2d5a43] px-2 py-0.5 rounded-md">+16 stig</span>
+          <span class="text-[13px] font-bold text-[#0a1d13]"><%= t('.example_b_symmetrical_draw_label') %></span>
+          <span class="text-xs font-bold font-mono text-white bg-[#2d5a43] px-2 py-0.5 rounded-md"><%= t('.example_b_symmetrical_draw_points') %></span>
         </div>
-        <p class="text-[11px] text-slate-500">Rétt tákn (jafntefli). Mismunurinn passar (0), en mörkin eru tveimur of mörg (20 - (2 × 2) - 0 = 16).</p>
+        <p class="text-[11px] text-slate-500"><%= t('.example_b_symmetrical_draw_description') %></p>
       </div>
 
       <%# Example 3: Wrong Outcome Scavenger %>
       <div class="p-4 bg-slate-50 rounded-xl">
         <div class="flex items-center justify-between mb-1">
-          <span class="text-[13px] font-bold text-[#0a1d13]">Þín spá: 2 - 1</span>
-          <span class="text-xs font-bold font-mono text-slate-600 bg-slate-200 px-2 py-0.5 rounded-md">+3 stig</span>
+          <span class="text-[13px] font-bold text-[#0a1d13]"><%= t('.example_b_wrong_outcome_scavenger_label') %></span>
+          <span class="text-xs font-bold font-mono text-slate-600 bg-slate-200 px-2 py-0.5 rounded-md"><%= t('.example_b_wrong_outcome_scavenger_points') %></span>
         </div>
-        <p class="text-[11px] text-slate-500">Rangt tákn (heimasigur), en Hræætan skilar 3 stigum vegna þess að heildarskekkjan er aðeins 1 mark (4 - 1 = 3).</p>
+        <p class="text-[11px] text-slate-500"><%= t('.example_b_wrong_outcome_scavenger_description') %></p>
       </div>
     </div>
   </div>
