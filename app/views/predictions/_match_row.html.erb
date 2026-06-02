@@ -1,3 +1,4 @@
+<%# app/views/predictions/_match_row.html.erb %>
 <%# locals: (match:, prediction:, is_updated: false, error: nil) -%>
 
 <% home_current = prediction&.home_guess %>
@@ -5,10 +6,11 @@
 
 <div
   id="<%= dom_id(match) %>"
+  data-predictions-keyboard-target="matchRow"
+  data-predictable="<%= match.predictable? %>"
   class="relative bg-white border border-slate-100 rounded-2xl p-4 transition-all select-none <%= 'opacity-60' unless match.predictable? %> <%= 'is-success-pulse' if is_updated %> match-row"
 >
 
-  <%# CLEANED UP ERROR SECTOR: Grouped cleanly at the top of the card %>
   <% if error && prediction&.errors&.any? %>
     <div class="mb-4 w-full animate-fade-in">
       <div class="bg-red-50 border border-red-200 text-red-700 text-xs font-semibold px-4 py-2.5 rounded-xl leading-relaxed">

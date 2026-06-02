@@ -5,9 +5,12 @@
     breadcrumbs: [{ name: t('common.home'), path: root_path }, { name: t('.breadcrumb_current') }] %>
 
 <%= form_with url: predictions_path do |f| %>
-  <div class="max-w-6xl pb-48 px-4 mx-auto">
+  <%# Grunnurinn: Tvær hreinar hlustanir á öll skjöl %>
+  <div class="max-w-6xl pb-48 px-4 mx-auto" 
+       data-controller="predictions-keyboard"
+       data-action="keydown@document->predictions-keyboard#handleKeydown keydown@document->predictions-keyboard#handleNavigation">
 
-    <%# Group by the actual calendar date %>
+    <%# Flokkað eftir dögum %>
     <% @upcoming_matches.group_by { |m| m.kickoff_at.to_date }.each do |date, matches| %>
 
       <div class="mb-4 mt-10 px-2 flex items-center justify-between">
@@ -17,7 +20,7 @@
         <div class="h-px bg-slate-100 flex-1 ml-6"></div>
       </div>
 
-      <%# THE COMPACT-PRO 2-COLUMN GRID GRID %>
+      <%# 2-dálka útlit %>
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 isolate">
           <% matches.each do |match| %>
             <%= render 'match_row', 
