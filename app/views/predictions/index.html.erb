@@ -6,9 +6,15 @@
 
 <%= form_with url: predictions_path do |f| %>
   <%# Grunnurinn: Tvær hreinar hlustanir á öll skjöl %>
-  <div class="max-w-6xl pb-48 px-4 mx-auto" 
+  <div class="max-w-6xl pb-48 px-4 mx-auto"
        data-controller="predictions-keyboard"
-       data-action="keydown@document->predictions-keyboard#handleKeydown keydown@document->predictions-keyboard#handleNavigation">
+       data-action="
+        keydown@document->predictions-keyboard#handleKeydown:prevent
+        keydown.down@document->predictions-keyboard#handleForward:prevent
+        keydown.right@document->predictions-keyboard#handleForward:prevent
+        keydown.left@document->predictions-keyboard#handleBackwards:prevent
+        keydown.up@document->predictions-keyboard#handleBackwards:prevent
+        click->predictions-keyboard#handleRowClick">
 
     <%# Flokkað eftir dögum %>
     <% @upcoming_matches.group_by { |m| m.kickoff_at.to_date }.each do |date, matches| %>

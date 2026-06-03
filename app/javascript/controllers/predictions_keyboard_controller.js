@@ -20,7 +20,6 @@ export default class extends Controller {
     const currentRow = this.matchRowTargets[this.activeIndex]
     if (!currentRow || this.isLocked(currentRow)) return
 
-    e.preventDefault()
     const scoreValue = e.key
 
     const checkedHome = currentRow.querySelector('input[name$="[home_guess]"]:checked')
@@ -34,35 +33,25 @@ export default class extends Controller {
     }
   }
 
-  handleNavigation(e) {
-    if (e.key === "Backspace") {
-      const currentRow = this.matchRowTargets[this.activeIndex]
-      if (!currentRow) return
+  handleBackwards(e) {
+    this.regressRowSequentially()
+  }
 
-      const checkedHome = currentRow.querySelector('input[name$="[home_guess]"]:checked')
-      const checkedAway = currentRow.querySelector('input[name$="[away_guess]"]:checked')
+  handleForward(e) {
+    this.advanceRowSequentially()
+  }
 
-      if (checkedAway) {
-        e.preventDefault()
-        this.clearRadioGroup(currentRow, "away_guess")
-      } else if (checkedHome) {
-        e.preventDefault()
-        this.clearRadioGroup(currentRow, "home_guess")
-      } else {
-        e.preventDefault()
-        this.regressRowSequentially()
-      }
-      return
-    }
+  handleRowClick(e) {
+    // Find the closest parent card that belongs to our target array
+    const clickedRow = e.target.closest('[data-predictions-keyboard-target="matchRow"]')
+    if (!clickedRow || this.isLocked(clickedRow)) return
 
-    if (e.key === "ArrowDown" || e.key === "ArrowRight") {
-      e.preventDefault()
-      this.advanceRowSequentially()
-    }
+    // Find its placement index in our flat tracking group
+    const targetIndex = this.matchRowTargets.indexOf(clickedRow)
 
-    if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
-      e.preventDefault()
-      this.regressRowSequentially()
+    if (targetIndex !== -1 && targetIndex !== this.activeIndex) {
+      this.activeIndex = targetIndex
+      this.highlightActiveRow(false)
     }
   }
 
@@ -105,11 +94,14 @@ export default class extends Controller {
     })
   }
 
-  highlightActiveRow() {
+  highlightActiveRow(scrollIntoView = true) {
     this.matchRowTargets.forEach((row, idx) => {
       if (idx === this.activeIndex) {
         row.classList.add("ring-2", "ring-[#2d5a43]", "border-[#2d5a43]")
-        row.scrollIntoView({ behavior: "smooth", block: "center" })
+
+        if (scrollIntoView) {
+          row.scrollIntoView({ behavior: "smooth", block: "center" })
+        }
       } else {
         row.classList.remove("ring-2", "ring-[#2d5a43]", "border-[#2d5a43]")
       }
