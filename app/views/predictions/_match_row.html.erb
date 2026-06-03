@@ -1,8 +1,5 @@
 <%# locals: (match:, prediction:, is_updated: false, error: nil) -%>
 
-<% home_current = prediction&.home_guess %>
-<% away_current = prediction&.away_guess %>
-
 <div
   id="<%= dom_id(match) %>"
   data-predictions-keyboard-target="matchRow"
@@ -37,18 +34,35 @@
 
   <div class="space-y-4">
     <%# METADATA TIMING ROW %>
-    <div class="flex items-center justify-between pb-1 border-b border-slate-50 pr-16"><%# Added padding right to make room for badge %>
-      <span class="text-[10px] sm:text-xs font-bold font-mono text-slate-300">
-        <%= match.predictable? ? l(match.kickoff_at, format: :only_time) : t('.locked_status', default: 'Læst') %>
-      </span>
+    <div class="flex items-center justify-between pb-1 border-b border-slate-50 pr-16">
+      <div class="flex items-center gap-2 text-[10px] sm:text-xs font-bold font-mono">
+        <span class="text-slate-300">
+          <%= match.predictable? ? l(match.kickoff_at, format: :only_time) : t('.locked_status', default: 'Læst') %>
+        </span>
+
+        <% if match.stage.present? || match.group.present? %>
+          <span class="text-slate-300">•</span>
+          <span class="text-slate-400 font-semibold">
+            <%# Render stage translation if it exists %>
+            <%= t("matches.stages.#{match.stage.to_s.downcase}", default: match.stage.to_s.humanize) if match.stage.present? %>
+
+            <%# Append the group letter/name if present (e.g., " - A-riðill") %>
+            <% if match.group.present? %>
+              <span class="text-slate-300 font-normal">/</span>
+              <%# Extract letter if format is "GROUP_A" or leave as is if just "A" %>
+              <% group_letter = match.group.to_s.split('_').last %>
+              <%= t('matches.group_format', letter: group_letter, default: "#{group_letter}-riðill") %>
+            <% end %>
+          </span>
+        <% end %>
+      </div>
+
       <% unless match.predictable? %>
         <span class="text-[10px] sm:text-xs font-bold font-mono text-red-500 bg-red-50 px-2 py-0.5 rounded-md">
           <%= t('.locked_label', default: 'Læst') %>
         </span>
       <% end %>
     </div>
-
-    <%# ... Keep your existing home_team and away_team entry blocks exactly as they are ... %>
 
     <%# HOME TEAM %>
     <div class="flex items-center justify-between gap-2 md:gap-4">
@@ -70,7 +84,7 @@
 
       <div class="flex gap-1 sm:gap-1.5 shrink-0">
         <% (0..5).each do |score| %>
-          <% selected = home_current == score %>
+          <% selected = prediction&.home_guess == score %>
           <label class="cursor-pointer">
             <input
               type="radio"
@@ -108,7 +122,7 @@
 
       <div class="flex gap-1 sm:gap-1.5 shrink-0">
         <% (0..5).each do |score| %>
-          <% selected = away_current == score %>
+          <% selected = prediction&.away_guess == score %>
           <label class="cursor-pointer">
             <input
               type="radio"

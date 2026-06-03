@@ -419,6 +419,16 @@ is:
     leagues:
       league_created: "Deildin var stofnuð"
 
+  matches:
+    group_format: "%{letter}-riðill"
+    stages:
+      group_stage: "Riðlakeppni"
+      last_32: "32-liða úrslit"
+      last_16: "16-liða úrslit"
+      last_8: "8-liða úrslit"
+      semi_finals: "Undanúrslit"
+      finals: "Úrslit"
+
   team_names:
     ury: { name: "Úrúgvæ", tla: "ÚRÚ" }
     ger: { name: "Þýskaland", tla: "ÞÝS" }
