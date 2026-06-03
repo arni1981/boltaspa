@@ -1,19 +1,22 @@
+<%# app/views/predictions/index.html.erb %>
+
 <%= render 'layouts/shared/page_header', 
     title: t('.page_title'), 
     breadcrumbs: [{ name: t('common.home'), path: root_path }, { name: t('.breadcrumb_current') }] %>
 
+<%# COMPACT-PRO KEYBOARD GUIDE %>
 <div class="hidden lg:block max-w-6xl mx-auto px-4 mt-4 mb-2">
-  <div class="bg-white border border-slate-100 rounded-2xl p-4 flex flex-wrap items-center justify-between gap-4 text-[13px] text-slate-500 select-none">
+  <div class="bg-white border border-slate-100 rounded-2xl p-4 flex items-center justify-between gap-4 text-[13px] text-slate-500 select-none">
     <div class="flex items-center gap-2">
       <div class="w-2 h-2 rounded-full bg-[#2d5a43] animate-pulse"></div>
       <span class="font-bold text-[#0a1d13]">Flýtilyklar virkir:</span>
       <span>Smelltu á leik eða notaðu lyklaborðið til að spá.</span>
     </div>
 
-    <div class="flex flex-wrap items-center gap-x-6 gap-y-2 font-medium">
+    <div class="flex items-center gap-x-6 font-medium">
       <div class="flex items-center gap-1.5">
         <kbd class="px-1.5 py-0.5 text-[11px] font-mono font-bold bg-slate-50 border border-slate-200 rounded shadow-sm text-slate-600">0</kbd>
-        <span class="text-slate-300">-</span>
+        <span class="text-slate-300">til</span>
         <kbd class="px-1.5 py-0.5 text-[11px] font-mono font-bold bg-slate-50 border border-slate-200 rounded shadow-sm text-slate-600">5</kbd>
         <span class="text-slate-400 ml-1">Slá inn mörk</span>
       </div>
@@ -38,8 +41,8 @@
 
 <%= form_with url: predictions_path do |f| %>
   <div class="max-w-6xl pb-48 px-4 mx-auto"
-      data-controller="predictions-keyboard"
-      data-action="
+       data-controller="predictions-keyboard"
+       data-action="
         keydown@document->predictions-keyboard#handleKeydown
         keydown.right@document->predictions-keyboard#handleForward:prevent
         keydown.tab@document->predictions-keyboard#handleForward:prevent
@@ -49,7 +52,6 @@
         keydown.ctrl+s@document->predictions-keyboard#handleSaveTrigger:prevent
         click->predictions-keyboard#handleRowClick">
 
-    <%# Flokkað eftir dögum %>
     <% @upcoming_matches.group_by { |m| m.kickoff_at.to_date }.each do |date, matches| %>
 
       <div class="mb-4 mt-10 px-2 flex items-center justify-between">
@@ -59,7 +61,6 @@
         <div class="h-px bg-slate-100 flex-1 ml-6"></div>
       </div>
 
-      <%# 2-dálka útlit %>
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 isolate">
           <% matches.each do |match| %>
             <%= render 'match_row', 

@@ -8,7 +8,7 @@ export default class extends Controller {
     this.activeIndex = 0
 
     if (this.isLocked(this.matchRowTargets[this.activeIndex])) {
-      this.advanceRowSequentially()
+      this.move(1)
     } else {
       this.highlightActiveRow()
     }
@@ -35,8 +35,8 @@ export default class extends Controller {
     }
   }
 
-  // Force-saves the full form via Enter or Ctrl+S keys
   handleSaveTrigger(e) {
+    e.preventDefault()
     const form = this.element.closest("form")
     if (form) {
       form.requestSubmit()
@@ -44,43 +44,34 @@ export default class extends Controller {
   }
 
   handleBackwards(e) {
-    this.regressRowSequentially()
+    this.move(-1)
   }
 
   handleForward(e) {
-    this.advanceRowSequentially()
+    this.move(1)
   }
 
   handleRowClick(e) {
     const clickedRow = e.target.closest('[data-predictions-keyboard-target="matchRow"]')
     if (!clickedRow || this.isLocked(clickedRow)) return
 
-    const targetIndex = this.matchRowTargets[this.activeIndex] === clickedRow ? -1 : this.matchRowTargets.indexOf(clickedRow)
+    const targetIndex = this.matchRowTargets.indexOf(clickedRow)
 
-    if (targetIndex !== -1) {
+    if (targetIndex !== -1 && targetIndex !== this.activeIndex) {
       this.activeIndex = targetIndex
       this.highlightActiveRow(false)
     }
   }
 
-  advanceRowSequentially() {
-    let nextIndex = this.activeIndex
-    while (nextIndex < this.matchRowTargets.length - 1) {
-      nextIndex++
-      if (!this.isLocked(this.matchRowTargets[nextIndex])) {
-        this.activeIndex = nextIndex
-        this.highlightActiveRow()
-        return
-      }
-    }
-  }
+  move(step) {
+    let targetIndex = this.activeIndex
+    const maxIndex = this.matchRowTargets.length - 1
 
-  regressRowSequentially() {
-    let prevIndex = this.activeIndex
-    while (prevIndex > 0) {
-      prevIndex--
-      if (!this.isLocked(this.matchRowTargets[prevIndex])) {
-        this.activeIndex = prevIndex
+    while (targetIndex + step >= 0 && targetIndex + step <= maxIndex) {
+      targetIndex += step
+
+      if (!this.isLocked(this.matchRowTargets[targetIndex])) {
+        this.activeIndex = targetIndex
         this.highlightActiveRow()
         return
       }
