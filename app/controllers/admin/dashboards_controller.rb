@@ -4,10 +4,10 @@ module Admin
     def show
       # Core application KPIs
       @stats = {
-        notendur_alls: User.count,
-        deildir_alls: League.count,
-        spár_alls: Prediction.count,
-        virkir_idag: User.where(id: Visit.where(created_at: 24.hours.ago...).select(:user_id)).distinct.count
+        total_users: User.count,
+        total_leagues: League.count,
+        total_predictions: Prediction.count,
+        active_today: User.where(id: Visit.where(created_at: 24.hours.ago...).select(:user_id)).distinct.count
       }
 
       # Top performance engagement metrics
