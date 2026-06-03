@@ -35,6 +35,8 @@ Rails.application.routes.draw do
         as: :competition_by_year_leaderboard
   end
 
+  get 'match_details/:match_id' => 'match_details#show', as: :match_details
+
   get 'scoring' => 'pages#scoring'
   resources :memberships, only: %i[create destroy]
   resource :dashboard, only: :show

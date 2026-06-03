@@ -4,6 +4,7 @@
   id="<%= dom_id(match) %>"
   data-predictions-keyboard-target="matchRow"
   data-predictable="<%= match.predictable? %>"
+  data-sidebar-url="<%= match_details_path(match_id: match.id) %>"
   class="relative bg-white border border-slate-100 rounded-2xl p-4 transition-all select-none <%= 'opacity-60' unless match.predictable? %> match-row"
 >
 

@@ -102,10 +102,24 @@ export default class extends Controller {
         if (scrollIntoView) {
           row.scrollIntoView({ behavior: "smooth", block: "center" })
         }
+
+        // Trigger the sidebar data update lazily on active row focus switch
+        this.loadSidebarForActiveRow(row)
       } else {
         row.classList.remove("ring-2", "ring-[#2d5a43]", "border-[#2d5a43]")
       }
     })
+  }
+
+  loadSidebarForActiveRow(row) {
+    const sidebarUrl = row.dataset.sidebarUrl
+    if (!sidebarUrl) return
+
+    const sidebarFrame = document.getElementById("match_sidebar")
+
+    if (sidebarFrame?.src !== sidebarUrl) {
+      sidebarFrame.src = sidebarUrl
+    }
   }
 
   isLocked(row) {

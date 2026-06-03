@@ -40,7 +40,7 @@
 </div>
 
 <%= form_with url: predictions_path do |f| %>
-  <div class="max-w-6xl pb-48 px-4 mx-auto"
+ <div class="max-w-7xl pb-48 px-4 mx-auto flex gap-8 items-start"
        data-controller="predictions-keyboard"
        data-action="
         keydown@document->predictions-keyboard#handleKeydown
@@ -52,23 +52,36 @@
         keydown.ctrl+s@document->predictions-keyboard#handleSaveTrigger:prevent
         click->predictions-keyboard#handleRowClick">
 
-    <% @upcoming_matches.group_by { |m| m.kickoff_at.to_date }.each do |date, matches| %>
+    <%# LEFT SIDE: MATCHES GRID %>
+    <div class="flex-1">
+      <% @upcoming_matches.group_by { |m| m.kickoff_at.to_date }.each do |date, matches| %>
+        <div class="mb-4 mt-10 px-2 flex items-center justify-between">
+          <h3 class="text-[13px] font-bold text-slate-400 tracking-tight">
+            <%= l(date, format: "%A %d. %B") %>
+          </h3>
+          <div class="h-px bg-slate-100 flex-1 ml-6"></div>
+        </div>
 
-      <div class="mb-4 mt-10 px-2 flex items-center justify-between">
-        <h3 class="text-[13px] font-bold text-slate-400 tracking-tight">
-          <%= l(date, format: "%A %d. %B") %>
-        </h3>
-        <div class="h-px bg-slate-100 flex-1 ml-6"></div>
-      </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 isolate">
+            <% matches.each do |match| %>
+              <%= render 'match_row', match: match, prediction: @predictions_map[match.id] %>
+            <% end %>
+        </div>
+      <% end %>
+    </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 isolate">
-          <% matches.each do |match| %>
-            <%= render 'match_row', 
-                        match: match, 
-                        prediction: @predictions_map[match.id] %>
-          <% end %>
+    <%# RIGHT SIDE: STICKY COMPACT-PRO SIDEBAR %>
+    <aside class="hidden xl:block w-[360px] shrink-0 sticky top-6 self-start">
+      <div class="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm min-h-[400px]">
+        <%# Lazy-loaded Turbo Frame managed entirely via Hotwire %>
+        <%= turbo_frame_tag :match_sidebar, src: match_details_path(match_id: @upcoming_matches.first.id), loading: :lazy do %>
+          <div class="flex items-center justify-center h-48 text-slate-300 font-mono text-xs">
+            Hleður tölfræði...
+          </div>
+        <% end %>
       </div>
-    <% end %>
+    </aside>
+
   </div>
 
   <%# STICKY BOTTOM ACTIONS %>
