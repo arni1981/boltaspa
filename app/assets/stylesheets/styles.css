@@ -11,29 +11,6 @@ body {
   font-family: 'JetBrains Mono', monospace;
 }
 
-
-/* 2. Success Afterglow (Emerald): Deep branded pulse */
-@keyframes emerald-fade {
-  0% {
-    background-color: #dcfce7;
-    /* emerald-100: strong and clear */
-  }
-
-  20% {
-    background-color: #dcfce7;
-    /* Hold for a beat so it's not "weak" */
-  }
-
-  100% {
-    background-color: white;
-  }
-}
-
-.is-success-pulse {
-  /* Using 'forwards' to ensure it doesn't snap back if the animation ends */
-  animation: emerald-fade 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
 /* 3. Container & Layout Refinements */
 .predictions-group-container {
   @apply bg-white border border-gray-100 rounded-[2.5rem] shadow-sm overflow-hidden divide-y divide-gray-50;

@@ -54,6 +54,8 @@ en:
           home: "Home"
           predictions: "Predict"
           leagues: "Leagues"
+    error_messages:
+      title: "An error occurred"
 
   predictions:
     create:
@@ -62,17 +64,30 @@ en:
       page_title: "My Predictions"
       subtitle: "Open predictions"
       breadcrumb_current: "Predictions"
+      keyboard_guide:
+        active_keys: "Hotkeys active:"
+        usage_hint: "Click a match or use the keyboard to predict."
+        to: "to"
+        enter_score: "Enter score"
+        or: "or"
+        navigate_matches: "Navigate between matches"
+        save_all: "Save all"
       status_label: "Data Status"
       status_open: "open"
       matchday_label: "Matchday %{number}"
+      locked_status: "Locked"
+      locked_label: "Locked"
     sticky_bottom:
       save_button: "Save Predictions"
+      saving_with: "Saving..."
       missing_count: "Missing %{count} predictions"
       all_ready: "All ready"
       remaining: "Remaining: %{count}"
     match_row:
       select_placeholder: "Select..."
       other_option: "Other..."
+      locked_status: "Locked"
+      locked_label: "Locked"
       groups:
         home_win: "Home Win"
         draw: "Draw"

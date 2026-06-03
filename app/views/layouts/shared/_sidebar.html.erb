@@ -13,11 +13,11 @@
   <nav class="flex-1 px-4 space-y-1 mt-2 overflow-y-auto no-scrollbar">
     <% if Current.user %>
       <% [
-          { label: t('.nav_overview'), path: root_path, icon: 'grid' },
-          { label: t('.nav_predictions'), path: predictions_path, icon: 'clock' },
-          { label: t('.nav_create_league'), path: new_league_path, icon: 'plus' },
-          { label: t('.nav_join_league'), path: join_league_path, icon: 'users' },
-          { label: t('.nav_scoring_system'), path: scoring_path, icon: 'book' }
+          { label: t('layouts.shared.sidebar.nav_overview'), path: root_path, icon: 'grid' },
+          { label: t('layouts.shared.sidebar.nav_predictions'), path: predictions_path, icon: 'clock' },
+          { label: t('layouts.shared.sidebar.nav_create_league'), path: new_league_path, icon: 'plus' },
+          { label: t('layouts.shared.sidebar.nav_join_league'), path: join_league_path, icon: 'users' },
+          { label: t('layouts.shared.sidebar.nav_scoring_system'), path: scoring_path, icon: 'book' }
         ].each do |item| %>
         <% is_active = current_page?(item[:path]) %>
         <%= link_to(item[:path], class: "group flex items-center gap-3 px-4 py-2.5 rounded-xl text-[11px] font-black uppercase tracking-[0.15em] transition-all #{is_active ? 'bg-white/5 text-[#2d5a43]' : 'text-slate-500 hover:text-white hover:bg-white/[0.02]'}") do %>
@@ -30,7 +30,7 @@
 
       <% if Current.user.leagues.any? %>
         <div class="pt-10 pb-2 px-4">
-          <span class="text-[9px] font-extrabold text-gray-600 uppercase tracking-[0.3em]"><%= t('.my_leagues_title') %></span>
+          <span class="text-[9px] font-extrabold text-gray-600 uppercase tracking-[0.3em]"><%= t('layouts.shared.sidebar.my_leagues_title') %></span>
         </div>
         <div class="space-y-0.5">
           <% Current.user.leagues.each do |league| %>
@@ -46,7 +46,7 @@
       <%# Empty state/Sign in link for guest sidebar if needed %>
       <%= link_to new_session_path, class: "group flex items-center gap-3 px-4 py-2.5 text-slate-500 hover:text-white" do %>
         <div class="w-4 h-4 text-slate-600"><%= render "layouts/shared/icon", name: 'users' %></div>
-        <span class="text-[11px] font-black uppercase tracking-widest"><%= t('.nav_signin') %></span>
+        <span class="text-[11px] font-black uppercase tracking-widest"><%= t('layouts.shared.sidebar.nav_signin') %></span>
       <% end %>
     <% end %>
   </nav>
@@ -77,8 +77,8 @@
     <div class="flex items-center justify-between px-1">
       <div class="flex items-center gap-4">
         <% if Current.user %>
-          <%= link_to edit_settings_path, class: "text-[9px] font-black text-slate-500 hover:text-white uppercase tracking-widest transition-colors" do %>
-            <%= t('.settings_link') %>
+        <%= link_to edit_settings_path, class: "text-[9px] font-black text-slate-500 hover:text-white uppercase tracking-widest transition-colors" do %>
+            <%= t('layouts.shared.sidebar.settings_link') %>
           <% end %>
         <% end %>
 
@@ -96,9 +96,9 @@
         </div>
       </div>
 
-      <% if Current.user %>
+        <% if Current.user %>
         <%= link_to session_path, data: { turbo_method: :delete }, class: "text-[9px] font-black text-slate-500 hover:text-red-400 uppercase tracking-widest transition-colors" do %>
-          <%= t('.signout_link') %>
+          <%= t('layouts.shared.sidebar.signout_link') %>
         <% end %>
       <% end %>
     </div>

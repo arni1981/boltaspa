@@ -101,6 +101,8 @@ is:
   layouts:
     footer:
       copyright_html: "Boltaspa.is"
+    error_messages:
+      title: "Villa kom upp"
     shared:
       sidebar:
         brand_name: "Boltaspá"
@@ -340,17 +342,30 @@ is:
       page_title: "Mínar spár"
       subtitle: "Opnar spár"
       breadcrumb_current: "Spár"
+      keyboard_guide:
+        active_keys: "Flýtilyklar virkir:"
+        usage_hint: "Smelltu á leik eða notaðu lyklaborðið til að spá."
+        to: "til"
+        enter_score: "Slá inn mörk"
+        or: "eða"
+        navigate_matches: "Flakka á milli leikja"
+        save_all: "Vista allt"
       status_label: "Staða gagna"
       status_open: "opnir"
       matchday_label: "Umferð %{number}"
+      locked_status: "Læst"
+      locked_label: "Læst"
     sticky_bottom:
       save_button: "Vista spár"
+      saving_with: "Vista ..."
       missing_count: "Vantar %{count} spár"
       all_ready: "Allt tilbúið"
       remaining: "Eftir: %{count}"
     match_row:
       select_placeholder: "Veldu..."
       other_option: "Annað..."
+      locked_status: "Læst"
+      locked_label: "Læst"
       groups:
         home_win: "Heimasigur"
         draw: "Jafntefli"
