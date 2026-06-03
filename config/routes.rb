@@ -50,6 +50,7 @@ Rails.application.routes.draw do
   mount MissionControl::Jobs::Engine, at: '/jobs'
 
   # --- SYSTEM & ERRORS ---
+  get 'uppi' => 'rails/health#show', as: :rails_health_check
   get 'invalid_record', to: 'errors#invalid_record'
   match '/404', to: 'errors#error404', via: :all
   match '/500', to: 'errors#error500', via: :all

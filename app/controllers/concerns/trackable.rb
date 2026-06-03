@@ -14,7 +14,7 @@ module Trackable
       user_agent: request.user_agent,
       remote_ip: request.remote_ip,
       params: params,
-      user: Current&.user
+      user: Current.user&.id
     )
   rescue StandardError => e
     Rails.logger.warn "Visit Tracking Error: #{e.message}"

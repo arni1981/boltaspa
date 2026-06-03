@@ -1,13 +1,11 @@
 class ApplicationController < ActionController::Base
-  stale_when_importmap_changes
-
   allow_browser versions: :modern
+
+  stale_when_importmap_changes
 
   include Authentication
   include ErrorModule
   include Trackable
-
-  stale_when_importmap_changes
 
   around_action :switch_locale
 
