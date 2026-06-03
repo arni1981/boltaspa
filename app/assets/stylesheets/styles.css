@@ -61,3 +61,24 @@ body {
   color: #059dd9 !important;
   animation: system-live-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
+
+
+
+@keyframes fadeOutBadge {
+  0% {
+    opacity: 1;
+  }
+
+  75% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    display: none;
+  }
+}
+
+.animate-fade-out-badge {
+  animation: fadeOutBadge 2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
