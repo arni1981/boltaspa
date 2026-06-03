@@ -33,6 +33,14 @@ export default class extends Controller {
     }
   }
 
+  // Force-saves the full form via Enter or Ctrl+S keys
+  handleSaveTrigger(e) {
+    const form = this.element.closest("form")
+    if (form) {
+      form.requestSubmit()
+    }
+  }
+
   handleBackwards(e) {
     this.regressRowSequentially()
   }
@@ -42,14 +50,12 @@ export default class extends Controller {
   }
 
   handleRowClick(e) {
-    // Find the closest parent card that belongs to our target array
     const clickedRow = e.target.closest('[data-predictions-keyboard-target="matchRow"]')
     if (!clickedRow || this.isLocked(clickedRow)) return
 
-    // Find its placement index in our flat tracking group
-    const targetIndex = this.matchRowTargets.indexOf(clickedRow)
+    const targetIndex = this.matchRowTargets[this.activeIndex] === clickedRow ? -1 : this.matchRowTargets.indexOf(clickedRow)
 
-    if (targetIndex !== -1 && targetIndex !== this.activeIndex) {
+    if (targetIndex !== -1) {
       this.activeIndex = targetIndex
       this.highlightActiveRow(false)
     }
@@ -82,15 +88,16 @@ export default class extends Controller {
   selectRadio(container, pattern, value) {
     const radio = container.querySelector(`input[name$="[${pattern}]"][value="${value}"]`)
     if (radio && !radio.disabled) {
-      radio.checked = true
-      radio.dispatchEvent(new Event("change", { bubbles: true }))
+      radio.click()
     }
   }
 
   clearRadioGroup(container, pattern) {
     container.querySelectorAll(`input[name$="[${pattern}]"]`).forEach(radio => {
-      radio.checked = false
-      radio.dispatchEvent(new Event("change", { bubbles: true }))
+      if (radio.checked) {
+        radio.checked = false
+        radio.dispatchEvent(new Event("change", { bubbles: true }))
+      }
     })
   }
 

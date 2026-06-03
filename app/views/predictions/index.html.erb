@@ -1,19 +1,52 @@
-<%# app/views/predictions/index.html.erb %>
-
 <%= render 'layouts/shared/page_header', 
     title: t('.page_title'), 
     breadcrumbs: [{ name: t('common.home'), path: root_path }, { name: t('.breadcrumb_current') }] %>
 
+<div class="hidden lg:block max-w-6xl mx-auto px-4 mt-4 mb-2">
+  <div class="bg-white border border-slate-100 rounded-2xl p-4 flex flex-wrap items-center justify-between gap-4 text-[13px] text-slate-500 select-none">
+    <div class="flex items-center gap-2">
+      <div class="w-2 h-2 rounded-full bg-[#2d5a43] animate-pulse"></div>
+      <span class="font-bold text-[#0a1d13]">Flýtilyklar virkir:</span>
+      <span>Smelltu á leik eða notaðu lyklaborðið til að spá.</span>
+    </div>
+
+    <div class="flex flex-wrap items-center gap-x-6 gap-y-2 font-medium">
+      <div class="flex items-center gap-1.5">
+        <kbd class="px-1.5 py-0.5 text-[11px] font-mono font-bold bg-slate-50 border border-slate-200 rounded shadow-sm text-slate-600">0</kbd>
+        <span class="text-slate-300">-</span>
+        <kbd class="px-1.5 py-0.5 text-[11px] font-mono font-bold bg-slate-50 border border-slate-200 rounded shadow-sm text-slate-600">5</kbd>
+        <span class="text-slate-400 ml-1">Slá inn mörk</span>
+      </div>
+
+      <div class="flex items-center gap-1.5">
+        <kbd class="px-1.5 py-0.5 text-[11px] font-mono font-bold bg-slate-50 border border-slate-200 rounded shadow-sm text-slate-600">←</kbd>
+        <kbd class="px-1.5 py-0.5 text-[11px] font-mono font-bold bg-slate-50 border border-slate-200 rounded shadow-sm text-slate-600">➔</kbd>
+        <span class="text-slate-300">eða</span>
+        <kbd class="px-1.5 py-0.5 text-[11px] font-mono font-bold bg-slate-50 border border-slate-200 rounded shadow-sm text-slate-600">Tab</kbd>
+        <span class="text-slate-400 ml-1">Flakka á milli leikja</span>
+      </div>
+
+      <div class="flex items-center gap-1.5">
+        <kbd class="px-1.5 py-0.5 text-[11px] font-mono font-bold bg-slate-50 border border-slate-200 rounded shadow-sm text-slate-600">Enter</kbd>
+        <span class="text-slate-300">eða</span>
+        <kbd class="px-1.5 py-0.5 text-[11px] font-mono font-bold bg-slate-50 border border-slate-200 rounded shadow-sm text-slate-600">Ctrl + S</kbd>
+        <span class="text-slate-400 ml-1">Vista allt</span>
+      </div>
+    </div>
+  </div>
+</div>
+
 <%= form_with url: predictions_path do |f| %>
-  <%# Grunnurinn: Tvær hreinar hlustanir á öll skjöl %>
   <div class="max-w-6xl pb-48 px-4 mx-auto"
-       data-controller="predictions-keyboard"
-       data-action="
+      data-controller="predictions-keyboard"
+      data-action="
         keydown@document->predictions-keyboard#handleKeydown:prevent
-        keydown.down@document->predictions-keyboard#handleForward:prevent
         keydown.right@document->predictions-keyboard#handleForward:prevent
+        keydown.tab@document->predictions-keyboard#handleForward:prevent
         keydown.left@document->predictions-keyboard#handleBackwards:prevent
-        keydown.up@document->predictions-keyboard#handleBackwards:prevent
+        keydown.shift+tab@document->predictions-keyboard#handleBackwards:prevent
+        keydown.enter@document->predictions-keyboard#handleSaveTrigger:prevent
+        keydown.ctrl+s@document->predictions-keyboard#handleSaveTrigger:prevent
         click->predictions-keyboard#handleRowClick">
 
     <%# Flokkað eftir dögum %>
