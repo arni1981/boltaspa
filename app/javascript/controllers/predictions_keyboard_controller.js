@@ -17,6 +17,8 @@ export default class extends Controller {
   handleKeydown(e) {
     if (!/^[0-5]$/.test(e.key)) return
 
+    e.preventDefault();
+
     const currentRow = this.matchRowTargets[this.activeIndex]
     if (!currentRow || this.isLocked(currentRow)) return
 
