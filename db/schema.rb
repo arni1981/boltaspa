@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.2].define(version: 2026_05_15_190920) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_03_203111) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -210,6 +210,26 @@ ActiveRecord::Schema[8.2].define(version: 2026_05_15_190920) do
     t.index ["match_id"], name: "index_predictions_on_match_id"
     t.index ["user_id", "match_id"], name: "index_predictions_on_user_id_and_match_id", unique: true
     t.index ["user_id"], name: "index_predictions_on_user_id"
+  end
+
+  create_table "season_rankings", force: :cascade do |t|
+    t.bigint "competition_id", null: false
+    t.datetime "created_at", null: false
+    t.integer "goal_difference", default: 0, null: false
+    t.integer "goals_against", default: 0, null: false
+    t.integer "goals_for", default: 0, null: false
+    t.string "group"
+    t.integer "played_games", default: 0, null: false
+    t.integer "points", default: 0, null: false
+    t.integer "position", null: false
+    t.bigint "season_id", null: false
+    t.string "stage", null: false
+    t.bigint "team_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["competition_id"], name: "index_season_rankings_on_competition_id"
+    t.index ["season_id", "competition_id", "team_id", "stage"], name: "idx_on_season_id_competition_id_team_id_stage_f2e7313ef3", unique: true
+    t.index ["season_id"], name: "index_season_rankings_on_season_id"
+    t.index ["team_id"], name: "index_season_rankings_on_team_id"
   end
 
   create_table "seasons", force: :cascade do |t|
@@ -434,6 +454,9 @@ ActiveRecord::Schema[8.2].define(version: 2026_05_15_190920) do
   add_foreign_key "memberships", "users", on_delete: :cascade
   add_foreign_key "predictions", "matches", on_delete: :cascade
   add_foreign_key "predictions", "users", on_delete: :cascade
+  add_foreign_key "season_rankings", "competitions"
+  add_foreign_key "season_rankings", "seasons"
+  add_foreign_key "season_rankings", "teams"
   add_foreign_key "sessions", "users"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade

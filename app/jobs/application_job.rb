@@ -10,6 +10,10 @@ class ApplicationJob < ActiveJob::Base
       f.response :json
     end
 
-    connection.get.body
+    data = connection.get.body
+
+    File.write(Rails.root.join("tmp/api_responses/#{Time.current.to_i}.json"), data)
+
+    data
   end
 end

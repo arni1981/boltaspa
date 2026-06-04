@@ -17,6 +17,12 @@ namespace :api do
     end
   end
 
+  task rankings: :environment do
+    competitions_seasons.each do |competition_code, season|
+      SeasonRankingsJob.perform_now(competition_code, season)
+    end
+  end
+
   task all: :environment do
     competitions_seasons.each do |competition_code, season|
       CompetitionsJob.perform_now(competition_code)
@@ -27,6 +33,6 @@ namespace :api do
 
   def competitions_seasons
     # %w[PL WC].product((2025..Time.current.year).to_a)
-    [['PL', 2025], ['WC', 2026]]
+    [['WC', 2026]]
   end
 end
