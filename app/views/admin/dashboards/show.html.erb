@@ -1,81 +1,94 @@
 <%# app/views/admin/dashboards/show.html.erb %>
-<div class="p-10 font-mono text-[13px] text-[#0a1d13] bg-[#f9faf9] min-h-screen selection:bg-[#2d5a43] selection:text-white">
+<div class="p-10 font-sans text-[13px] text-[#0a1d13] bg-[#f9faf9] min-h-screen selection:bg-[#2d5a43] selection:text-white antialiased">
 
-  <%# --- 01. HEADER --- %>
-  <header class="mb-16 border-b-2 border-[#0a1d13] pb-8 flex justify-between items-end">
+  <%# --- 01. REFINED HEADER BLOCK --- %>
+  <header class="mb-12 border-b border-slate-200 pb-6 flex justify-between items-end">
     <div>
-      <div class="text-[11px] font-black uppercase tracking-[0.4em] text-slate-400 mb-2">System // Administration</div>
-      <h1 class="text-4xl font-black uppercase tracking-tighter">Boltaspá Dashboard</h1>
+      <div class="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-400 mb-1">System Administration</div>
+      <h1 class="text-2xl font-semibold tracking-tight text-[#0a1d13]">Boltaspá Operations</h1>
     </div>
     <div class="text-right">
-      <div class="text-[11px] font-black uppercase text-slate-400 italic">Server Time</div>
-      <div class="font-bold"><%= l Time.current, format: "%Y-%m-%d // %H:%M:%S" %></div>
+      <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Server Status</div>
+      <div class="font-mono text-xs font-semibold text-[#0a1d13] bg-slate-100 px-2.5 py-1 rounded-md mt-1 inline-block">
+        <%= Time.current.strftime("%Y-%m-%d · %H:%M:%S") %>
+      </div>
     </div>
   </header>
 
-  <%# --- 02. KPI SUMMARY --- %>
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-16">
+  <%# --- 02. CLEAN KPI SUMMARY GRID --- %>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-12">
     <% @stats.each do |label, value| %>
-      <div class="border border-slate-200/60 bg-white p-6 rounded-xl shadow-sm">
-        <div class="text-slate-400 uppercase mb-2 text-[11px] font-black tracking-widest"><%= label.to_s.humanize %></div>
-        <div class="text-3xl font-black text-[#0a1d13] tracking-tight"><%= number_with_delimiter(value) %></div>
+      <div class="bg-white border border-slate-100 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+        <div class="text-slate-400 uppercase text-[10px] font-bold tracking-widest mb-1.5"><%= label.to_s.gsub('_', ' ') %></div>
+        <div class="text-3xl font-bold text-[#0a1d13] tracking-tight"><%= number_with_delimiter(value) %></div>
       </div>
     <% end %>
   </div>
 
-  <%# --- 03. TOP ENGAGED PREDICTORS --- %>
-  <div class="mb-16">
-    <h2 class="font-black uppercase mb-4 border-b border-[#0a1d13] pb-2 text-[#2d5a43]">Top Predictors</h2>
-    <div class="grid grid-cols-2 lg:grid-cols-5 gap-4">
-      <% @top_predictors.each do |user| %>
-        <div class="bg-white border border-slate-100 p-6 rounded-xl shadow-sm">
-          <div class="font-black truncate mb-1 uppercase text-[12px] text-[#0a1d13]"><%= user.name %></div>
-          <div class="text-3xl font-black text-[#2d5a43] tracking-tighter"><%= user.predictions_count %></div>
-          <div class="text-[10px] text-slate-400 uppercase tracking-widest font-bold">Total Predictions</div>
+  <%# --- 03. TOP PREDICTORS CARD PANEL --- %>
+  <div class="mb-12">
+    <div class="flex items-center justify-between mb-4 border-b border-slate-100 pb-2">
+      <h2 class="text-xs font-bold uppercase tracking-wider text-[#2d5a43]">Top Predictors</h2>
+      <span class="text-[10px] text-slate-400 font-medium font-mono">Ranked by count</span>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+      <% @top_predictors.each_with_index do |user, index| %>
+        <div class="bg-white border border-slate-100/80 p-5 rounded-xl shadow-sm relative group hover:border-[#2d5a43]/30 transition-colors">
+          <div class="absolute top-4 right-4 font-mono text-[11px] font-bold text-slate-300">
+            #<%= index + 1 %>
+          </div>
+          <div class="font-semibold truncate text-[13px] text-[#0a1d13] pr-8"><%= user.name %></div>
+          <div class="text-2xl font-bold text-[#2d5a43] mt-1 tracking-tight"><%= user.predictions_count %></div>
+          <div class="text-[9px] text-slate-400 uppercase font-bold tracking-wider mt-0.5">Total Predictions</div>
         </div>
       <% end %>
     </div>
   </div>
 
-  <%# --- 04. ACTIVITY METRICS OVERVIEW --- %>
-  <div class="grid grid-cols-1 xl:grid-cols-3 gap-12">
+  <%# --- 04. LEAN OPERATIONAL MATRICES --- %>
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-    <%# COL 1: SIGNUPS %>
-    <div>
-      <h2 class="font-black uppercase mb-4 border-b border-[#0a1d13] pb-2 text-[#0a1d13]">Latest Sign-ups</h2>
-      <div class="space-y-1">
-        <% @latest_users.each do |user| %>
-          <div class="flex justify-between items-center py-2.5 border-b border-slate-100">
-            <span class="font-bold truncate max-w-[180px]"><%= user.name %></span>
-            <span class="text-slate-400 text-[11px]"><%= time_ago_in_words(user.created_at) %> ago</span>
+    <%# COLOUMN 1: UNIQUE LOGINS %>
+    <div class="bg-white border border-slate-100 p-6 rounded-2xl shadow-sm">
+      <h3 class="text-xs font-bold uppercase tracking-wider text-[#0a1d13] border-b border-slate-100 pb-2.5 mb-3">Latest Unique Visits</h3>
+      <div class="divide-y divide-slate-100">
+        <% @latest_visits.each do |visit| %>
+          <div class="flex justify-between items-center py-2.5">
+            <span class="font-medium text-[#0a1d13] truncate max-w-[170px]"><%= visit[:user]&.name || "Unknown User" %></span>
+            <span class="text-slate-400 text-[11px] font-mono">
+              <%= time_ago_in_words(visit[:updated_at]) %> ago
+            </span>
           </div>
         <% end %>
       </div>
     </div>
 
-    <%# COL 2: LIVE VISITS %>
-    <div>
-      <h2 class="font-black uppercase mb-4 border-b border-[#0a1d13] pb-2 text-[#0a1d13]">Latest Visits</h2>
-      <div class="space-y-1">
-        <% @latest_visits.each do |visit| %>
-          <% if visit.user.present? %>
-            <div class="flex justify-between items-center py-2.5 border-b border-slate-100">
-              <span class="font-bold truncate max-w-[180px]"><%= visit.user.name %></span>
-              <span class="text-slate-400 text-[11px]"><%= time_ago_in_words(visit.created_at) %> ago</span>
+    <%# COLOUMN 2: LEAGUES POPULATION %>
+    <div class="bg-white border border-slate-100 p-6 rounded-2xl shadow-sm">
+      <h3 class="text-xs font-bold uppercase tracking-wider text-[#0a1d13] border-b border-slate-100 pb-2.5 mb-3">Leagues By Size</h3>
+      <div class="divide-y divide-slate-100">
+        <% @mega_leagues.each_with_index do |league, idx| %>
+          <div class="flex justify-between items-center py-2.5">
+            <div class="flex items-center gap-2 min-w-0">
+              <span class="font-mono text-[11px] text-slate-300">#<%= idx + 1 %></span>
+              <span class="font-semibold truncate max-w-[150px] text-[#0a1d13]"><%= league.name %></span>
             </div>
-          <% end %>
+            <span class="text-[11px] font-bold font-mono text-[#2d5a43] bg-emerald-50 border border-emerald-100/50 px-2 py-0.5 rounded-md shrink-0 shadow-sm">
+              <%= number_with_delimiter(league.users_count) %> members
+            </span>
+          </div>
         <% end %>
       </div>
     </div>
 
-    <%# COL 3: LEAGUES EXPANSION %>
-    <div>
-      <h2 class="font-black uppercase mb-4 border-b border-[#0a1d13] pb-2 text-[#0a1d13]">Latest Leagues</h2>
-      <div class="space-y-1">
-        <% @latest_leagues.each do |league| %>
-          <div class="flex justify-between items-center py-2.5 border-b border-slate-100">
-            <span class="font-bold uppercase truncate max-w-[180px]"><%= league.name %></span>
-            <span class="text-slate-400 text-[11px] font-bold"><%= league.users.count rescue 0 %> members</span>
+    <%# COLOUMN 3: RECENT SIGNUPS %>
+    <div class="bg-white border border-slate-100 p-6 rounded-2xl shadow-sm">
+      <h3 class="text-xs font-bold uppercase tracking-wider text-[#0a1d13] border-b border-slate-100 pb-2.5 mb-3">Latest Registrations</h3>
+      <div class="divide-y divide-slate-100">
+        <% @latest_users.each do |user| %>
+          <div class="flex justify-between items-center py-2.5">
+            <span class="font-medium text-[#0a1d13] truncate max-w-[170px]"><%= user.name %></span>
+            <span class="text-slate-400 text-[11px] font-mono"><%= time_ago_in_words(user.created_at) %> ago</span>
           </div>
         <% end %>
       </div>
@@ -83,7 +96,7 @@
 
   </div>
 
-  <footer class="mt-32 pt-8 border-t border-slate-200/60 text-center opacity-30 italic">
-    End of dashboard.
+  <footer class="mt-24 pt-6 border-t border-slate-200/40 text-center opacity-30 text-[11px] font-mono tracking-wide text-slate-400">
+    Boltaspá Execution Node · End of Ledger
   </footer>
 </div>
