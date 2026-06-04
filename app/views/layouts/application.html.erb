@@ -42,9 +42,28 @@
 
     <%= render 'layouts/shared/sidebar' %>
 
-    <main class="flex-1 p-4 pb-40 lg:p-12 w-full transition-all">
-      <%= render 'layouts/flash_toasts' %>
-      <%= yield %>
+    <%# FIXED: Added min-h-screen (minus header/nav heights) and flex layout utilities to push footer to base %>
+    <main class="flex-1 p-4 lg:p-12 pb-40 lg:pb-12 min-h-screen flex flex-col justify-between w-full transition-all">
+      <div class="w-full flex-grow">
+        <%= render 'layouts/flash_toasts' %>
+        <%= yield %>
+      </div>
+
+      <%# --- GLOBAL COMPACT-PRO FOOTER --- %>
+      <footer class="w-full border-t border-slate-200/60 pt-6 mt-20 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] font-mono tracking-wide text-slate-400">
+        <div class="flex items-center gap-2 order-2 sm:order-1">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#2d5a43]"></span>
+          <span class="font-medium text-slate-400/80">Boltaspá</span>
+        </div>
+
+        <div class="flex items-center gap-6 order-1 sm:order-2">
+          <a href="mailto:boltaspa@boltaspa.is" class="text-slate-400 hover:text-[#2d5a43] transition-colors font-medium">
+            boltaspa@boltaspa.is
+          </a>
+          <span class="text-slate-200 hidden sm:inline">|</span>
+          <span class="text-slate-400/60 font-sans">© <%= Time.current.year %></span>
+        </div>
+      </footer>
     </main>
 
     <div class="lg:hidden">
