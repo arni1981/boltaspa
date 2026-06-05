@@ -6,7 +6,7 @@ class League < ApplicationRecord
   has_many :league_competitions
   has_many :competitions, through: :league_competitions
   has_many :memberships, dependent: :destroy
-  has_many :members, through: :memberships, source: :user
+  has_many :members, -> { order(:name) }, through: :memberships, source: :user
 
   validates :invite_code, uniqueness: true
   validates :slug, uniqueness: true
