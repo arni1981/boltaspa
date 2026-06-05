@@ -1,0 +1,41 @@
+<%# app/views/matches/_ranking_row.html.erb %>
+<%# locals: (ranking:, highlight_home_id:, highlight_away_id:) %>
+
+<% is_target = (ranking.team_id == highlight_home_id || ranking.team_id == highlight_away_id) %>
+
+<div class="flex items-center justify-between px-3 py-2.5 transition-colors <%= 'bg-[#0a1d13]/[0.03] font-semibold' if is_target %>">
+
+  <%# Left Side: # Label and Localized Three-Letter Abbreviation %>
+  <div class="flex items-center gap-3">
+    <span class="w-4 text-center <%= is_target ? 'text-[#2d5a43] font-black' : 'text-slate-400' %>">
+      <%= ranking.position %>
+    </span>
+
+    <%# FIXED: Utilizing localized TLA tracking directly to prevent truncation or fallback strings %>
+    <span class="font-sans text-[12px] uppercase tracking-wider text-[#0a1d13] w-10 <%= 'font-bold text-[#2d5a43]' if is_target %>">
+      <%= localized_tla(ranking.team) %>
+    </span>
+  </div>
+
+  <%# Right Side: Data Matrix matching image_edf99e.png alignment %>
+  <div class="flex items-center gap-3 text-right text-slate-500 font-medium shrink-0">
+    <span class="w-6 <%= 'text-[#0a1d13]' if is_target %>"><%= ranking.played_games %></span>
+    <span class="w-5 text-slate-400 <%= 'text-[#0a1d13]' if is_target %>"><%= ranking.won %></span>
+    <span class="w-5 text-slate-400 <%= 'text-[#0a1d13]' if is_target %>"><%= ranking.draw %></span>
+    <span class="w-5 text-slate-400 <%= 'text-[#0a1d13]' if is_target %>"><%= ranking.lost %></span>
+
+    <span class="w-10 text-[11px] text-slate-400 tracking-tighter <%= 'text-[#0a1d13]' if is_target %>">
+      <%= ranking.goals_for %>:<%= ranking.goals_against %>
+    </span>
+
+    <%# FIXED: Dropped sprintf template syntax for a clean explicit helper method %>
+    <span class="w-6 <%= 'text-[#0a1d13]' if is_target %>">
+      <%= format_goal_difference(ranking.goal_difference) %>
+    </span>
+
+    <span class="w-7 text-right text-sm <%= is_target ? 'text-[#2d5a43] font-black' : 'text-[#0a1d13] font-bold' %>">
+      <%= ranking.points %>
+    </span>
+  </div>
+
+</div>

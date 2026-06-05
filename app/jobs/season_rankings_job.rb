@@ -9,7 +9,7 @@ class SeasonRankingsJob < ApplicationJob
 
     team_map = Team.pluck(:external_id, :id).to_h
 
-    response['standings'][0..1].each do |standing_block|
+    response['standings'].each do |standing_block|
       standing_block['table'].each do |row|
         external_team_id = row.dig('team', 'id')
         next if team_map[external_team_id].nil?
@@ -20,13 +20,16 @@ class SeasonRankingsJob < ApplicationJob
           team_id: team_map[external_team_id],
           stage: standing_block['stage']
         ).tap do |ranking|
-          ranking.group           = standing_block['group']
+          ranking.group           = standing_block['group']&.split&.map(&:upcase)&.join('_')
           ranking.position        = row['position']
           ranking.played_games    = row['playedGames']
           ranking.points          = row['points']
           ranking.goals_for       = row['goalsFor']
           ranking.goals_against   = row['goalsAgainst']
           ranking.goal_difference = row['goalDifference']
+          ranking.won = row['won']
+          ranking.draw = row['draw']
+          ranking.lost = row['lost']
 
           ranking.save
         end

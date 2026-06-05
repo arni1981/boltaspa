@@ -1,15 +1,83 @@
-<%# app/views/matches/sidebar.html.erb %>
 <%= turbo_frame_tag :match_sidebar do %>
-  <div class="font-mono text-[12px] text-[#0a1d13] space-y-6 animate-fade-in">
+  <%# Hidden on mobile viewports, mounts strictly from lg screens upwards %>
+  <div class="hidden lg:block font-sans text-[13px] text-[#0a1d13] space-y-6 animate-fade-in antialiased">
 
-    <%# SIDEBAR TITLE DECK %>
-    <div class="border-b border-slate-100 pb-3">
-      <div class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Tölfræði Leiks</div>
-      <div class="text-[13px] font-bold truncate mt-0.5">
-        <%= localized_short_name(@home_team) %> vs <%= localized_short_name(@away_team) %>
+    <%# --- PANEL 1: CONTEXT HEADER --- %>
+    <div class="border-b border-slate-200/60 pb-3">
+      <div class="text-[10px] uppercase font-bold text-slate-400 tracking-widest">Tölfræði Leiks</div>
+      <div class="text-[15px] font-semibold tracking-tight mt-0.5 text-[#0a1d13]">
+        <%= localized_short_name(@home_team) %> <span class="text-slate-300 mx-0.5 font-normal">v</span> <%= localized_short_name(@away_team) %>
       </div>
+      <% if @match.group.present? %>
+        <div class="text-[10px] font-mono text-[#2d5a43] mt-1.5 bg-emerald-50 border border-emerald-100/30 px-2 py-0.5 rounded inline-block">
+          <% group_letter = @match.group.to_s.split('_').last %>
+          <%= t('matches.group_format', letter: group_letter) %>
+        </div>
+      <% end %>
     </div>
 
+    <%# --- PANEL 2: STANDINGS GRID SHEET --- %>
+    <% if @group_rankings.any? %>
+      <div>
+        <div class="flex items-center justify-between px-3 mb-2 font-mono text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+          <div class="flex items-center gap-3">
+            <span class="w-4 text-center">#</span>
+            <span class="font-sans w-10">Team</span>
+          </div>
+          <div class="flex items-center gap-3 text-right">
+            <span class="w-6">MP</span>
+            <span class="w-5">W</span>
+            <span class="w-5">D</span>
+            <span class="w-5">L</span>
+            <span class="w-10">G</span>
+            <span class="w-6">GD</span>
+            <span class="w-7 text-[#0a1d13]">PTS</span>
+          </div>
+        </div>
+
+        <div class="bg-white border border-slate-100 rounded-xl overflow-hidden shadow-sm divide-y divide-slate-100 font-mono text-xs">
+          <%= render partial: 'ranking_row', 
+                     collection: @group_rankings, 
+                     as: :ranking, 
+                     locals: { highlight_home_id: @home_team.id, highlight_away_id: @away_team.id } %>
+        </div>
+      </div>
+    <% end %>
+
+    <%# --- PANEL 3: HEAD TO HEAD TRACKING --- %>
+    <div>
+      <h3 class="text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-2.5">Innbyrðis Viðureignir</h3>
+
+      <% if @recent_head_to_head.any? %>
+        <div class="space-y-1.5 font-mono text-xs">
+          <% @recent_head_to_head.each do |prev_match| %>
+            <div class="bg-white border border-slate-100/70 px-3 py-2 rounded-lg flex items-center justify-between shadow-xs">
+              <div class="text-slate-400 text-[10px] font-sans">
+                <%= prev_match.kickoff_at.strftime("%b '%y") %>
+              </div>
+
+              <div class="flex items-center gap-2 text-right">
+                <span class="font-sans font-medium text-[#0a1d13] <%= 'font-bold text-[#2d5a43]' if prev_match.home_score.to_i > prev_match.away_score.to_i %>">
+                  <%= localized_short_name(prev_match.home_team) %>
+                </span>
+
+                <span class="bg-slate-50 border border-slate-100 px-1.5 py-0.5 rounded font-bold text-[#0a1d13]">
+                  <%= prev_match.home_score %> - <%= prev_match.away_score %>
+                </span>
+
+                <span class="font-sans font-medium text-[#0a1d13] <%= 'font-bold text-[#2d5a43]' if prev_match.away_score.to_i > prev_match.home_score.to_i %>">
+                  <%= localized_short_name(prev_match.away_team) %>
+                </span>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="text-slate-400 italic text-[11px] bg-white border border-dashed border-slate-200/60 rounded-xl p-4 text-center">
+          Engir fyrri leikir skráðir.
+        </div>
+      <% end %>
+    </div>
 
   </div>
 <% end %>

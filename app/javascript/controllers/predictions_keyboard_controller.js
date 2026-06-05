@@ -112,6 +112,9 @@ export default class extends Controller {
   }
 
   loadSidebarForActiveRow(row) {
+    const isMobile = !window.matchMedia("(min-width: 1024px)").matches
+    if (isMobile) return
+
     const sidebarUrl = row.dataset.sidebarUrl
     if (!sidebarUrl) return
 

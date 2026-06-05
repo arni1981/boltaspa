@@ -1,5 +1,4 @@
 <%# locals: (match:, prediction:, is_updated: false, error: nil) -%>
-
 <div
   id="<%= dom_id(match) %>"
   data-predictions-keyboard-target="matchRow"
@@ -52,7 +51,7 @@
               <span class="text-slate-300 font-normal">/</span>
               <%# Extract letter if format is "GROUP_A" or leave as is if just "A" %>
               <% group_letter = match.group.to_s.split('_').last %>
-              <%= t('matches.group_format', letter: group_letter, default: "#{group_letter}-riðill") %>
+              <%= t('matches.group_format', letter: group_letter) %>
             <% end %>
           </span>
         <% end %>

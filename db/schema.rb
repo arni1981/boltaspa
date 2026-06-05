@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_03_203111) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_04_201744) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -215,10 +215,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_03_203111) do
   create_table "season_rankings", force: :cascade do |t|
     t.bigint "competition_id", null: false
     t.datetime "created_at", null: false
+    t.integer "draw", default: 0, null: false
     t.integer "goal_difference", default: 0, null: false
     t.integer "goals_against", default: 0, null: false
     t.integer "goals_for", default: 0, null: false
     t.string "group"
+    t.integer "lost", default: 0, null: false
     t.integer "played_games", default: 0, null: false
     t.integer "points", default: 0, null: false
     t.integer "position", null: false
@@ -226,6 +228,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_03_203111) do
     t.string "stage", null: false
     t.bigint "team_id", null: false
     t.datetime "updated_at", null: false
+    t.integer "won", default: 0, null: false
     t.index ["competition_id"], name: "index_season_rankings_on_competition_id"
     t.index ["season_id", "competition_id", "team_id", "stage"], name: "idx_on_season_id_competition_id_team_id_stage_f2e7313ef3", unique: true
     t.index ["season_id"], name: "index_season_rankings_on_season_id"
