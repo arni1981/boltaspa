@@ -1,0 +1,50 @@
+<%# app/views/predictions/_keyboard_guide.html.erb %>
+<div class="hidden lg:block max-w-7xl mx-auto px-4 mt-6 mb-2 select-none animate-fade-in">
+  <div class="bg-white border border-slate-100 rounded-2xl p-4 flex items-center justify-between shadow-xs">
+
+    <%# Left Stack: Clean status label %>
+    <div class="flex items-center gap-3">
+      <div class="w-1.5 h-1.5 rounded-full bg-[#2d5a43]"></div>
+      <span class="text-[11px] font-black text-[#0a1d13] uppercase tracking-wider">
+        Flýtilyklar virkir
+      </span>
+    </div>
+
+    <%# Right Stack: Minimal horizontal token strip %>
+    <div class="flex items-center gap-x-8 text-[11px] text-slate-400 font-medium font-sans">
+
+      <%# Token 1 %>
+      <div class="flex items-center gap-2">
+        <span>Slá inn mörk:</span>
+        <div class="flex items-center gap-0.5 font-mono">
+          <kbd class="px-1.5 py-0.5 text-[10px] font-bold bg-slate-50 border border-slate-200 text-[#0a1d13] rounded shadow-2xs">0</kbd>
+          <span class="text-slate-300 mx-0.5">–</span>
+          <kbd class="px-1.5 py-0.5 text-[10px] font-bold bg-slate-50 border border-slate-200 text-[#0a1d13] rounded shadow-2xs">5</kbd>
+        </div>
+      </div>
+
+      <%# Token 2 %>
+      <div class="flex items-center gap-2">
+        <span>Flakka á milli leikja:</span>
+        <div class="flex items-center gap-1 font-mono">
+          <kbd class="px-1.5 py-0.5 text-[10px] font-bold bg-slate-50 border border-slate-200 text-[#0a1d13] rounded shadow-2xs">Tab</kbd>
+          <span class="text-slate-300 text-[10px]">eða</span>
+          <kbd class="px-1.5 py-0.5 text-[10px] font-bold bg-slate-50 border border-slate-200 text-[#0a1d13] rounded shadow-2xs">←</kbd>
+          <kbd class="px-1.5 py-0.5 text-[10px] font-bold bg-slate-50 border border-slate-200 text-[#0a1d13] rounded shadow-2xs">➔</kbd>
+        </div>
+      </div>
+
+      <%# Token 3 %>
+      <div class="flex items-center gap-2">
+        <span>Vista allt:</span>
+        <div class="flex items-center gap-1 font-mono">
+          <kbd class="px-2 py-0.5 text-[10px] font-black bg-emerald-50 border border-emerald-200 text-[#2d5a43] rounded shadow-2xs">Enter</kbd>
+          <span class="text-slate-300 text-[10px]">eða</span>
+          <kbd class="px-1.5 py-0.5 text-[10px] font-bold bg-slate-50 border border-slate-200 text-[#0a1d13] rounded shadow-2xs">Ctrl + S</kbd>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

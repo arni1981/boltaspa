@@ -22,16 +22,16 @@
         <div class="flex items-center justify-between px-3 mb-2 font-mono text-[10px] font-bold text-slate-400 uppercase tracking-wider">
           <div class="flex items-center gap-3">
             <span class="w-4 text-center">#</span>
-            <span class="font-sans w-10">Team</span>
+            <span class="font-sans w-10"></span>
           </div>
           <div class="flex items-center gap-3 text-right">
-            <span class="w-6">MP</span>
-            <span class="w-5">W</span>
-            <span class="w-5">D</span>
-            <span class="w-5">L</span>
-            <span class="w-10">G</span>
-            <span class="w-6">GD</span>
-            <span class="w-7 text-[#0a1d13]">PTS</span>
+            <span class="w-6">L</span>
+            <span class="w-5">U</span>
+            <span class="w-5">J</span>
+            <span class="w-5">T</span>
+            <span class="w-10">M</span>
+            <span class="w-6">+/-</span>
+            <span class="w-7 text-[#0a1d13]">Stig</span>
           </div>
         </div>
 
@@ -45,10 +45,10 @@
     <% end %>
 
     <%# --- PANEL 3: HEAD TO HEAD TRACKING --- %>
-    <div>
-      <h3 class="text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-2.5">Innbyrðis Viðureignir</h3>
+    <% if @recent_head_to_head.any? %>
+      <div>
+        <h3 class="text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-2.5">Innbyrðis Viðureignir</h3>
 
-      <% if @recent_head_to_head.any? %>
         <div class="space-y-1.5 font-mono text-xs">
           <% @recent_head_to_head.each do |prev_match| %>
             <div class="bg-white border border-slate-100/70 px-3 py-2 rounded-lg flex items-center justify-between shadow-xs">
@@ -72,12 +72,8 @@
             </div>
           <% end %>
         </div>
-      <% else %>
-        <div class="text-slate-400 italic text-[11px] bg-white border border-dashed border-slate-200/60 rounded-xl p-4 text-center">
-          Engir fyrri leikir skráðir.
-        </div>
-      <% end %>
-    </div>
+      </div>
+    <% end %>
 
   </div>
 <% end %>

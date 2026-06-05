@@ -31,14 +31,6 @@ class Match < ApplicationRecord
     kickoff_at > Match::PREDICTION_LOCK_WINDOW.from_now
   end
 
-  def short_name_string(separator = ' - ')
-    "#{home_team.short_name}#{separator}#{away_team.short_name}"
-  end
-
-  def tla_string(separator = ' - ')
-    "#{home_team.tla}#{separator}#{away_team.tla}"
-  end
-
   after_save_commit :calc_points_for_match, if: :saved_changes?
 
   def calc_points_for_match

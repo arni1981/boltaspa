@@ -1,43 +1,8 @@
-<%# app/views/predictions/index.html.erb %>
-
 <%= render 'layouts/shared/page_header', 
     title: t('.page_title'), 
     breadcrumbs: [{ name: t('common.home'), path: root_path }, { name: t('.breadcrumb_current') }] %>
 
-<%# COMPACT-PRO KEYBOARD GUIDE %>
-<div class="hidden lg:block max-w-6xl mx-auto px-4 mt-4 mb-2">
-  <div class="bg-white border border-slate-100 rounded-2xl p-4 flex items-center justify-between gap-4 text-[13px] text-slate-500 select-none">
-    <div class="flex items-center gap-2">
-      <div class="w-2 h-2 rounded-full bg-[#2d5a43] animate-pulse"></div>
-      <span class="font-bold text-[#0a1d13]"><%= t('.keyboard_guide.active_keys') %></span>
-      <span><%= t('.keyboard_guide.usage_hint') %></span>
-    </div>
-
-    <div class="flex items-center gap-x-6 font-medium">
-      <div class="flex items-center gap-1.5">
-        <kbd class="px-1.5 py-0.5 text-[11px] font-mono font-bold bg-slate-50 border border-slate-200 rounded shadow-sm text-slate-600">0</kbd>
-        <span class="text-slate-300"><%= t('.keyboard_guide.to') %></span>
-        <kbd class="px-1.5 py-0.5 text-[11px] font-mono font-bold bg-slate-50 border border-slate-200 rounded shadow-sm text-slate-600">5</kbd>
-        <span class="text-slate-400 ml-1"><%= t('.keyboard_guide.enter_score') %></span>
-      </div>
-
-      <div class="flex items-center gap-1.5">
-        <kbd class="px-1.5 py-0.5 text-[11px] font-mono font-bold bg-slate-50 border border-slate-200 rounded shadow-sm text-slate-600">←</kbd>
-        <kbd class="px-1.5 py-0.5 text-[11px] font-mono font-bold bg-slate-50 border border-slate-200 rounded shadow-sm text-slate-600">➔</kbd>
-        <span class="text-slate-300"><%= t('.keyboard_guide.or') %></span>
-        <kbd class="px-1.5 py-0.5 text-[11px] font-mono font-bold bg-slate-50 border border-slate-200 rounded shadow-sm text-slate-600">Tab</kbd>
-        <span class="text-slate-400 ml-1"><%= t('.keyboard_guide.navigate_matches') %></span>
-      </div>
-
-      <div class="flex items-center gap-1.5">
-        <kbd class="px-1.5 py-0.5 text-[11px] font-mono font-bold bg-slate-50 border border-slate-200 rounded shadow-sm text-slate-600">Enter</kbd>
-        <span class="text-slate-300"><%= t('.keyboard_guide.or') %></span>
-        <kbd class="px-1.5 py-0.5 text-[11px] font-mono font-bold bg-slate-50 border border-slate-200 rounded shadow-sm text-slate-600">Ctrl + S</kbd>
-        <span class="text-slate-400 ml-1"><%= t('.keyboard_guide.save_all') %></span>
-      </div>
-    </div>
-  </div>
-</div>
+<%= render 'keyboard_guide' %>
 
 <%= form_with url: predictions_path do |f| %>
  <div class="max-w-7xl pb-48 px-4 mx-auto flex gap-8 items-start"
