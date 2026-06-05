@@ -5,21 +5,33 @@ production:
 
   matches_pl:
     class: MatchesJob
-    args: ['PL', 2025]
-    schedule: every 5 minutes  
+    args: ['PL', 2026]
+    schedule: every day
+
   competitions_pl:
     class: CompetitionsJob
     args: ['PL']
-    schedule: every hour
+    schedule: every day
+  
+  rankings_pl:
+    class: SeasonRankingsJob
+    args: ['PL']
+    schedule: every day
 
   matches_wc:
     class: MatchesJob
     args: ['WC', 2026]
-    schedule: every day
+    schedule: every 5 minutes
+
   competitions_wc:
     class: CompetitionsJob
     args: ['WC']
-    schedule: every day
+    schedule: every hour
+
+  rankings_wc:
+    class: SeasonRankingsJob
+    args: ['WC']
+    schedule: every 5 minutes
 
   reminder_emails:
     class: ReminderJob
