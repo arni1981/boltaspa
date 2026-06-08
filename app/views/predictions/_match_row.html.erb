@@ -1,18 +1,41 @@
+<%# app/views/predictions/_match_row.html.erb %>
 <%# locals: (match:, prediction:, is_updated: false, error: nil) -%>
+
 <div
   id="<%= dom_id(match) %>"
   data-predictions-keyboard-target="matchRow"
   data-predictable="<%= match.predictable? %>"
   data-sidebar-url="<%= match_details_path(match_id: match.id) %>"
-  class="relative bg-white border border-slate-100 rounded-2xl p-4 transition-all select-none <%= 'opacity-60' unless match.predictable? %> match-row"
+  data-action="click->predictions-keyboard#handleRowClick"
+  class="
+    relative bg-white border border-slate-100 rounded-2xl p-4 sm:p-5 transition-all
+    select-none <%= 'opacity-60' unless match.predictable? %> match-row cursor-pointer
+    focus-within:ring-1 focus-within:ring-[#2d5a43]/20
+  "
 >
 
   <%# AUTOMATICALLY FADING STATUS INDICATOR %>
   <div class="absolute top-3 right-3 flex items-center gap-1.5 z-20">
     <% if is_updated %>
-      <div class="animate-fade-out-badge flex items-center text-[#2d5a43] text-[11px] font-mono font-bold tracking-tight bg-emerald-50/60 px-2 py-0.5 rounded-md border border-emerald-100/50">
-        <svg class="w-3.5 h-3.5 mr-1 text-[#2d5a43] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+      <div
+        class="
+          animate-fade-out-badge flex items-center text-[#2d5a43] text-[11px] font-mono
+          font-bold tracking-tight bg-emerald-50/60 px-2 py-0.5 rounded-md border
+          border-emerald-100/50
+        "
+      >
+        <svg
+          class="w-3.5 h-3.5 mr-1 text-[#2d5a43] shrink-0"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="3"
+            d="M5 13l4 4L19 7"
+          />
         </svg>
         <span>Vistað</span>
       </div>
@@ -20,11 +43,26 @@
   </div>
 
   <% if error && prediction&.errors&.any? %>
-    <div class="mb-4 w-full animate-fade-in pr-16"><%# Added padding right to prevent badge collision %>
-      <div class="bg-red-50 border border-red-200 text-red-700 text-xs font-semibold px-4 py-2.5 rounded-xl leading-relaxed">
+    <div class="mb-4 w-full animate-fade-in pr-16">
+      <div
+        class="
+          bg-red-50 border border-red-200 text-red-700 text-xs font-semibold px-4 py-2.5
+          rounded-xl leading-relaxed
+        "
+      >
         <div class="flex items-start gap-2">
-          <svg class="w-4 h-4 text-red-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          <svg
+            class="w-4 h-4 text-red-500 shrink-0 mt-0.5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2.5"
+              d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
           </svg>
           <span><%= prediction.errors.full_messages.to_sentence %></span>
         </div>
@@ -32,112 +70,176 @@
     </div>
   <% end %>
 
+  <%# --- MAIN CARD CONTENT --- %>
   <div class="space-y-4">
-    <%# METADATA TIMING ROW %>
-    <div class="flex items-center justify-between pb-1 border-b border-slate-50 pr-16">
+
+    <%# METADATA TIMING HEADER %>
+    <div
+      class="
+        flex items-center justify-between pb-2 border-b border-slate-50/80 pr-16
+      "
+    >
       <div class="flex items-center gap-2 text-[10px] sm:text-xs font-bold font-mono">
         <span class="text-slate-300">
-          <%= match.predictable? ? l(match.kickoff_at, format: :only_time) : t('.locked_status', default: 'Læst') %>
+          <%= if match.predictable?
+            l(match.kickoff_at, format: :only_time)
+          else
+            t(".locked_status", default: "Læst")
+          end %>
         </span>
-
         <% if match.stage.present? || match.group.present? %>
           <span class="text-slate-300">•</span>
           <span class="text-slate-400 font-semibold">
-            <%# Render stage translation if it exists %>
-            <%= t("matches.stages.#{match.stage.to_s.downcase}", default: match.stage.to_s.humanize) if match.stage.present? %>
-
-            <%# Append the group letter/name if present (e.g., " - A-riðill") %>
+            <%= if match.stage.present?
+              t(
+                "matches.stages.#{match.stage.to_s.downcase}",
+                default: match.stage.to_s.humanize,
+              )
+            end %>
             <% if match.group.present? %>
               <span class="text-slate-300 font-normal">/</span>
-              <%# Extract letter if format is "GROUP_A" or leave as is if just "A" %>
-              <% group_letter = match.group.to_s.split('_').last %>
-              <%= t('matches.group_format', letter: group_letter) %>
+              <% group_letter = match.group.to_s.split("_").last %>
+              <%= t("matches.group_format", letter: group_letter) %>
             <% end %>
           </span>
         <% end %>
       </div>
-
       <% unless match.predictable? %>
-        <span class="text-[10px] sm:text-xs font-bold font-mono text-red-500 bg-red-50 px-2 py-0.5 rounded-md">
-          <%= t('.locked_label', default: 'Læst') %>
+        <span
+          class="
+            text-[10px] sm:text-xs font-bold font-mono text-red-500 bg-red-50 px-2 py-0.5
+            rounded-md
+          "
+        >
+          <%= t(".locked_label", default: "Læst") %>
         </span>
       <% end %>
     </div>
 
-    <%# HOME TEAM %>
-    <div class="flex items-center justify-between gap-2 md:gap-4">
-      <div class="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
-        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center p-1.5 shrink-0 shadow-sm">
-          <% if match.home_team.crest_url.present? %>
-            <%= image_tag match.home_team.crest_url, class: "w-full h-full object-contain #{'grayscale opacity-50' unless match.predictable?}" %>
+    <%# --- TEAM ROWS CONTAINER --- %>
+    <div class="space-y-3">
+
+      <%# --- HOME TEAM ROW --- %>
+      <div class="flex items-center justify-between gap-4">
+        <%# Team Name + Crest %>
+        <div class="flex items-center gap-3.5 min-w-0 flex-1">
+          <div
+            class="
+              w-9 h-9 rounded-xl bg-slate-50 border border-slate-100 flex items-center
+              justify-center p-1.5 shrink-0 shadow-2xs
+            "
+          >
+            <%= if match.home_team.crest_url.present?
+              image_tag match.home_team.crest_url,
+              class:
+                "w-full h-full object-contain #{"grayscale opacity-50" unless match.predictable?}"
+            end %>
+          </div>
+          <div class="min-w-0">
+            <div
+              class="
+                sm:hidden text-[13px] font-mono font-black text-[#0a1d13] uppercase leading-none
+              "
+            ><%= localized_tla(match.home_team) %></div>
+            <div
+              class="
+                hidden sm:block text-[14px] font-black text-[#0a1d13] leading-none truncate
+              "
+            ><%= localized_short_name(match.home_team) %></div>
+          </div>
+        </div>
+
+        <%# Score Inputs %>
+        <div class="flex gap-1 sm:gap-1.5 shrink-0">
+          <% (0..5).each do |score| %>
+            <% selected = prediction&.home_guess == score %>
+            <label class="cursor-pointer">
+              <input
+                type="radio"
+                name="predictions[<%= match.id %>][home_guess]"
+                value="<%= score %>"
+                class="sr-only peer"
+                data-action="click->predictions-keyboard#handleRadioClick"
+                <%= "checked" if selected %>
+                <%= "disabled" unless match.predictable? %>
+              >
+              <div
+                class="
+                  w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-xl flex items-center
+                  justify-center text-xs sm:text-sm font-bold font-mono transition-all border
+                  border-slate-100 bg-slate-50 text-slate-400 peer-checked:bg-[#0a1d13]
+                  peer-checked:text-white peer-checked:border-[#0a1d13] hover:text-slate-600
+                  shadow-2xs
+                "
+              >
+                <%= score %>
+              </div>
+            </label>
           <% end %>
         </div>
-        <div class="min-w-0">
-          <div class="md:hidden text-[12px] font-mono font-bold text-[#0a1d13] uppercase leading-none">
-            <%= localized_tla(match.home_team) %>
+      </div>
+
+      <%# --- AWAY TEAM ROW --- %>
+      <div class="flex items-center justify-between gap-4">
+        <%# Team Name + Crest %>
+        <div class="flex items-center gap-3.5 min-w-0 flex-1">
+          <div
+            class="
+              w-9 h-9 rounded-xl bg-slate-50 border border-slate-100 flex items-center
+              justify-center p-1.5 shrink-0 shadow-2xs
+            "
+          >
+            <%= if match.away_team.crest_url.present?
+              image_tag match.away_team.crest_url,
+              class:
+                "w-full h-full object-contain #{"grayscale opacity-50" unless match.predictable?}"
+            end %>
           </div>
-          <div class="hidden md:block text-[14px] font-bold text-[#0a1d13] leading-none truncate">
-            <%= localized_short_name(match.home_team) %>
+          <div class="min-w-0">
+            <div
+              class="
+                sm:hidden text-[13px] font-mono font-black text-[#0a1d13] uppercase leading-none
+              "
+            ><%= localized_tla(match.away_team) %></div>
+            <div
+              class="
+                hidden sm:block text-[14px] font-black text-[#0a1d13] leading-none truncate
+              "
+            ><%= localized_short_name(match.away_team) %></div>
           </div>
         </div>
-      </div>
 
-      <div class="flex gap-1 sm:gap-1.5 shrink-0">
-        <% (0..5).each do |score| %>
-          <% selected = prediction&.home_guess == score %>
-          <label class="cursor-pointer">
-            <input
-              type="radio"
-              name="predictions[<%= match.id %>][home_guess]"
-              value="<%= score %>"
-              class="sr-only peer"
-              <% if selected %> checked <% end %>
-              <% if !match.predictable? %> disabled <% end %>
-            >
-            <div class="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 rounded-lg sm:rounded-xl flex items-center justify-center text-xs md:text-sm font-bold font-mono transition-all border bg-slate-50 text-slate-400 border-slate-100 peer-checked:bg-[#0a1d13] peer-checked:text-white peer-checked:border-[#0a1d13] hover:text-slate-600">
-              <%= score %>
-            </div>
-          </label>
-        <% end %>
-      </div>
-    </div>
-
-    <%# AWAY TEAM %>
-    <div class="flex items-center justify-between gap-2 md:gap-4">
-      <div class="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
-        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center p-1.5 shrink-0 shadow-sm">
-          <% if match.away_team.crest_url.present? %>
-            <%= image_tag match.away_team.crest_url, class: "w-full h-full object-contain #{'grayscale opacity-50' unless match.predictable?}" %>
+        <%# Score Inputs %>
+        <div class="flex gap-1 sm:gap-1.5 shrink-0">
+          <% (0..5).each do |score| %>
+            <% selected = prediction&.away_guess == score %>
+            <label class="cursor-pointer">
+              <input
+                type="radio"
+                name="predictions[<%= match.id %>][away_guess]"
+                value="<%= score %>"
+                class="sr-only peer"
+                data-action="click->predictions-keyboard#handleRadioClick"
+                <%= "checked" if selected %>
+                <%= "disabled" unless match.predictable? %>
+              >
+              <div
+                class="
+                  w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-xl flex items-center
+                  justify-center text-xs sm:text-sm font-bold font-mono transition-all border
+                  border-slate-100 bg-slate-50 text-slate-400 peer-checked:bg-[#38bdf8]
+                  peer-checked:text-white peer-checked:border-[#38bdf8] hover:text-slate-600
+                  shadow-2xs
+                "
+              >
+                <%= score %>
+              </div>
+            </label>
           <% end %>
         </div>
-        <div class="min-w-0">
-          <div class="md:hidden text-[12px] font-mono font-bold text-[#0a1d13] uppercase leading-none">
-            <%= localized_tla(match.away_team) %>
-          </div>
-          <div class="hidden md:block text-[14px] font-bold text-[#0a1d13] leading-none truncate">
-            <%= localized_short_name(match.away_team) %>
-          </div>
-        </div>
       </div>
 
-      <div class="flex gap-1 sm:gap-1.5 shrink-0">
-        <% (0..5).each do |score| %>
-          <% selected = prediction&.away_guess == score %>
-          <label class="cursor-pointer">
-            <input
-              type="radio"
-              name="predictions[<%= match.id %>][away_guess]"
-              value="<%= score %>"
-              class="sr-only peer"
-              <% if selected %> checked <% end %>
-              <% if !match.predictable? %> disabled <% end %>
-            >
-            <div class="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 rounded-lg sm:rounded-xl flex items-center justify-center text-xs md:text-sm font-bold font-mono transition-all border bg-slate-50 text-slate-400 border-slate-100 peer-checked:bg-[#38bdf8] peer-checked:text-white peer-checked:border-[#38bdf8] hover:text-slate-600">
-              <%= score %>
-            </div>
-          </label>
-        <% end %>
-      </div>
     </div>
+
   </div>
 </div>
