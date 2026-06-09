@@ -441,7 +441,7 @@ is:
     jpn: { name: "Japan", tla: "JAP" }
     mex: { name: "Mexíkó", tla: "MEX" }
     eng: { name: "England", tla: "ENG" }
-    usa: { name: "Bandaríkin", tla: "BND" }
+    usa: { name: "Bandaríkin", tla: "BNA" }
     kor: { name: "Suður-Kórea", tla: "KÓR" }
     fra: { name: "Frakkland", tla: "FRA" }
     rsa: { name: "Suður-Afríka", tla: "SAF" }
