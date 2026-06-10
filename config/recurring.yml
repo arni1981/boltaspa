@@ -30,7 +30,7 @@ production:
 
   rankings_wc:
     class: SeasonRankingsJob
-    args: ['WC']
+    args: ['WC', 2026]
     schedule: every 5 minutes
 
   reminder_emails:
