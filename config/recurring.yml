@@ -13,10 +13,10 @@ production:
     args: ['PL']
     schedule: every day
   
-  rankings_pl:
-    class: SeasonRankingsJob
-    args: ['PL']
-    schedule: every day
+#  rankings_pl:
+#    class: SeasonRankingsJob
+#    args: ['PL', 2026]
+#    schedule: every day
 
   matches_wc:
     class: MatchesJob
