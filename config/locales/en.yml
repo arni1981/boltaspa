@@ -264,6 +264,12 @@ en:
       no_matches_label: "No matches"
       open_slip_button: "Open Slip"
 
+  comments:
+    panel:
+      title: Podium
+    form:
+      placeholder: What's on your mind?
+
   # League Competitions
   league_competitions:
     show:

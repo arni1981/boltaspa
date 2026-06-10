@@ -297,6 +297,12 @@ is:
       no_matches_label: "Engir leikir"
       open_slip_button: "Opna Seðil"
 
+  comments:
+    panel:
+      title: Spjall
+    form:
+      placeholder: Hvað finnst þér?
+
   # League Competitions
   league_competitions:
     show:

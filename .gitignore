@@ -66,3 +66,4 @@ database.yml
 data.json
 .overmind.sock
 .vite/
+/.erb-formatter.yml
