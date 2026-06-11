@@ -272,6 +272,10 @@ en:
 
   # League Competitions
   league_competitions:
+    hero:
+      position_suffix: ". place"
+      your_position: "Your position"
+      points_abbr: Points
     right_sidebar:
       standings_title: "Standings"
     show:

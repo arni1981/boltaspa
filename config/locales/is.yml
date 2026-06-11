@@ -305,6 +305,10 @@ is:
 
   # League Competitions
   league_competitions:
+    hero:
+      position_suffix: ". sæti"
+      your_position: "Þitt sæti"
+      points_abbr: Stig
     right_sidebar:
       standings_title: Staða
     show:

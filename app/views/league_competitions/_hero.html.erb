@@ -19,7 +19,7 @@
           <span class="text-3xl font-mono font-black text-white tracking-tighter">
             <%= rank_item.total_points %>
           </span>
-          <span class="text-[8px] font-bold text-white/20 uppercase tracking-widest">Pts</span>
+          <span class="text-[8px] font-bold text-white/20 uppercase tracking-widest"><%= t('.points_abbr') %></span>
         </div>
 
         <% if is_me %>
@@ -38,7 +38,7 @@
       <div class="bg-[#2d5a43] border border-white/10 rounded-xl px-6 py-3 shadow-[0_15px_30px_rgba(0,0,0,0.4)] flex items-center justify-between">
         <div class="flex items-center gap-3">
           <span class="text-[10px] font-mono font-black text-white/40"><%= my_rank_item.rank %>.</span>
-          <span class="text-[10px] font-black text-white uppercase tracking-widest">Your Position</span>
+          <span class="text-[10px] font-black text-white uppercase tracking-widest"><%= t('.your_position') %></span>
         </div>
         <div class="flex items-baseline gap-1.5">
           <span class="text-lg font-mono font-black text-white leading-none"><%= my_rank_item.total_points %></span>
