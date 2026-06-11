@@ -272,10 +272,11 @@ en:
 
   # League Competitions
   league_competitions:
+    right_sidebar:
+      standings_title: "Standings"
     show:
       subtitle_template: "%{year}"
       leaderboard_title: "Overall Leaderboard"
-      leaderboard_note: "Standings after matchday 32"
       table_header_rank: "#"
       table_header_competitor: "Competitor"
       table_header_form: "Form (Last 5)"

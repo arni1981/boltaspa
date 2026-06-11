@@ -305,10 +305,11 @@ is:
 
   # League Competitions
   league_competitions:
+    right_sidebar:
+      standings_title: Staða
     show:
       subtitle_template: "%{year}"
       leaderboard_title: "Heildarstigalisti"
-      leaderboard_note: "Staðan eftir 32. umferð"
       table_header_rank: "#"
       table_header_competitor: "Keppandi"
       table_header_form: "Form (Síðustu 5)"
