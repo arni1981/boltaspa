@@ -1,38 +1,85 @@
 <%# locals: (league_competition:, current_matchday:) %>
 
 <aside class="w-full lg:w-[400px] lg:sticky lg:top-6 order-1 lg:order-2">
-  <div class="bg-white border border-slate-100 rounded-[2.5rem] shadow-sm overflow-hidden flex flex-col max-h-[calc(100vh-80px)]">
+  <div class="bg-white border border-slate-100 rounded-[2.5rem] shadow-sm overflow-hidden flex flex-col h-[calc(100vh-80px)] max-h-[820px]">
 
-    <%# 1. BANTER SECTION (Now on Top) %>
-    <%# We allow this section to shrink if the standings need more room, but keep it at the top %>
-    <div class="shrink-0 bg-white min-h-0 flex flex-col border-b border-slate-100">
-      <div class="overflow-y-auto no-scrollbar bg-white" id="banter_feed">
+    <%# 1. BANTER SECTION %>
+    <div class="h-1/2 flex flex-col min-h-0 bg-white border-b border-slate-100 relative">
+      <div class="flex flex-col h-full min-h-0" id="banter_feed">
         <%= turbo_stream_from [league_competition, :comments] %>
 
-        <%= tag.div id: dom_id(league_competition, :comments_panel) do %>
+        <%= tag.div id: dom_id(league_competition, :comments_panel), class: "flex flex-col h-full min-h-0" do %>
           <%= render 'comments/panel', league_competition: league_competition %>
         <% end %>
       </div>
     </div>
 
-    <%# 2. STANDINGS HEADER (Middle Anchor) %>
-    <header class="px-8 py-4 border-b border-slate-50 bg-slate-50/30 flex justify-between items-center shrink-0">
-      <h3 class="text-[9px] font-black text-[#0a1d13] uppercase tracking-[0.3em]"><%= t('.standings_title') %></h3>
+    <%# 2. STANDINGS HEADER %>
+    <header class="px-6 py-3.5 border-b border-slate-100 bg-[#f9faf9] flex justify-between items-center shrink-0">
+      <div class="flex items-center gap-2">
+        <h3 class="text-[9px] font-black text-[#0a1d13] uppercase tracking-[0.3em]">
+          <%= t('.standings_title', default: "STAÐA DEILDAR") %>
+        </h3>
+        <span class="text-[9px] font-mono font-bold text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded">
+          <%= league_competition.standings.size %>
+        </span>
+      </div>
+      
+      <%# Table Header Labels to provide data columns structure %>
+      <div class="flex items-center gap-5 text-[9px] font-black text-slate-400 uppercase tracking-wider font-mono pr-2">
+        <span><%= t('.live_matchday_short', default: "LÍFE") %></span>
+        <span class="w-10 text-right"><%= t('.total_points_short', default: "SAMT") %></span>
+      </div>
     </header>
 
-    <%# 3. SCROLLABLE LEDGER (Now at the Bottom) %>
-    <%# flex-1 allows this to fill the remaining vertical space of the card %>
-    <div class="flex-1 overflow-y-auto no-scrollbar divide-y divide-slate-50">
-      <% league_competition.standings.each do |rank_item| %>
-        <% is_me = rank_item.user == Current.user %>
-        <div class="flex items-center justify-between px-8 py-3 transition-colors <%= is_me ? 'bg-slate-50/80 sticky top-0 z-10 border-b border-slate-100' : 'bg-white hover:bg-slate-50/50' %>">
-          <div class="flex items-center gap-4">
-            <span class="w-5 text-[11px] font-mono font-black <%= is_me ? 'text-[#2d5a43]' : 'text-slate-200' %>"><%= rank_item.rank %></span>
-            <span class="text-[11px] font-black text-[#0a1d13] uppercase tracking-tight truncate w-32"><%= rank_item.user.name %></span>
+    <%# 3. HIGH-VISIBILITY SCROLLABLE LEDGER %>
+    <div class="flex-1 h-1/2 relative min-h-0 flex flex-col bg-white">
+      
+      <%# Scrollable Container Frame with distinct scroll tracks built directly inside %>
+      <div class="overflow-y-auto divide-y divide-slate-100/60 flex-1 pb-16 scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent" style="scroll-behavior: smooth;">
+        <% league_competition.standings.each do |rank_item| %>
+          <% is_me = rank_item.user == Current.user %>
+          <%# Fallback layout context logic variables for the new live metric columns %>
+          <% matchday_points = rank_item.respond_to?(:current_matchday_points) ? rank_item.current_matchday_points : 0 %>
+          
+          <div class="flex items-center justify-between transition-colors select-none group
+                      <%= is_me ? 'bg-[#f9faf9]/90 border-y border-[#2d5a43]/20 sticky top-0 bottom-0 z-10' : 'bg-white hover:bg-slate-50/50' %>">
+            
+            <%# Left: Position + Profile Identification Column %>
+            <div class="flex items-center gap-3 min-w-0 flex-1 py-2.5 pl-6">
+              <%# The Track Ribbon: Pinned color block forming a clean line down the column %>
+              <span class="w-6 h-6 flex items-center justify-center rounded text-[11px] font-mono font-black shrink-0 
+                           <%= is_me ? 'bg-[#2d5a43] text-white' : 'bg-slate-50 text-slate-400 border border-slate-100 group-hover:bg-slate-100' %>">
+                <%= rank_item.rank %>
+              </span>
+              
+              <span class="text-[12px] font-bold text-[#0a1d13] truncate min-w-0 pr-2 <%= 'text-[#2d5a43] font-black' if is_me %>">
+                <%= rank_item.user.name %>
+              </span>
+            </div>
+            
+            <%# Right: The Dynamic Metric Pair Split Grid %>
+            <div class="flex items-center gap-5 shrink-0 pr-8 pl-2">
+              <%# 1. Live Matchday Delta Indicator %>
+              <span class="text-[11px] font-mono font-bold tracking-tight text-center tabular-nums min-w-[28px] px-1 py-0.5 rounded
+                           <%= matchday_with_points = matchday_points > 0 %>
+                           <%= matchday_with_points ? 'bg-emerald-50 text-emerald-700 font-black' : 'text-slate-300' %>">
+                <%= matchday_with_points ? "+#{matchday_points}" : "•" %>
+              </span>
+
+              <%# 2. Grand Master Total Target Accumulator Column %>
+              <span class="w-10 text-right text-[13px] font-mono font-black text-[#0a1d13] tabular-nums">
+                <%= rank_item.total_points %>
+              </span>
+            </div>
+
           </div>
-          <span class="text-md font-mono font-black text-[#0a1d13] tabular-nums"><%= rank_item.total_points %></span>
-        </div>
-      <% end %>
+        <% end %>
+      </div>
+
+      <%# THE VISUAL INSURANCE: Clear bottom fade out mask blocking out layout cuts %>
+      <div class="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white via-white/95 to-transparent pointer-events-none z-20 border-b border-transparent rounded-b-[2.5rem]"></div>
+      
     </div>
 
   </div>
