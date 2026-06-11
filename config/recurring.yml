@@ -21,17 +21,17 @@ production:
   matches_wc:
     class: MatchesJob
     args: ['WC', 2026]
-    schedule: every 5 minutes
+    schedule: every 1 minutes
 
   competitions_wc:
     class: CompetitionsJob
     args: ['WC']
-    schedule: every hour
+    schedule: every 1 minutes
 
   rankings_wc:
     class: SeasonRankingsJob
     args: ['WC', 2026]
-    schedule: every 5 minutes
+    schedule: every 1 minutes
 
   reminder_emails:
     class: ReminderJob
