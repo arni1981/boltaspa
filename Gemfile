@@ -3,6 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 # --- Core Framework & Servers ---
 gem 'bootsnap', require: false
+gem 'puma'
 gem 'rails'
 
 # --- Database & Advanced SQL Engine ---
@@ -48,7 +49,6 @@ end
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
-  gem 'puma'
   gem 'web-console'
 end
 
