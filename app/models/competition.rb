@@ -7,4 +7,12 @@ class Competition < ApplicationRecord
   def to_param
     code
   end
+
+  def next_matchday(from_date = Time.current)
+    self.matches.where(kickoff_at: from_date.tomorrow...).limit(1).pluck('min(kickoff_at::date)').first
+  end
+
+  def prev_matchday(from_date = Time.current)
+    self.matches.where(kickoff_at: ...from_date).limit(1).pluck('max(kickoff_at::date)').first
+  end
 end

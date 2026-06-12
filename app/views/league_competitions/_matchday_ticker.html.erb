@@ -1,73 +1,66 @@
-<%# locals: (league:, league_competition:, matches:, current_matchday:, predictions_map:, compare_user: nil, compare_predictions_map: nil, request:, params:) %>
+<%# locals: (league:, league_competition:, matches:, date:, predictions_map:, compare_user: nil, compare_predictions_map: nil, request:, params:) %>
 
-<% today_matches, other_matches = matches.partition { |m| m.kickoff_at.to_date == Date.today } %>
+<section class="mb-10 bg-white border border-gray-100 rounded-[2.5rem] shadow-sm overflow-hidden">
 
-<% grouped_today = today_matches.group_by { |m| m.kickoff_at.to_date } %>
-<% grouped_others = other_matches.group_by { |m| m.kickoff_at.to_date } %>
-
-<%= turbo_frame_tag "matchday_ticker" do %>
-  <section class="mb-10 bg-white border border-gray-100 rounded-[2.5rem] shadow-sm overflow-hidden">
-
-    <%# 1. CONTROL HEADER %>
-    <header class="px-6 md:px-10 py-6 bg-[#0a1d13] flex flex-col md:flex-row items-center justify-between gap-6">
-      <div class="flex items-center gap-8">
-        <div class="flex flex-col">
-          <span class="text-[8px] font-black text-[#2d5a43] uppercase tracking-[0.4em] mb-1">
-            <%= t('common.today') %>
-          </span>
-          <h2 class="text-xl font-black text-white uppercase tracking-tight">
-            <%= t('.round_label') %> <%= current_matchday %>
-          </h2>
-        </div>
-
-        <div class="flex items-center bg-white/5 rounded-2xl p-1 border border-white/5">
-          <%= matchday_nav_link(:prev, league_competition, current_matchday, compare_user) %>
-          <div class="w-px h-4 bg-white/10 mx-1"></div>
-          <%= matchday_nav_link(:next, league_competition, current_matchday, compare_user) %>
-        </div>
+  <%# 1. CONTROL HEADER %>
+  <header
+    class="
+      px-6 md:px-10 py-6 bg-[#0a1d13] flex flex-col md:flex-row items-center justify-between gap-6
+    "
+  >
+    <div class="flex items-center gap-8">
+      <div class="flex items-center bg-white/5 rounded-2xl p-1 border border-white/5">
+        <%= matchday_nav_link(:prev, league_competition, date, compare_user) %>
+        <div class="w-px h-4 bg-white/10 mx-1"></div>
+        <%= matchday_nav_link(:next, league_competition, date, compare_user) %>
       </div>
-
-      <div class="relative w-full md:w-auto">
-        <div class="flex items-center justify-between md:justify-start gap-4 bg-white/5 px-6 py-3 rounded-[1.25rem] border border-white/10 group transition-colors">
-          <div class="flex flex-col">
-            <span class="text-[8px] font-black text-white/30 uppercase tracking-widest"><%= t('.comparison_label') %></span>
-            <span class="text-[11px] font-black text-[#2d5a43] uppercase tracking-tight">
-              <%= compare_user&.name || t('.choose_competitor') %>
-            </span>
-          </div>
-          <svg class="w-4 h-4 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7" />
-          </svg>
-        </div>
-
-        <%= form_with url: league_competition_by_year_path, method: :get, class: "absolute inset-0 z-10", 
-            data: { controller: "auto-submit", turbo_frame: "matchday_ticker", turbo_action: :advance } do |f| %>
-          <%= f.hidden_field :matchday, value: current_matchday %>
-          <%= f.select :compare_user_id, 
-              options_from_collection_for_select(league_competition.league.members.where.not(id: Current.user.id), :id, :name, params[:compare_user_id]),
-              { prompt: t('.none_selected') },
-              { class: "absolute inset-0 w-full h-full opacity-0 cursor-pointer appearance-none", 
-                data: { action: "change->auto-submit#submit" } } %>
-        <% end %>
-      </div>
-    </header>
-
-    <%# 2. MATCH LIST: Grouped by Date %>
-    <%# 2. MATCH LIST: Grouped by Date (Today First) %>
-    <div class="divide-y divide-gray-50">
-
-      <%# A. RENDER TODAY FIRST %>
-      <% grouped_today.each do |date, date_matches| %>
-        <%= render "match_group", date: date, matches: date_matches, is_today: true, 
-                  predictions_map: predictions_map, compare_predictions_map: compare_predictions_map, compare_user: compare_user %>
-      <% end %>
-
-      <%# B. RENDER THE REST OF THE ROUND %>
-      <% grouped_others.each do |date, date_matches| %>
-        <%= render "match_group", date: date, matches: date_matches, is_today: false, 
-                  predictions_map: predictions_map, compare_predictions_map: compare_predictions_map, compare_user: compare_user %>
-      <% end %>
-
     </div>
-  </section>
-<% end %>
+
+    <div class="relative w-full md:w-auto">
+      <div
+        class="
+          flex items-center justify-between md:justify-start gap-4 bg-white/5 px-6 py-3 rounded-[1.25rem]
+          border border-white/10 group transition-colors
+        "
+      >
+        <div class="flex flex-col">
+          <span class="text-[8px] font-black text-white/30 uppercase tracking-widest"><%= t(".comparison_label") %></span>
+          <span class="text-[11px] font-black text-[#2d5a43] uppercase tracking-tight">
+            <%= compare_user&.name || t(".choose_competitor") %>
+          </span>
+        </div>
+        <svg class="w-4 h-4 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"/>
+        </svg>
+      </div>
+
+      <%= form_with url: league_competition_by_year_path, method: :get, class: "absolute inset-0 z-10", 
+            data: { controller: "auto-submit", turbo_frame: "matchday_ticker", turbo_action: :advance } do |f| %>
+        <%= f.hidden_field :date, value: date %>
+        <%= f.select :compare_user_id,
+                 options_from_collection_for_select(
+                   league_competition.league.members.where.not(id: Current.user.id),
+                   :id,
+                   :name,
+                   params[:compare_user_id],
+                 ),
+                 { prompt: t(".none_selected") },
+                 {
+                   class: "absolute inset-0 w-full h-full opacity-0 cursor-pointer appearance-none",
+                   data: {
+                     action: "change->auto-submit#submit",
+                   },
+                 } %>
+      <% end %>
+    </div>
+  </header>
+
+  <div class="divide-y divide-gray-50">
+    <%= render "match_group",
+    date: date,
+    matches: matches,
+    predictions_map: predictions_map,
+    compare_predictions_map: compare_predictions_map,
+    compare_user: compare_user %>
+  </div>
+</section>

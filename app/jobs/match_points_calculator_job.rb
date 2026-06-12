@@ -12,8 +12,6 @@ class MatchPointsCalculatorJob < ApplicationJob
       and m.id = #{match_id};
     SQL
 
-    match = Match.find(match_id)
-    match.broadcast_refresh_later_to ActionView::RecordIdentifier.dom_id(match.competition,
-                                                                         "matchday_#{match.matchday}")
+    Match.find(match_id).broadcast_refresh_later
   end
 end

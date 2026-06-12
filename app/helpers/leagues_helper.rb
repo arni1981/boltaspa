@@ -1,18 +1,21 @@
 module LeaguesHelper
-  def matchday_nav_link(direction, league_competition, current_round, compare_user)
-    current_round = current_round.to_i
-
-    target_round = direction == :prev ? current_round - 1 : current_round + 1
-    is_disabled = if direction == :prev
-                    current_round <= 1
+  def matchday_nav_link(direction, league_competition, date, compare_user)
+    target_date = if direction == :prev
+                    league_competition.competition.prev_matchday(date)
                   else
-                    current_round >= Match.where(competition: league_competition.competition).maximum(:matchday)
+                    league_competition.competition.next_matchday(date)
+                  end
+
+    is_disabled = if direction == :prev
+                    league_competition.competition.prev_matchday(date).nil?
+                  else
+                    league_competition.competition.next_matchday(date).nil?
                   end
 
     path = league_competition_by_year_path(league_competition.league,
                                            league_competition.competition,
                                            league_competition.year,
-                                           matchday: target_round,
+                                           date: target_date,
                                            compare_user_id: compare_user&.id)
 
     link_to path,

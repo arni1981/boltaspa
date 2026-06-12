@@ -7,8 +7,6 @@ breadcrumbs: [
   { name: @league_competition.league.name, path: league_path(@league_competition.league) },
 ] %>
 
-<%= turbo_stream_from dom_id(@league_competition.competition, "matchday_#{@current_matchday}") %>
-
 <div class="max-w-[1400px] mx-auto pb-32 px-4 md:px-6 overflow-x-hidden">
 
   <%= render "hero", standings: @league_competition.standings, current_user: Current.user %>
@@ -24,8 +22,8 @@ breadcrumbs: [
     <main class="lg:col-span-8 order-2 lg:order-1 min-w-0 w-full">
       <%= render "matchday_ticker",
       league_competition: @league_competition,
-      current_matchday: @current_matchday,
       league: @league,
+      date: @date,
       compare_user: @compare_user,
       predictions_map: Current.user.predictions_map(@matches),
       compare_predictions_map: @compare_user&.predictions_map(@matches),

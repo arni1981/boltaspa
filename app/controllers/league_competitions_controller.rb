@@ -5,12 +5,9 @@ class LeagueCompetitionsController < ApplicationController
                                  .find_by!(competitions: { code: params[:competition_code] },
                                            seasons: { year: params[:year] })
 
-    # Logic to find the current round
-    @current_matchday = params.fetch(:matchday, @league_competition.season.current_matchday)
+    @date = Time.zone.parse(params.fetch(:date, Time.zone.today.to_s))
 
-    @matches = @league_competition.matches_for(@current_matchday)
-
-    @grouped_matches = @matches.group_by { |m| m.kickoff_at.to_date }
+    @matches = @league_competition.matches_for(@date)
 
     return unless params[:compare_user_id].present?
 

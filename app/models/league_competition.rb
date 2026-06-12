@@ -10,10 +10,10 @@ class LeagueCompetition < ApplicationRecord
 
   delegate :year, :current_matchday, to: :season, prefix: false
 
-  def matches_for(matchday)
+  def matches_for(day)
     competition
       .matches
-      .where(season: season, matchday: matchday)
+      .where(season: season, kickoff_at: day.all_day)
       .includes(:home_team, :away_team)
       .order(:kickoff_at)
   end
