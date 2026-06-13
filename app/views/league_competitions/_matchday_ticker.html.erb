@@ -1,66 +1,68 @@
 <%# locals: (league:, league_competition:, matches:, date:, predictions_map:, compare_user: nil, compare_predictions_map: nil, request:, params:) %>
 
-<section class="mb-10 bg-white border border-gray-100 rounded-[2.5rem] shadow-sm overflow-hidden">
+<%= turbo_frame_tag :matchday_ticker do %>
+  <section class="mb-10 bg-white border border-gray-100 rounded-[2.5rem] shadow-sm overflow-hidden">
 
-  <%# 1. CONTROL HEADER %>
-  <header
-    class="
-      px-6 md:px-10 py-6 bg-[#0a1d13] flex flex-col md:flex-row items-center justify-between gap-6
-    "
-  >
-    <div class="flex items-center gap-8">
-      <div class="flex items-center bg-white/5 rounded-2xl p-1 border border-white/5">
-        <%= matchday_nav_link(:prev, league_competition, date, compare_user) %>
-        <div class="w-px h-4 bg-white/10 mx-1"></div>
-        <%= matchday_nav_link(:next, league_competition, date, compare_user) %>
-      </div>
-    </div>
-
-    <div class="relative w-full md:w-auto">
-      <div
-        class="
-          flex items-center justify-between md:justify-start gap-4 bg-white/5 px-6 py-3 rounded-[1.25rem]
-          border border-white/10 group transition-colors
-        "
-      >
-        <div class="flex flex-col">
-          <span class="text-[8px] font-black text-white/30 uppercase tracking-widest"><%= t(".comparison_label") %></span>
-          <span class="text-[11px] font-black text-[#2d5a43] uppercase tracking-tight">
-            <%= compare_user&.name || t(".choose_competitor") %>
-          </span>
+    <%# 1. CONTROL HEADER %>
+    <header
+      class="
+        px-6 md:px-10 py-6 bg-[#0a1d13] flex flex-col md:flex-row items-center justify-between gap-6
+      "
+    >
+      <div class="flex items-center gap-8">
+        <div class="flex items-center bg-white/5 rounded-2xl p-1 border border-white/5">
+          <%= matchday_nav_link(:prev, league_competition, date, compare_user) %>
+          <div class="w-px h-4 bg-white/10 mx-1"></div>
+          <%= matchday_nav_link(:next, league_competition, date, compare_user) %>
         </div>
-        <svg class="w-4 h-4 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"/>
-        </svg>
       </div>
 
-      <%= form_with url: league_competition_by_year_path, method: :get, class: "absolute inset-0 z-10", 
-            data: { controller: "auto-submit", turbo_frame: "matchday_ticker", turbo_action: :advance } do |f| %>
-        <%= f.hidden_field :date, value: date %>
-        <%= f.select :compare_user_id,
-                 options_from_collection_for_select(
-                   league_competition.league.members.where.not(id: Current.user.id),
-                   :id,
-                   :name,
-                   params[:compare_user_id],
-                 ),
-                 { prompt: t(".none_selected") },
-                 {
-                   class: "absolute inset-0 w-full h-full opacity-0 cursor-pointer appearance-none",
-                   data: {
-                     action: "change->auto-submit#submit",
-                   },
-                 } %>
-      <% end %>
-    </div>
-  </header>
+      <div class="relative w-full md:w-auto">
+        <div
+          class="
+            flex items-center justify-between md:justify-start gap-4 bg-white/5 px-6 py-3 rounded-[1.25rem]
+            border border-white/10 group transition-colors
+          "
+        >
+          <div class="flex flex-col">
+            <span class="text-[8px] font-black text-white/30 uppercase tracking-widest"><%= t(".comparison_label") %></span>
+            <span class="text-[11px] font-black text-[#2d5a43] uppercase tracking-tight">
+              <%= compare_user&.name || t(".choose_competitor") %>
+            </span>
+          </div>
+          <svg class="w-4 h-4 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </div>
 
-  <div class="divide-y divide-gray-50">
-    <%= render "match_group",
-    date: date,
-    matches: matches,
-    predictions_map: predictions_map,
-    compare_predictions_map: compare_predictions_map,
-    compare_user: compare_user %>
-  </div>
-</section>
+        <%= form_with url: league_competition_by_year_path, method: :get, class: "absolute inset-0 z-10", 
+            data: { controller: "auto-submit", turbo_frame: "matchday_ticker", turbo_action: :advance } do |f| %>
+          <%= f.hidden_field :date, value: date %>
+          <%= f.select :compare_user_id,
+                   options_from_collection_for_select(
+                     league_competition.league.members.where.not(id: Current.user.id),
+                     :id,
+                     :name,
+                     params[:compare_user_id],
+                   ),
+                   { prompt: t(".none_selected") },
+                   {
+                     class: "absolute inset-0 w-full h-full opacity-0 cursor-pointer appearance-none",
+                     data: {
+                       action: "change->auto-submit#submit",
+                     },
+                   } %>
+        <% end %>
+      </div>
+    </header>
+
+    <div class="divide-y divide-gray-50">
+      <%= render "match_group",
+      date: date,
+      matches: matches,
+      predictions_map: predictions_map,
+      compare_predictions_map: compare_predictions_map,
+      compare_user: compare_user %>
+    </div>
+  </section>
+<% end %>

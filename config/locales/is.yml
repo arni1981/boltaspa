@@ -214,6 +214,18 @@ is:
       breadcrumb_current: "Deildir"
       invite_new_members: "Bjóða nýjum félögum"
 
+  leaderboards:
+    show:
+      breadcrumb_leagues: Deildir
+      
+  competitions:
+    stages:
+      group_stage: "Riðlakeppni"
+      last_32: "32-liða úrslit"
+      last_16: "16-liða úrslit"
+      quarter_finals: "8-liða úrslit"
+      semi_finals: "Undanúrslit"
+      final: "Úrslitaleikur"
   pages:
     scoring:
       title: "Stigagjöf og reglur"

@@ -1,71 +1,98 @@
-<%= render 'layouts/shared/page_header', 
-    title: @league_competition.competition.name, 
-    crest: @league_competition.competition.emblem,
-    breadcrumbs: [
-      { name: t('common.home'), path: root_path },
-      { name: t('.breadcrumb_leagues'), path: leagues_path }, 
-      { name: @league_competition.league.name, path: league_path(@league_competition.league) }] %>
+<%= render "layouts/shared/page_header",
+title: @league_competition.competition.name,
+crest: @league_competition.competition.emblem,
+breadcrumbs: [
+  { name: t("common.home"), path: root_path },
+  { name: t(".breadcrumb_leagues"), path: leagues_path },
+  { name: @league_competition.league.name, path: league_path(@league_competition.league) },
+] %>
 
+<div class="max-w-5xl mx-auto px-4 py-8">
+  <div class="bg-white border border-gray-100 rounded-[2.5rem] shadow-sm overflow-hidden">
 
-<div class="max-w-7xl mx-auto py-12 px-6">
-  <section class="bg-white border border-gray-100 rounded-[2.5rem] shadow-sm overflow-hidden">
-
-    <header class="px-10 py-8 bg-[#0a1d13] flex items-center justify-between">
+    <%# 1. CLEAN TRACKING HEADER %>
+    <header class="px-6 md:px-10 py-6 bg-[#0a1d13]">
+      <span class="text-[8px] font-black text-[#2d5a43] uppercase tracking-[0.4em] mb-1 block">
+        Yfirlitið
+      </span>
       <h2 class="text-xl font-black text-white uppercase tracking-tight">
-        Detailed Standings
+        Heildarárangur eftir umferðum
       </h2>
     </header>
 
+    <%# 2. DYNAMIC MATRIX CONTAINER %>
+    <%# We establish a responsive, fluid grid formula based on how many stages exist in the database %>
+    <% grid_layout_style =
+      "grid-template-columns: 32px minmax(120px, 3fr) repeat(#{@stages.size}, minmax(70px, 1fr)) 80px;" %>
+
     <div class="overflow-x-auto">
-      <table class="w-full text-left border-separate border-spacing-0">
-        <thead>
-          <tr class="bg-gray-50">
-            <%# RANK: 0px to 80px %>
-            <th class="sticky left-0 z-30 bg-gray-50 py-5 pl-10 w-20 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-gray-100">Rank</th>
+      <div class="inline-w-full min-w-[700px] divide-y divide-gray-50">
 
-            <%# COMPETITOR: 80px to 260px %>
-            <th class="sticky left-20 z-30 bg-gray-50 px-6 py-5 w-[180px] text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-gray-100">Competitor</th>
+        <%# COLUMN HEADERS %>
+        <div
+          class="
+            grid items-center px-6 md:px-10 py-4 bg-[#f9faf9] text-[10px] font-mono font-black uppercase
+            tracking-wider text-slate-400 gap-4
+          "
+          style="<%= grid_layout_style %>"
+        >
+          <span>#</span>
+          <span>Keppandi</span>
 
-            <%# TOTAL: Starts at 260px (80 + 180) %>
-            <th class="sticky left-[260px] z-30 bg-emerald-50 px-6 py-5 w-24 text-[10px] font-black text-[#2d5a43] uppercase tracking-widest text-right border-b border-emerald-100 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">Total</th>
-
-            <%# Matchdays: Normal scroll %>
-            <% @matchdays.each do |md| %>
-              <th class="px-4 py-5 text-[9px] font-black text-slate-300 uppercase text-center w-20 border-b border-gray-100">MD <%= md %></th>
-            <% end %>
-          </tr>
-        </thead>
-
-        <tbody class="divide-y divide-gray-50">
-          <% @league_competition.standings.each_with_index do |standing, i| %>
-            <tr class="group">
-              <%# RANK CELL %>
-              <td class="sticky left-0 z-20 bg-white group-hover:bg-[#f9faf9] py-6 pl-10 font-mono text-sm font-black text-slate-300 transition-colors">
-                #<%= i + 1 %>
-              </td>
-
-              <%# COMPETITOR CELL: Forced width to match header %>
-              <td class="sticky left-20 z-20 bg-white group-hover:bg-[#f9faf9] px-6 py-6 transition-colors w-[180px]">
-                <span class="text-sm font-black text-[#0a1d13] uppercase truncate block w-[140px]"><%= standing.user.name %></span>
-              </td>
-
-              <%# TOTAL CELL: Hard offset at 260px %>
-              <td class="sticky left-[260px] z-20 bg-emerald-50 group-hover:bg-emerald-100/50 px-6 py-6 text-right transition-colors shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] border-r border-emerald-100/30">
-                <span class="text-lg font-mono font-black text-[#2d5a43]">
-                  <%= standing.total_points %>
-                </span>
-              </td>
-
-              <%# MATCHDAY CELLS %>
-              <% @matchdays.each do |matchday| %>
-                <td class="px-4 py-6 text-center font-mono text-xs text-slate-400 group-hover:text-[#0a1d13] border-l border-gray-50/50">
-                  <%= standing.full_form_array[matchday.to_s] || '0' %>
-                </td>
-              <% end %>
-            </tr>
+          <%# Dynamic Stage Columns %>
+          <% @stages.each do |stage| %>
+            <div
+              class="text-center truncate"
+              title="<%= t("competitions.stages.#{stage.downcase}", default: stage.humanize) %>"
+            >
+              <%= t("competitions.stages.#{stage.downcase}", default: stage.humanize) %>
+            </div>
           <% end %>
-        </tbody>
-      </table>
+
+          <div class="text-right text-[#0a1d13]">Samtals</div>
+        </div>
+
+        <%# STANDINGS ROW LOOP %>
+        <% @league_competition.standings.each do |standing| %>
+          <div
+            class="grid items-center px-6 md:px-10 py-4 transition-colors hover:bg-[#f9faf9] gap-4"
+            style="<%= grid_layout_style %>"
+          >
+
+            <%# Position Rank %>
+            <span class="font-mono font-bold text-sm text-slate-400">
+              <%= standing.rank %>.
+            </span>
+
+            <%# Competitor Name %>
+            <span class="text-sm font-black text-[#0a1d13] truncate">
+              <%= standing.user.name %>
+            </span>
+
+            <%# Dynamic Stage Values %>
+            <% @stages.each do |stage| %>
+              <% pts = standing.full_stage_array&.[](stage).to_i %>
+              <div class="text-center font-mono text-sm">
+                <% if pts > 0 %>
+                  <span class="font-black text-[#3a86ff]"><%= pts %></span>
+                <% else %>
+                  <span class="text-slate-300">0</span>
+                <% end %>
+              </div>
+            <% end %>
+
+            <%# Ultimate Grand Total Marathon Column %>
+            <div class="text-right">
+              <span class="font-mono text-base font-black text-[#0a1d13]">
+                <%= standing.total_points %>
+              </span>
+            </div>
+
+          </div>
+        <% end %>
+
+      </div>
     </div>
-  </section>
+
+  </div>
 </div>

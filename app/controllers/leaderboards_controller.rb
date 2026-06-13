@@ -5,6 +5,8 @@ class LeaderboardsController < ApplicationController
                                  .find_by!(competitions: { code: params[:competition_code] },
                                            seasons: { year: params[:year] })
 
-    @matchdays = (1..35).to_a.reverse
+    @stages = @league_competition.competition.matches.pluck('distinct stage')
+
+    @active_stage = params[:stage]
   end
 end
