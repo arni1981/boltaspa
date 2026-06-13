@@ -1,11 +1,13 @@
-Rails.application.config.middleware.insert_before 0, Rack::Cors do
-  allow do
-    # Specify your exact CDN subdomain here
-    origins 'https://cdn.betraskor.is'
+Rails.application.configure do
+  # ... your other configuration settings ...
 
-    resource '*',
-             headers: :any,
-             methods: %i[get options head], # CDNs typically only need read access
-             max_age: 86_400 # Reduces preflight OPTIONS requests by caching the response (24 hours)
-  end
+  # Ensure static files are handled with proper headers
+  config.public_file_server.enabled = true
+
+  config.public_file_server.headers = {
+    'Access-Control-Allow-Origin' => '*',
+    'Access-Control-Allow-Methods' => 'GET, OPTIONS',
+    'Access-Control-Allow-Headers' => 'Origin, X-Requested-With, Content-Type, Accept',
+    'Cache-Control' => 'public, max-age=31536000'
+  }
 end
