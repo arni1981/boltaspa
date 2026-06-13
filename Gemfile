@@ -11,8 +11,6 @@ gem 'fx'
 gem 'pg'
 gem 'scenic'
 
-gem 'rack-cors'
-
 # --- The "Solid" Infrastructure Stack ---
 gem 'mission_control-jobs' # Dashboard for Solid Queue
 gem 'solid_cable'
