@@ -1,3 +1,5 @@
+<%# app/views/leaderboards/show.html.erb %>
+
 <%= render "layouts/shared/page_header",
 title: @league_competition.competition.name,
 crest: @league_competition.competition.emblem,
@@ -21,7 +23,6 @@ breadcrumbs: [
     </header>
 
     <%# 2. DYNAMIC MATRIX CONTAINER %>
-    <%# We establish a responsive, fluid grid formula based on how many stages exist in the database %>
     <% grid_layout_style =
       "grid-template-columns: 32px minmax(120px, 3fr) repeat(#{@stages.size}, minmax(70px, 1fr)) 80px;" %>
 
@@ -54,13 +55,17 @@ breadcrumbs: [
 
         <%# STANDINGS ROW LOOP %>
         <% @league_competition.standings.each do |standing| %>
+          <% is_viewer = (standing.user_id == Current.user.id) %>
+
           <div
-            class="grid items-center px-6 md:px-10 py-4 transition-colors hover:bg-[#f9faf9] gap-4"
+            class="
+              grid items-center px-6 md:px-10 py-4 transition-colors gap-4 <%= is_viewer ? 'bg-[#2d5a43]/5' : 'bg-white hover:bg-[#f9faf9]' %>
+            "
             style="<%= grid_layout_style %>"
           >
 
             <%# Position Rank %>
-            <span class="font-mono font-bold text-sm text-slate-400">
+            <span class="font-mono font-bold text-sm <%= is_viewer ? 'text-[#2d5a43]' : 'text-slate-400' %>">
               <%= standing.rank %>.
             </span>
 
@@ -71,9 +76,9 @@ breadcrumbs: [
 
             <%# Dynamic Stage Values %>
             <% @stages.each do |stage| %>
-              <% pts = standing.full_stage_array&.[](stage).to_i %>
+              <% pts = standing.full_stage_array[stage] %>
               <div class="text-center font-mono text-sm">
-                <% if pts > 0 %>
+                <% if pts.positive? %>
                   <span class="font-black text-[#3a86ff]"><%= pts %></span>
                 <% else %>
                   <span class="text-slate-300">0</span>
