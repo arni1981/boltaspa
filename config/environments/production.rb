@@ -1,7 +1,7 @@
 require 'active_support/core_ext/integer/time'
 
 Rails.application.configure do
-  config.asset_host = 'cdn.boltaspa.is'
+  # config.asset_host = 'cdn.boltaspa.is'
 
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -54,7 +54,7 @@ Rails.application.configure do
   config.force_ssl = true
 
   config.logger = ActiveSupport::Logger.new(Rails.root.join('log/production.log'))
-                                       .tap { |logger| logger.formatter = ::Logger::Formatter.new }
+                                       .tap { |logger| logger.formatter = Logger::Formatter.new }
                                        .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
 
   # Prepend all log lines with the following tags.
