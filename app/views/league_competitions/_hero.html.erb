@@ -42,7 +42,7 @@ standings = league_competition.standings %>
           "
         >
           <span class="font-mono font-black text-[#2d5a43]"><%= i + 1 %>.</span>
-          <span class="font-bold text-white/90 uppercase"><%= rank_item.user.name.split.first %></span>
+          <span class="font-bold text-white/90 uppercase"><%= rank_item.user.name %></span>
           <span class="font-mono font-black text-white/60 text-[11px]"><%= rank_item.total_points %></span>
         </div>
       <% end %>
