@@ -2,10 +2,7 @@
 
 <%= render "layouts/shared/page_header",
 title: t(".page_title"),
-breadcrumbs: [
-  { name: t("common.home"), path: root_path },
-  { name: t(".breadcrumb_current") },
-] %>
+breadcrumbs: [{ name: t("common.home"), path: root_path }, { name: t(".breadcrumb_current") }] %>
 
 <%= render "keyboard_guide" %>
 
@@ -31,11 +28,7 @@ breadcrumbs: [
       <% @upcoming_matches.group_by { |m| m.kickoff_at.to_date }.each do |date, matches| %>
 
         <div class="mb-4 mt-10 px-2 flex items-center justify-between">
-          <h3
-            class="
-              text-[13px] font-bold text-slate-400 tracking-tight font-mono uppercase
-            "
-          >
+          <h3 class=" text-[13px] font-bold text-slate-400 tracking-tight font-mono uppercase ">
             <%= l(date, format: "%A %d. %B") %>
           </h3>
           <div class="h-px bg-slate-100 flex-1 ml-6"></div>
@@ -51,17 +44,9 @@ breadcrumbs: [
     </div>
 
     <aside class="hidden xl:block w-[360px] shrink-0 sticky top-6 self-start">
-      <div
-        class="
-          bg-white border border-slate-100 rounded-2xl p-5 shadow-sm min-h-[400px]
-        "
-      >
+      <div class=" bg-white border border-slate-100 rounded-2xl p-5 shadow-sm min-h-[300px] ">
         <%= turbo_frame_tag :match_sidebar, src: match_details_path(match_id: @upcoming_matches.first.id), loading: :lazy do %>
-          <div
-            class="
-              flex items-center justify-center h-48 text-slate-300 font-mono text-xs
-            "
-          >
+          <div class=" flex items-center justify-center h-48 text-slate-300 font-mono text-xs ">
             Hleður tölfræði...
           </div>
         <% end %>
@@ -73,34 +58,25 @@ breadcrumbs: [
   <div
     id="sticky_bottom"
     class="
-      fixed bottom-8 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none
-      transition-all
+      fixed bottom-8 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none transition-all
     "
   >
     <div
       class="
-        pointer-events-auto bg-[#0a1d13] border border-white/10
-        shadow-[0_20px_50px_rgba(0,0,0,0.5)] rounded-2xl p-1.5 flex items-center
-        justify-center min-w-[220px] h-[64px] shrink-0
+        pointer-events-auto bg-[#0a1d13] border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)]
+        rounded-2xl p-1.5 flex items-center justify-center min-w-[220px] h-[64px] shrink-0
       "
     >
 
       <%= f.button data: { turbo_submits_with: t('.sticky_bottom.saving_with') }, class: "inline-flex items-center justify-between w-full h-full px-10 bg-[#2d5a43] text-white rounded-xl font-bold text-[13px] hover:bg-[#1a3f2d] transition-all group active:scale-95 whitespace-nowrap" do %>
         <span><%= t("predictions.sticky_bottom.save_button") %></span>
         <svg
-          class="
-            w-4 h-4 ml-4 transform group-hover:translate-x-1 transition-transform shrink-0
-          "
+          class="w-4 h-4 ml-4 transform group-hover:translate-x-1 transition-transform shrink-0"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
         >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="3"
-            d="M14 5l7 7m0 0l-7 7m7-7H3"
-          />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
         </svg>
       <% end %>
 
