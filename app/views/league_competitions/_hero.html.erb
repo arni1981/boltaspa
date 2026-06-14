@@ -1,4 +1,7 @@
-<%# locals: (standings:, current_user:) %>
+<%# locals: (league_competition:, current_user:) %>
+<% league = league_competition.league
+standings = league_competition.standings %>
+
 <section
   class="
     mb-6 bg-[#0a1d13] rounded-2xl border border-white/5 shadow-md overflow-hidden px-6 md:px-8 py-4 flex
@@ -44,10 +47,23 @@
         </div>
       <% end %>
     </div>
-
   </div>
 
-  <%# Right Side: Intentionally left completely empty to balance out the layout density %>
-  <div class="hidden md:block"></div>
+  <%# 3. FIXED THE RIGHT SIDE: Premium, low-noise anchor link to the full leaderboard %>
+  <div class="hidden md:block shrink-0">
+    <%= link_to league_competition_by_year_leaderboard_path(league_slug: league.slug, competition_code: league_competition.competition.code,year:  league_competition.season.year), 
+                class: "flex items-center gap-1.5 text-[9px] font-black text-white/40 uppercase tracking-widest hover:text-white transition-colors group" do %>
+      <span><%= t(".full_leaderboard", default: "Heildarstaða") %></span>
+      <svg
+        class="w-3 h-3 transform group-hover:translate-x-0.5 transition-transform"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        stroke-width="3"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+      </svg>
+    <% end %>
+  </div>
 
 </section>

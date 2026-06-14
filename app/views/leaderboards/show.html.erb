@@ -1,7 +1,7 @@
 <%# app/views/leaderboards/show.html.erb %>
 
 <%= render "layouts/shared/page_header",
-title: @league_competition.competition.name,
+title: @league_competition.competition.localized_name,
 crest: @league_competition.competition.emblem,
 breadcrumbs: [
   { name: t("common.home"), path: root_path },
