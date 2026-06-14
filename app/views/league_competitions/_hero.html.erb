@@ -20,9 +20,9 @@ standings = league_competition.standings %>
           bg-[#2d5a43] rounded-xl px-3.5 py-1.5 flex items-center gap-2.5 border border-white/5 shrink-0
         "
       >
-        <span class="text-[12px] font-mono font-black text-white"><%= my_rank_item.rank %>.</span>
-        <span class="text-[9px] font-black text-white uppercase tracking-wider"><%= t(".your_position") %></span>
-        <span class="text-[12px] font-mono font-black text-white bg-black/10 px-1.5 py-0.5 rounded ml-0.5">
+        <span class="text-[13px] font-mono font-black text-white"><%= my_rank_item.rank %>.</span>
+        <span class="text-[10px] font-black text-white uppercase tracking-wider"><%= t(".your_position") %></span>
+        <span class="text-[13px] font-mono font-black text-white bg-black/10 px-1.5 py-0.5 rounded ml-0.5">
           <%= my_rank_item.total_points %><span class="text-[7px] font-normal text-white/50 ml-0.5"><%= t(".points_abbr") %></span>
         </span>
       </div>
@@ -38,11 +38,11 @@ standings = league_competition.standings %>
 
         <div
           class="
-            flex items-center gap-2 text-[12px] tracking-tight <%= is_me ? 'bg-white/5 px-2.5 py-1 rounded-lg border border-white/5' : '' %>
+            flex items-center gap-2 text-[13px] tracking-tight <%= is_me ? 'bg-white/5 px-2.5 py-1 rounded-lg border border-white/5' : '' %>
           "
         >
           <span class="font-mono font-black text-[#2d5a43]"><%= i + 1 %>.</span>
-          <span class="font-bold text-white/90 uppercase"><%= rank_item.user.name %></span>
+          <span class="font-bold text-white/90"><%= rank_item.user.name %></span>
           <span class="font-mono font-black text-white/60 text-[11px]"><%= rank_item.total_points %></span>
         </div>
       <% end %>

@@ -322,7 +322,7 @@ is:
   league_competitions:
     hero:
       position_suffix: ". sæti"
-      your_position: "Þitt sæti"
+      your_position: "Mín staða"
       points_abbr: Stig
     right_sidebar:
       standings_title: Staða
