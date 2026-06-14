@@ -1,24 +1,33 @@
-<%# locals: (title:, breadcrumbs: [], crest: nil, subtitle: nil) %>
+<%# locals: (title:, kicker: nil, crest: nil, subtitle: nil, breadcrumbs: nil) %>
 
-<div class="mb-12">
-  <nav class="flex items-center gap-2 mb-6">
-    <% breadcrumbs.each_with_index do |crumb, index| %>
-      <% if index > 0 %><span class="text-[10px] text-gray-300">/</span><% end %>
-      <%= crumb[:path] ? link_to(crumb[:name], crumb[:path], class: "text-[10px] font-black text-gray-400 uppercase tracking-widest hover:text-[#2d5a43] transition-colors") : content_tag(:span, crumb[:name], class: "text-[10px] font-black text-[#2d5a43] uppercase tracking-widest") %>
-    <% end %>
-  </nav>
+<div class="mb-10 flex items-center gap-6 bg-[#f9faf9]">
 
-  <div class="flex items-center gap-6">
-    <% if crest.present? %>
-      <div class="w-16 h-16 bg-white border border-gray-100 rounded-2xl p-3 shadow-sm shrink-0 flex items-center justify-center">
-        <%= image_tag crest, class: "w-full h-full object-contain opacity-90", alt: title %>
-      </div>
-    <% end %>
-
-    <div>
-      <h1 class="text-4xl font-black text-[#0a1d13] tracking-tighter leading-none mb-1">
-        <%= title %>
-      </h1>
+  <%# 1. High-Prestige Identity Token %>
+  <% if crest.present? %>
+    <div
+      class="
+        w-16 h-16 bg-white border border-gray-100 rounded-[1.25rem] p-3 shadow-sm shrink-0 flex items-center
+        justify-center
+      "
+    >
+      <%= image_tag crest, class: "w-full h-full object-contain", alt: title %>
     </div>
+  <% end %>
+
+  <%# 2. Typography Stack %>
+  <div class="flex flex-col gap-1 min-w-0">
+
+    <%# THE KICKER: Clean, tracking-wider font-mono but entirely case-natural %>
+    <% if kicker.present? %>
+      <span class="text-[12px] font-mono font-black text-[#2d5a43] tracking-wider truncate">
+        <%= kicker %>
+      </span>
+    <% end %>
+
+    <%# THE MAIN VIEW TITLE: Heavy, tight, natural mixed-case layout %>
+    <h1 class="text-2xl md:text-4xl font-black text-[#0a1d13] tracking-tighter leading-none truncate">
+      <%= title %>
+    </h1>
+
   </div>
 </div>
