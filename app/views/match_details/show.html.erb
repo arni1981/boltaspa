@@ -2,47 +2,60 @@
   <%# Hidden on mobile viewports, mounts strictly from lg screens upwards %>
   <div
     class="
-      hidden lg:block font-sans text-[13px] text-[#0a1d13] space-y-6 animate-fade-in antialiased
+      hidden lg:block font-sans text-[13px] text-[#0a1d13] space-y-5 animate-fade-in antialiased
     "
   >
 
-    <div class="border-b border-slate-200/60 pb-3">
-      <div class="text-[10px] uppercase font-bold text-slate-400 tracking-widest">Tölfræði Leiks</div>
-      <div class="text-[15px] font-semibold tracking-tight mt-0.5 text-[#0a1d13]">
+    <%# 1. SIDEBAR HEADER CONTENT %>
+    <div class="border-b border-slate-100 pb-3">
+      <div class="text-[9px] font-mono font-black text-slate-400 tracking-[0.2em] uppercase"><%= t(".stats_title", default: "TÖLFRÆÐI LEIKS") %></div>
+      <div class="text-[14px] font-black tracking-tight mt-1 text-[#0a1d13] uppercase">
         <%= localized_short_name(@home_team) %>
-        <span class="text-slate-300 mx-0.5 font-normal">v</span>
+        <span class="text-slate-300 mx-0.5 font-normal lowercase">v</span>
         <%= localized_short_name(@away_team) %>
       </div>
       <% if @match.group.present? %>
         <div
           class="
-            text-[10px] font-mono text-[#2d5a43] mt-1.5 bg-emerald-50 border border-emerald-100/30 px-2 py-0.5
-            rounded inline-block
+            text-[9px] font-mono font-black text-[#2d5a43] mt-2 bg-emerald-50 px-2 py-0.5 rounded inline-block
           "
         >
           <% group_letter = @match.group.to_s.split("_").last %>
-          <%= t("matches.group_format", letter: group_letter) %>
+          <%= t("matches.group_format", letter: group_letter, default: "#{group_letter}-riðill") %>
         </div>
       <% end %>
     </div>
 
+    <%# 2. FLUID STRUCTURAL TABLE %>
     <% if @group_rankings.any? %>
-      <div>
-        <div
-          class="
-            bg-white border border-slate-100 rounded-xl overflow-hidden shadow-sm divide-y divide-slate-100
-            font-mono text-xs
-          "
-        >
-          <%= render partial: "ranking_row",
-          collection: @group_rankings,
-          as: :ranking,
-          locals: {
-            highlight_home_id: @home_team.id,
-            highlight_away_id: @away_team.id,
-          } %>
-        </div>
+      <div class="bg-white border border-slate-100 rounded-xl overflow-hidden shadow-sm">
+        <table class="w-full font-mono text-[11px] border-collapse">
+
+          <thead>
+            <tr class="bg-[#f9faf9] border-b border-slate-100 text-slate-400 font-bold text-center text-[8px]">
+              <th class="py-2 pl-4 text-left w-6">#</th>
+              <th class="text-left w-12">Lið</th>
+              <th class="w-8 font-normal">L</th>
+              <th class="w-6 font-normal text-slate-300">U</th>
+              <th class="w-6 font-normal text-slate-300">J</th>
+              <th class="w-6 font-normal text-slate-300">T</th>
+              <th class="w-16 font-normal">Mörk</th>
+              <th class="py-2 pr-4 text-right font-bold text-slate-500 w-10">Stig</th>
+            </tr>
+          </thead>
+
+          <tbody class="divide-y divide-slate-50">
+            <%= render partial: "ranking_row",
+            collection: @group_rankings,
+            as: :ranking,
+            locals: {
+              highlight_home_id: @home_team.id,
+              highlight_away_id: @away_team.id,
+            } %>
+          </tbody>
+        </table>
       </div>
     <% end %>
+
   </div>
 <% end %>
