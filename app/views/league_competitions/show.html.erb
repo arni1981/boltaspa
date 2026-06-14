@@ -1,5 +1,10 @@
 <%= render "layouts/shared/page_header",
-title: @league_competition.competition.name,
+title:
+  t(
+    @league_competition.competition.code.downcase,
+    scope: "competitions.names",
+    year: @league_competition.season.year,
+  ),
 crest: @league_competition.competition.emblem,
 breadcrumbs: [
   { name: t("common.home"), path: root_path },

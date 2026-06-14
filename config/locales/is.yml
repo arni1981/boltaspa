@@ -219,6 +219,9 @@ is:
       breadcrumb_leagues: Deildir
       
   competitions:
+    names:
+      pl: Enska úrvalsdeildin %{year}
+      wc: HM í fótbolta %{year}
     stages:
       group_stage: "Riðlakeppni"
       last_32: "32-liða úrslit"
