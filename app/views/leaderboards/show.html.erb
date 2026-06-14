@@ -3,11 +3,7 @@
 <%= render "layouts/shared/page_header",
 title: @league_competition.competition.localized_name,
 crest: @league_competition.competition.emblem,
-breadcrumbs: [
-  { name: t("common.home"), path: root_path },
-  { name: t(".breadcrumb_leagues"), path: leagues_path },
-  { name: @league_competition.league.name, path: league_path(@league_competition.league) },
-] %>
+kicker: @league_competition.league.name %>
 
 <div class="max-w-5xl mx-auto px-4 py-8">
   <div class="bg-white border border-gray-100 rounded-[2.5rem] shadow-sm overflow-hidden">
