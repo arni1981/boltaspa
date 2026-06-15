@@ -5,7 +5,7 @@ class LeagueCompetition < ApplicationRecord
 
   has_many :league_competition_teams
   has_many :teams, through: :league_competition_teams
-  has_many :standings, -> { joins(:user).order('standings_views.total_points DESC, users.name') }
+  has_many :standings, -> { joins(:user).order('standings_views.rank') }
   has_many :comments
 
   delegate :year, :current_matchday, to: :season, prefix: false
