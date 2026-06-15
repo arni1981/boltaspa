@@ -325,7 +325,8 @@ is:
       your_position: "Mín staða"
       points_abbr: Stig
     right_sidebar:
-      standings_title: Staða
+      banter_tab: Heiti potturinn
+      standings_tab: Staða
     show:
       subtitle_template: "%{year}"
       leaderboard_title: "Heildarstigalisti"

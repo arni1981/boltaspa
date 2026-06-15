@@ -16,26 +16,19 @@ breadcrumbs: [
 
         <% @league.league_competitions.each do |lc| %>
           <%= link_to league_competition_by_year_path(@league, lc.competition.code, year: lc.year), class: "block group mb-6" do %>
-            <div
-              class="
-                bg-[#0a1d13] rounded-[2.5rem] p-1 shadow-2xl shadow-[#0a1d13]/20 transition-all active:scale-[0.98]
-              "
-            >
+            <div class=" bg-[#0a1d13] rounded-[2.5rem] p-1 shadow-2xl shadow-[#0a1d13]/20 transition-all active:scale-[0.98] ">
               <div class="bg-[#0a1d13] border border-white/10 rounded-[2.3rem] overflow-hidden">
                 <div
                   class="
-                    px-6 py-8 md:px-10 flex items-center justify-between border-b border-white/5 bg-linear-to-br
-                    from-white/5 to-transparent
+                    px-6 py-8 md:px-10 flex items-center justify-between border-b border-white/5 bg-linear-to-br from-white/5 to-transparent
                   "
                 >
                   <div class="flex items-center gap-4 md:gap-6">
                     <div class="w-12 h-12 md:w-16 md:h-16 bg-white rounded-2xl p-2 md:p-3 shadow-inner shrink-0">
-                      <%= image_tag lc.competition.emblem,
-                      class: "w-full h-full object-contain",
-                      alt: "#{lc.competition.localized_name} emblem" %>
+                      <%= image_tag lc.competition.emblem, class: "w-full h-full object-contain", alt: "#{lc.competition.localized_name} emblem" %>
                     </div>
                     <div>
-                      <h3 class="text-sm md:text-xl font-black text-white uppercase tracking-tight"><%= lc.competition.localized_name %></h3>
+                      <h3 class="text-sm md:text-xl font-black text-white tracking-tight"><%= lc.competition.localized_name %></h3>
                       <p class="text-[9px] font-bold text-emerald-400 uppercase tracking-widest mt-1">
                         <%= t(".season_label") %>
                         <%= lc.year %>/<%= lc.year.to_i - 1999 %>
@@ -58,8 +51,8 @@ breadcrumbs: [
                     <% @league.members.first(4).each do |member| %>
                       <div
                         class="
-                          w-7 h-7 rounded-full border-2 border-[#0a1d13] bg-[#2d5a43] flex items-center justify-center
-                          text-[8px] font-black text-white shadow-lg
+                          w-7 h-7 rounded-full border-2 border-[#0a1d13] bg-[#2d5a43] flex items-center justify-center text-[8px] font-black
+                          text-white shadow-lg
                         "
                       >
                         <%= member.name.first(2).upcase %>
@@ -69,8 +62,8 @@ breadcrumbs: [
 
                   <span
                     class="
-                      text-[9px] font-black text-emerald-400 uppercase tracking-widest group-hover:translate-x-1
-                      transition-transform flex items-center gap-2
+                      text-[9px] font-black text-emerald-400 uppercase tracking-widest group-hover:translate-x-1 transition-transform flex
+                      items-center gap-2
                     "
                   >
                     <%= t(".open_competition_link") %>
@@ -86,17 +79,12 @@ breadcrumbs: [
       </section>
 
       <% if @league.owner == Current.user %>
-        <section
-          class="
-            bg-[#0a1d13] rounded-[2.5rem] p-6 md:p-10 border border-white/5 shadow-2xl relative overflow-hidden
-          "
-        >
+        <section class=" bg-[#0a1d13] rounded-[2.5rem] p-6 md:p-10 border border-white/5 shadow-2xl relative overflow-hidden ">
           <div class="flex flex-col gap-8 relative z-10">
             <div class="flex items-center gap-5">
               <div
                 class="
-                  w-12 h-12 bg-[#2d5a43] rounded-2xl flex items-center justify-center shrink-0 shadow-lg
-                  shadow-emerald-900/40
+                  w-12 h-12 bg-[#2d5a43] rounded-2xl flex items-center justify-center shrink-0 shadow-lg shadow-emerald-900/40
                 "
               >
                 <svg class="w-5 h-5 text-emerald-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -111,15 +99,10 @@ breadcrumbs: [
 
             <div
               class="
-                flex flex-col sm:flex-row items-stretch sm:items-center gap-3 bg-black/30 rounded-3xl p-2 border
-                border-white/5
+                flex flex-col sm:flex-row items-stretch sm:items-center gap-3 bg-black/30 rounded-3xl p-2 border border-white/5
               "
             >
-              <div
-                class="
-                  bg-[#0a1d13] px-6 py-4 rounded-2xl border border-white/10 shadow-inner flex-1 text-center
-                "
-              >
+              <div class=" bg-[#0a1d13] px-6 py-4 rounded-2xl border border-white/10 shadow-inner flex-1 text-center ">
                 <span class="text-xl md:text-2xl font-mono font-black text-white tracking-[0.2em] uppercase">
                   <%= @league.invite_code %>
                 </span>

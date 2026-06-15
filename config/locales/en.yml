@@ -289,7 +289,8 @@ en:
       your_position: "Your position"
       points_abbr: Points
     right_sidebar:
-      standings_title: "Standings"
+      banter_tab: Chat
+      standings_tab: Standings
     show:
       subtitle_template: "%{year}"
       leaderboard_title: "Overall Leaderboard"

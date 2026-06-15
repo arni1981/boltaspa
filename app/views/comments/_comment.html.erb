@@ -1,13 +1,25 @@
-<div class="group">
-  <div class="flex items-baseline gap-2 mb-0.5">
-    <span class="text-[10px] font-black text-[#0a1d13] uppercase tracking-tight">
-      <%= comment.user.name %>
+<%# locals: (comment:) %>
+
+<div class="flex flex-col gap-1 mb-3.5 select-none items-start">
+
+  <%# Meta Row: Name & Time %>
+  <div class="flex items-center gap-2 px-1">
+    <span class="text-[10px] font-bold tracking-tight text-[#0a1d13]">
+      <%= comment.user.name.split.first %>
     </span>
-    <span class="text-[8px] font-mono font-bold text-slate-200">
-      <%= l(comment.created_at, format: :only_time) %>
+    <span class="text-[8px] font-mono font-bold text-slate-300">
+      <%= l(comment.created_at, format: "%H:%M") %>
     </span>
   </div>
-  <p class="text-[12px] text-slate-500 leading-snug">
-    <%= comment.body %>
-  </p>
+
+  <%# Message Bubble Container: Balanced, predictable, and perfectly aligned %>
+  <div
+    class="
+      w-full max-w-[90%] rounded-xl pl-3 pr-4 py-2 text-[12px] leading-normal border border-slate-100 bg-[#f9faf9]
+      text-slate-700 tracking-tight transition-all
+    "
+  >
+    <p class="break-words font-medium"><%= comment.body %></p>
+  </div>
+
 </div>

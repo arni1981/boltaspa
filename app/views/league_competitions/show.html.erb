@@ -10,7 +10,10 @@ crest: @league_competition.competition.emblem %>
 
     <%# SIDEBAR: Above on mobile, 4-cols on desktop %>
     <aside class="w-full lg:col-span-4 order-1 lg:order-2 lg:sticky lg:top-10 mb-10 lg:mb-0">
-      <%= render "right_sidebar", league_competition: @league_competition, current_matchday: @current_matchday %>
+      <%= render "right_sidebar",
+      league_competition: @league_competition,
+      current_matchday: @current_matchday,
+      active_tab: @active_tab %>
     </aside>
 
     <%# MAIN CONTENT: 8-cols on desktop, fluid center %>

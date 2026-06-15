@@ -9,6 +9,8 @@ class LeagueCompetitionsController < ApplicationController
 
     @matches = @league_competition.matches_for(@date)
 
+    @active_tab = params.fetch(:tab, 'standings')
+
     return unless params[:compare_user_id].present?
 
     @compare_user = @league_competition.league
