@@ -303,7 +303,7 @@ is:
       greeting_text: "Halló, %{name}"
       total_members: "%{count} keppendur"
       members_count: "%{count} keppendur"
-      season_label: "Tímabilið"
+      season_label: "Tímabilið %{year}"
       percentile_label: "Efstu %{percentage}%"
       points_label: "Stig"
       rank_of_total: "af %{count}"

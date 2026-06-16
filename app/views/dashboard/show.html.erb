@@ -1,57 +1,58 @@
-<%# 1. TIGHTER HEADER: Reduced padding and font size for mobile %>
 <header
   class="
-    bg-[#0a1d13] rounded-2xl p-6 md:p-8 mb-6 md:mb-10 text-white shadow-xl flex items-center
-    justify-between relative overflow-hidden
+    bg-[#0a1d13] rounded-[2rem] p-6 md:p-8 mb-6 md:mb-8 text-white shadow-sm flex items-center justify-between relative
+    overflow-hidden
   "
 >
   <div class="relative z-10">
-    <span
-      class="
-        text-[7px] md:text-[9px] font-black text-emerald-400 uppercase tracking-[0.4em] block mb-1
-      "
-    >
+    <span class="text-[8px] md:text-[9px] font-mono font-bold text-emerald-400/90 uppercase tracking-[0.25em] block mb-1.5">
       <%= t(".greeting_badge") %>
     </span>
-    <h1 class="text-xl md:text-3xl font-black tracking-tighter uppercase">
+
+    <h1 class="text-xl md:text-2xl font-bold tracking-tight text-white">
       <%= t(".greeting_text", name: Current.user.name) %>
     </h1>
   </div>
+
   <div
     class="
-      absolute -right-10 -top-10 w-32 h-32 md:w-40 md:h-40 bg-emerald-500/10 rounded-full blur-3xl
+      absolute -right-10 -top-10 w-32 h-32 md:w-40 md:h-40 bg-[#2d5a43]/20 rounded-full blur-2xl pointer-events-none
     "
   ></div>
 </header>
 
-<div class="max-w-4xl mx-auto space-y-8 md:space-y-12 mb-40">
+<%# FIXED: Space optimized for a single floating action bar at the baseline %>
+<div class="max-w-4xl mx-auto space-y-6 md:space-y-10 mb-24 px-1">
   <% @leagues.each do |league| %>
-    <section class="space-y-3 md:space-y-4">
+    <section class="space-y-2 md:space-y-3">
+
+      <%# Section Header Context Layer %>
       <div class="flex items-center justify-between px-4">
         <div class="flex items-center gap-2 md:gap-3">
-          <div class="w-1 h-4 md:w-1.5 md:h-6 bg-[#2d5a43] rounded-full"></div>
-          <h2 class="text-[9px] md:text-[11px] font-black text-slate-400 uppercase tracking-[0.3em]">
+          <div class="w-1 h-3.5 bg-[#2d5a43] rounded-full"></div>
+          <h2 class="text-[10px] md:text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em]">
             <%= league.name %>
           </h2>
         </div>
-        <span class="text-[8px] font-black text-slate-300 uppercase tracking-[0.2em]">
-          <%= t(".total_members", count: league.members.size) %>
+        <span class="text-[9px] font-mono font-bold text-slate-300 uppercase tracking-wider">
+          <%= t(".members_count", count: league.members.size, default: "#{league.members.size} keppendur") %>
         </span>
       </div>
 
-      <div class="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
-        <div class="divide-y divide-gray-50">
+      <%# Competition Rows Grid %>
+      <div class="bg-white border border-slate-100 rounded-2xl shadow-sm overflow-hidden">
+        <div class="divide-y divide-slate-50">
           <% league.league_competitions.each do |lc| %>
             <% standing = lc.standings.find_by(user_id: Current.user.id) %>
 
             <%= link_to league_competition_by_year_path(league, lc.competition, year: lc.year), 
-                class: "group flex items-center justify-between px-4 md:px-8 py-5 md:py-7 hover:bg-[#f9faf9] transition-all" do %>
+                class: "group flex items-center justify-between px-4 md:px-8 py-4 md:py-6 hover:bg-[#f9faf9] transition-all" do %>
 
-              <div class="flex items-center gap-3 md:gap-6 min-w-0">
+              <div class="flex items-center gap-3 md:gap-5 min-w-0">
                 <div
                   class="
-                    w-10 h-10 md:w-12 md:h-12 bg-white rounded-xl border border-gray-100 p-2 md:p-2.5 shadow-sm
-                    group-hover:border-emerald-200 shrink-0 transition-colors
+                    w-10 h-10 md:w-12 md:h-12 bg-white rounded-xl border border-slate-100 p-2 md:p-2.5 shadow-sm
+                    group-hover:border-[#2d5a43]/30 shrink-0 transition-colors flex items-center justify-center
                   "
                 >
                   <%= image_tag lc.competition.emblem,
@@ -59,40 +60,48 @@
                     "w-full h-full object-contain grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all",
                   alt: lc.competition.localized_name %>
                 </div>
+
                 <div class="min-w-0">
-                  <span class=" text-l md:text-xl font-black text-[#0a1d13] block">
-                    <%= lc.competition.localized_name %>
+                  <span class="text-[13px] md:text-[16px] font-bold text-[#0a1d13] block tracking-tight truncate">
+                    <%= lc.competition.localized_name(with_year: false) %>
                   </span>
-                  <p class="text-[8px] md:text-[9px] font-bold text-slate-400 uppercase tracking-[0.1em]">
-                    <%= t(".season_label") %>
-                    <%= lc.year %>
-                  </p>
+                  <span class="text-[9px] md:text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider block mt-0.5">
+                    <%= t(".season_label", year: lc.year, default: "Tímabilið #{lc.year}") %>
+                  </span>
                 </div>
               </div>
 
-              <%# Stats Container: Use gap-4 for mobile instead of gap-12 %>
-              <div class="flex items-center gap-4 md:gap-12 shrink-0">
-                <div class="text-right">
-                  <div class="flex items-baseline justify-end gap-0.5">
-                    <span class="text-lg md:text-2xl font-mono font-black text-[#0a1d13]">
-                      <%= (standing&.total_points&.positive?) ? "##{standing.rank}" : "—" %>
-                    </span>
-                  </div>
-                  <span class="text-[7px] md:text-[9px] font-black text-emerald-500 uppercase tracking-widest block">
-                    <%= if (standing&.total_points&.positive?)
-                      t(".rank_of_total", count: league.members.size)
-                    else
-                      t(".not_started")
-                    end %>
+              <%# Numeric Stats Columns Matrix %>
+              <div class="flex items-center gap-6 md:gap-12 shrink-0">
+
+                <%# Rank Alignment Column %>
+                <div class="text-right min-w-[45px] md:min-w-[60px]">
+                  <span
+                    class="
+                      text-[16px] md:text-[22px] font-mono font-bold text-[#0a1d13] tracking-tight tabular-nums block leading-none
+                    "
+                  >
+                    <%= (standing&.total_points&.positive?) ? "##{standing.rank}" : "—" %>
+                  </span>
+                  <span class="text-[8px] md:text-[9px] font-bold text-slate-400 uppercase tracking-wider block mt-1">
+                    <%= (standing&.total_points&.positive?) ? "af #{league.members.size}" : t(".not_started") %>
                   </span>
                 </div>
 
-                <div class="text-right min-w-[50px] md:min-w-[80px]">
-                  <span class="text-lg md:text-2xl font-mono font-black text-[#2d5a43] block leading-none">
+                <%# Points Total Column %>
+                <div class="text-right min-w-[50px] md:min-w-[70px]">
+                  <span
+                    class="
+                      text-[16px] md:text-[22px] font-mono font-bold text-[#2d5a43] tracking-tight tabular-nums block leading-none
+                    "
+                  >
                     <%= standing&.total_points || 0 %>
                   </span>
-                  <span class="text-[7px] md:text-[9px] font-bold text-slate-300 uppercase tracking-widest block"><%= t(".points_label") %></span>
+                  <span class="text-[8px] md:text-[9px] font-bold text-slate-300 uppercase tracking-wider block mt-1">
+                    <%= t(".points_label", default: "stig") %>
+                  </span>
                 </div>
+
               </div>
             <% end %>
           <% end %>
@@ -102,34 +111,29 @@
   <% end %>
 </div>
 
-<%# 3. FLOATING NAV: Better sizing for mobile with the px-10 rule %>
+<%# 3. FIXED FLOATING ACTION SLIP DECK AS PRIMARY BAR %>
 <% if @next_match %>
-  <div
-    class="
-      fixed bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] md:w-[calc(100%-4rem)]
-      max-w-md
-    "
-  >
+  <div class=" fixed bottom-5 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] md:w-[calc(100%-4rem)] max-w-md ">
+    <%# Added slightly deeper backdrop blur and clean emerald edge focus transitions %>
     <div
       class="
-        bg-[#0a1d13] rounded-xl p-1.5 md:p-2 shadow-2xl border border-white/5 flex items-center
-        justify-between pl-4 md:pl-6
+        bg-[#0a1d13]/95 backdrop-blur-lg rounded-2xl p-2 shadow-2xl border border-white/10 flex items-center justify-between
+        pl-4 md:pl-5
       "
     >
       <div class="min-w-0 pr-2">
-        <span
-          class="
-            text-[6px] md:text-[7px] font-black text-emerald-400 uppercase tracking-[0.3em] block mb-0.5
-          "
-        ><%= t(".next_prediction_label") %></span>
-        <p class="text-[10px] md:text-[11px] font-black text-white uppercase truncate">
+        <span class="text-[8px] font-mono font-bold text-emerald-400 uppercase tracking-widest block mb-0.5">
+          <%= t(".next_prediction_label") %>
+        </span>
+        <p class="text-[11px] font-bold text-white uppercase tracking-tight truncate">
           <%= localized_short_name(@next_match.home_team) %>
           -
           <%= localized_short_name(@next_match.away_team) %>
         </p>
       </div>
 
-      <%= link_to predictions_path, class: "bg-[#2d5a43] text-white px-6 md:px-10 py-3 md:py-4 rounded-lg text-[9px] md:text-[10px] font-black uppercase tracking-[0.15em] active:scale-95 transition-all shadow-lg" do %>
+      <%# Standardized Compact-Pro Action Button %>
+      <%= link_to predictions_path, class: "bg-[#2d5a43] hover:bg-[#34684e] text-white px-6 md:px-8 py-3 rounded-xl text-[10px] font-bold uppercase tracking-wider active:scale-95 transition-all shrink-0 flex items-center shadow-sm" do %>
         <%= t(".open_slip_button") %>
       <% end %>
     </div>

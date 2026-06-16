@@ -12,20 +12,27 @@
     <%= csp_meta_tag %>
     <title>Boltaspá</title>
 
-    <%= javascript_include_tag "https://ga.jspm.io/npm:es-module-shims@1.8.2/dist/es-module-shims.js", 
-        async: true, 
-        data: { turbo_track: "reload" }, 
-        nonce: true %>
+    <%= javascript_include_tag "https://ga.jspm.io/npm:es-module-shims@1.8.2/dist/es-module-shims.js",
+    async: true,
+    data: {
+      turbo_track: "reload",
+    },
+    nonce: true %>
     <%= javascript_importmap_tags %>
 
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "styles", "data-turbo-track": "reload" %>
   </head>
 
-  <body class="bg-[#f9faf9] text-[#0a1d13] font-sans antialiased min-h-screen flex flex-col lg:flex-row" data-controller="mobile-menu">
-    <div class="fixed inset-0 bg-[#0a1d13]/60 backdrop-blur-sm z-55 hidden"
-         data-mobile-menu-target="overlay"
-         data-action="click->mobile-menu#close"></div>
+  <body
+    class="bg-[#f9faf9] text-[#0a1d13] font-sans antialiased min-h-screen flex flex-col lg:flex-row"
+    data-controller="mobile-menu"
+  >
+    <div
+      class="fixed inset-0 bg-[#0a1d13]/60 backdrop-blur-sm z-55 hidden"
+      data-mobile-menu-target="overlay"
+      data-action="click->mobile-menu#close"
+    ></div>
 
     <header class="lg:hidden bg-[#0a1d13] text-white p-4 flex items-center justify-between sticky top-0 z-40 shadow-md">
       <%= link_to root_path, class: "flex items-center gap-3 active:opacity-70 transition-opacity" do %>
@@ -40,17 +47,22 @@
       </button>
     </header>
 
-    <%= render 'layouts/shared/sidebar' %>
+    <%= render "layouts/shared/sidebar" %>
 
     <%# FIXED: Added min-h-screen (minus header/nav heights) and flex layout utilities to push footer to base %>
     <main class="flex-1 p-4 lg:p-12 pb-40 lg:pb-12 min-h-screen flex flex-col justify-between w-full transition-all">
       <div class="w-full flex-grow">
-        <%= render 'layouts/flash_toasts' %>
+        <%= render "layouts/flash_toasts" %>
         <%= yield %>
       </div>
 
       <%# --- GLOBAL COMPACT-PRO FOOTER --- %>
-      <footer class="w-full border-t border-slate-200/60 pt-6 mt-20 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] font-mono tracking-wide text-slate-400">
+      <footer
+        class="
+          w-full border-t border-slate-200/60 pt-6 mt-20 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px]
+          font-mono tracking-wide text-slate-400
+        "
+      >
         <div class="flex items-center gap-2 order-2 sm:order-1">
           <span class="w-1.5 h-1.5 rounded-full bg-[#2d5a43]"></span>
           <span class="font-medium text-slate-400/80">Boltaspá</span>
@@ -61,13 +73,10 @@
             boltaspa@boltaspa.is
           </a>
           <span class="text-slate-200 hidden sm:inline">|</span>
-          <span class="text-slate-400/60 font-sans">© <%= Time.current.year %></span>
+          <span class="text-slate-400/60 font-sans">©
+            <%= Time.current.year %></span>
         </div>
       </footer>
     </main>
-
-    <div class="lg:hidden">
-      <%= render 'layouts/shared/bottom_nav' %>
-    </div>
   </body>
 </html>

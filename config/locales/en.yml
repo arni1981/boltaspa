@@ -255,7 +255,7 @@ en:
       greeting_text: "Hello, %{name}"
       total_members: "%{count} competitors"
       members_count: "%{count} competitors"
-      season_label: "Season"
+      season_label: "Season %{year}"
       percentile_label: "Top %{percentage}%"
       points_label: "Points"
       rank_of_total: "of %{count}"
