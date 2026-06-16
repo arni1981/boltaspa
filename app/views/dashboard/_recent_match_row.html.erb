@@ -5,8 +5,6 @@
 my_pts = my_pred&.points_won.to_i
 my_style = performance_tier(my_pts) %>
 
-<%= turbo_stream_from match %>
-
 <%# FIXED: Dropped 'bg-white' and 'border-b' utilities since the outer rounded list card manages containment lines %>
 <div
   id="<%= dom_id(match) %>"

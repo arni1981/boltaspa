@@ -11,8 +11,7 @@ class DashboardController < ApplicationController
                       .includes(:members)
 
     # Fetch active or recently completed matches across your leagues for today
-    @recent_results = Match.where(status: %w[IN_PLAY FINISHED])
-                           .where(kickoff_at: 28.hours.ago..)
+    @recent_results = Match.where(kickoff_at: 24.hours.ago..Date.today.at_end_of_day)
                            .order(kickoff_at: :desc)
 
     # Map predictions for instantaneous tracking cards evaluation

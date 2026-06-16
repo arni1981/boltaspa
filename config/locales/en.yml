@@ -251,6 +251,7 @@ en:
   # Dashboard
   dashboard:
     show:
+      recent_results_title: Latest results and today's matches
       greeting_badge: "Boltaspá Pro"
       greeting_text: "Hello, %{name}"
       total_members: "%{count} competitors"

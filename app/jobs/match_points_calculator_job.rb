@@ -12,6 +12,6 @@ class MatchPointsCalculatorJob < ApplicationJob
       and m.id = #{match_id};
     SQL
 
-    Match.find(match_id).broadcast_refresh_later
+    Turbo::StreamsChannel.broadcast_refresh_later_to 'live_recent_matches'
   end
 end

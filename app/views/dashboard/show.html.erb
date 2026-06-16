@@ -1,3 +1,5 @@
+<%= turbo_stream_from "live_recent_matches" %>
+
 <header
   class="
     bg-[#0a1d13] rounded-[2rem] p-6 md:p-8 mb-6 md:mb-8 text-white shadow-sm flex items-center justify-between relative
@@ -33,9 +35,6 @@
           <%= t(".recent_results_title", default: "Nýjustu úrslit") %>
         </h2>
       </div>
-      <span class="text-[9px] font-mono font-bold text-slate-300 uppercase tracking-wider">
-        <%= t(".quick_view_label", default: "Yfirlit") %>
-      </span>
     </div>
 
     <%# Rounded Card Container matching league layouts exactly %>

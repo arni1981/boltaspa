@@ -299,6 +299,7 @@ is:
   # Dashboard
   dashboard:
     show:
+      recent_results_title: Nýjustu úrslit og leikir dagsins
       greeting_badge: "Boltaspá Pro"
       greeting_text: "Halló, %{name}"
       total_members: "%{count} keppendur"
