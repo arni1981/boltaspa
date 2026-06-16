@@ -20,7 +20,7 @@ my_style = performance_tier(my_pts) %>
       <% if match.live? %>
         <div class="flex items-center gap-1.5 text-sky-500 animate-pulse">
           <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span>
-          <span class="text-[9px] tracking-wider font-bold uppercase"><%= t(".live") %></span>
+          <span class="text-[9px] tracking-wider font-bold uppercase"><%= t("league_competitions.match_row.live") %></span>
         </div>
       <% else %>
         <div class="<%= match.finished? ? 'text-slate-300' : 'text-[#0a1d13]' %>">
@@ -35,7 +35,7 @@ my_style = performance_tier(my_pts) %>
     <div class="flex items-center gap-3">
       <div class="text-[11px] font-mono font-bold shrink-0">
         <% if match.live? %>
-          <span class="text-sky-500 tracking-wider animate-pulse"><%= t(".live") %></span>
+          <span class="text-sky-500 tracking-wider animate-pulse"><%= t("league_competitions.match_row.live") %></span>
         <% else %>
           <span class="<%= match.finished? ? 'text-slate-300' : 'text-[#0a1d13]' %>">
             <%= match.finished? ? "FT" : l(match.kickoff_at, format: "%H:%M") %>
