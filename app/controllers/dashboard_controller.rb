@@ -9,5 +9,13 @@ class DashboardController < ApplicationController
                       .leagues
                       .includes(league_competitions: %i[competition season standings])
                       .includes(:members)
+
+    # Fetch active or recently completed matches across your leagues for today
+    @recent_results = Match.where(status: %w[IN_PLAY FINISHED])
+                           .where(kickoff_at: 28.hours.ago..)
+                           .order(kickoff_at: :desc)
+
+    # Map predictions for instantaneous tracking cards evaluation
+    @predictions_map = Current.user.predictions_map(@recent_results)
   end
 end
