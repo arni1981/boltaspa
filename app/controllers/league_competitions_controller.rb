@@ -21,7 +21,11 @@ class LeagueCompetitionsController < ApplicationController
       end
     end
 
-    @unread_comments = @league_competition.comments.maximum(:created_at) > read_status.last_read_at
+    @unread_comments = if read_status.last_read_at
+                         @league_competition.comments.maximum(:created_at) > read_status.last_read_at
+                       else
+                         false
+                       end
 
     return unless params[:compare_user_id].present?
 
