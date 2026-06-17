@@ -10,7 +10,7 @@
   <%# Header block: Case-natural names paired with clean mono timestamps %>
   <div class="flex items-baseline gap-2">
     <span class="text-[11px] font-black text-[#0a1d13] tracking-tight">
-      <%= comment.user.name.split.first %>
+      <%= comment.user.name %>
     </span>
     <span class="text-[9px] font-mono font-bold text-slate-400">
       <%= l(comment.created_at, format: :short) %>
