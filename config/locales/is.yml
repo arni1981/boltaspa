@@ -1,4 +1,6 @@
 is:
+  og:
+    description: Spáðu í úrslit leikja og kepptu við vina og félaga í hópum. HM 2026 og enski boltinn.
   activerecord:
     attributes:
       prediction:

@@ -1,4 +1,6 @@
 en:
+  og:
+    description: Predict outcome of matches at the World Cup 2026 and the English Premier League. Private leagues .
   activerecord:
     attributes:
       prediction:

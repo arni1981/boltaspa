@@ -8,16 +8,19 @@
     <meta name="turbo-refresh-scroll" content="preserve">
     <meta name="turbo-prefetch" content="<%= Rails.env.production? %>">
 
+    <meta property="og:site_name" content="Boltaspá">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Boltaspá">
+    <meta property="og:description" content="<%= t('og.description') %>">
+    <meta property="og:url" content="https://boltaspa.is">
+    <meta property="og:image" content="<%= asset_url('og.png') %>">
+
+    <meta name="twitter:card" content="summary_large_image">
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <title>Boltaspá</title>
 
-    <%= javascript_include_tag "https://ga.jspm.io/npm:es-module-shims@1.8.2/dist/es-module-shims.js",
-    async: true,
-    data: {
-      turbo_track: "reload",
-    },
-    nonce: true %>
     <%= javascript_importmap_tags %>
 
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
