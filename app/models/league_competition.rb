@@ -7,6 +7,7 @@ class LeagueCompetition < ApplicationRecord
   has_many :teams, through: :league_competition_teams
   has_many :standings, -> { joins(:user).order('standings_views.rank') }
   has_many :comments
+  has_many :members, through: :league
 
   delegate :year, :current_matchday, to: :season, prefix: false
 

@@ -1,0 +1,9 @@
+<%# locals: (unread_messages:, league_competition:, comment: nil, user:) %>
+
+<% if unread_messages %>
+  <span id="<%= dom_target(user, league_competition, :unread_dot) %>" class="inline-flex items-center shrink-0">
+    <span class="w-1.5 h-1.5 rounded-full bg-sky-500 animate-pulse"></span>
+  </span>
+<% else %>
+  <span id="<%= dom_target(user, league_competition, :unread_dot) %>" class="inline-flex shrink-0"></span>
+<% end %>
