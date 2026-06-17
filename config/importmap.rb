@@ -9,7 +9,8 @@ pin '@hotwired/stimulus-loading', to: 'stimulus-loading.js'
 # JavaScript controllers and custom code
 pin_all_from 'app/javascript/controllers', under: 'controllers'
 pin_all_from 'app/javascript/custom', under: 'custom'
-pin_all_from 'app/javascript/debugging', under: 'debugging', preload: false
+
+pin_all_from 'app/javascript/debugging', under: 'debugging', preload: false if Rails.env.development?
 
 # Third-party libraries
 pin 'sweetalert2' # @11.26.25

@@ -30,6 +30,9 @@
   <body
     class="bg-[#f9faf9] text-[#0a1d13] font-sans antialiased min-h-screen flex flex-col lg:flex-row"
     data-controller="mobile-menu"
+    <% if Rails.env.development? %>
+    data-environment="development"
+    <% end %>
   >
     <div
       class="fixed inset-0 bg-[#0a1d13]/60 backdrop-blur-sm z-55 hidden"
