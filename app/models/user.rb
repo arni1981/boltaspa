@@ -10,6 +10,7 @@ class User < ApplicationRecord
   has_many :competitions, -> { distinct }, through: :league_competitions
   has_many :matches, -> { distinct }, through: :competitions
   has_many :predictions
+  has_many :comments_read_statuses
 
   validates :name,
             presence: true,

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_12_210313) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_17_145237) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -105,6 +105,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_12_210313) do
     t.index ["league_competition_id", "matchday"], name: "index_comments_on_league_competition_id_and_matchday"
     t.index ["league_competition_id"], name: "index_comments_on_league_competition_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "comments_read_statuses", force: :cascade do |t|
+    t.datetime "last_read_at", null: false
+    t.bigint "league_competition_id", null: false
+    t.bigint "user_id", null: false
+    t.index ["league_competition_id"], name: "index_comments_read_statuses_on_league_competition_id"
+    t.index ["user_id", "league_competition_id"], name: "idx_on_user_id_league_competition_id_d75d0ea905", unique: true
+    t.index ["user_id"], name: "index_comments_read_statuses_on_user_id"
   end
 
   create_table "competition_teams", force: :cascade do |t|
@@ -442,6 +451,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_12_210313) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "comments", "league_competitions"
   add_foreign_key "comments", "users"
+  add_foreign_key "comments_read_statuses", "league_competitions", on_delete: :cascade
+  add_foreign_key "comments_read_statuses", "users", on_delete: :cascade
   add_foreign_key "competition_teams", "competitions", on_delete: :cascade
   add_foreign_key "competition_teams", "teams", on_delete: :cascade
   add_foreign_key "league_competition_teams", "league_competitions", on_delete: :cascade

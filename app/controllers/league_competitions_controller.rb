@@ -11,9 +11,20 @@ class LeagueCompetitionsController < ApplicationController
 
     @active_tab = params.fetch(:tab, 'standings')
 
+    read_status = Current.user.comments_read_statuses
+                         .find_or_initialize_by(league_competition_id: @league_competition.id)
+
+    if @active_tab == 'banter'
+      read_status.tap do |read_status|
+        read_status.last_read_at = Time.current
+        read_status.save
+      end
+    end
+
+    @unread_comments = @league_competition.comments.maximum(:created_at) > read_status.last_read_at
+
     return unless params[:compare_user_id].present?
 
-    @compare_user = @league_competition.league
-                                       .members.find(params[:compare_user_id])
+    @compare_user = @league_competition.league.members.find(params[:compare_user_id])
   end
 end

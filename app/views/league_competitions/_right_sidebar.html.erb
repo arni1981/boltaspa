@@ -10,27 +10,37 @@
 
         <%# Tab Link: Standings %>
         <%= link_to league_competition_by_year_path(league_slug: league_competition.league.slug, 
-                                                    competition_code: league_competition.competition.code, 
-                                                    year: league_competition.season.year, 
-                                                    tab: "standings"),
-                    data: { turbo_frame: :sidebar_panel, turbo_action: :advance },
-                    class: "py-1.5 rounded-lg text-[10px] font-mono font-black uppercase tracking-wider transition-all text-center #{active_tab == 'standings' ? 'bg-white shadow-sm text-[#0a1d13]' : 'text-slate-400 hover:text-[#0a1d13]'}" do %>
+                                                competition_code: league_competition.competition.code, 
+                                                year: league_competition.season.year, 
+                                                tab: "standings"),
+                data: { turbo_frame: :sidebar_panel, turbo_action: :advance },
+                class: "py-1.5 rounded-lg text-[10px] font-mono font-black uppercase tracking-wider transition-all text-center #{active_tab == 'standings' ? 'bg-white shadow-sm text-[#0a1d13]' : 'text-slate-400 hover:text-[#0a1d13]'}" do %>
           <%= t(".standings_tab", default: "Staða") %>
         <% end %>
 
         <%# Tab Link: Banter %>
         <%= link_to league_competition_by_year_path(league_slug: league_competition.league.slug, 
-                                                    competition_code: league_competition.competition.code, 
-                                                    year: league_competition.season.year, 
-                                                    tab: "banter"),
-                    data: { turbo_frame: :sidebar_panel, turbo_action: :advance },
-                    class: "py-1.5 rounded-lg text-[10px] font-mono font-black uppercase tracking-wider transition-all text-center #{active_tab == 'banter' ? 'bg-white shadow-sm text-[#0a1d13]' : 'text-slate-400 hover:text-[#0a1d13]'}" do %>
-          <%= t(".banter_tab", default: "Heiti potturinn") %>
+                                                competition_code: league_competition.competition.code, 
+                                                year: league_competition.season.year, 
+                                                tab: "banter"),
+                data: { turbo_frame: :sidebar_panel, turbo_action: :advance },
+                class: "py-1.5 rounded-lg text-[10px] font-mono font-black uppercase tracking-wider transition-all text-center #{active_tab == 'banter' ? 'bg-white shadow-sm text-[#0a1d13]' : 'text-slate-400 hover:text-[#0a1d13]'}" do %>
+
+          <%# 1. FLOATING CONTAINER FRAME FOR TEXT ALIGNMENT %>
+          <span class="relative inline-flex items-center gap-1">
+            <%= t(".banter_tab", default: "Heiti potturinn") %>
+
+            <%# 2. THE DOT: Evaluated against your new join table mapping %>
+
+            <% if @unread_comments %>
+              <span class="w-1.5 h-1.5 rounded-full bg-sky-500 shrink-0 animate-pulse"></span>
+            <% end %>
+          </span>
+
         <% end %>
 
       </div>
     </header>
-
     <%# 2. THE CONDITIONAL CONDENSED WORKSPACE %>
     <div class="flex-1 min-h-0 relative bg-white flex flex-col">
 
