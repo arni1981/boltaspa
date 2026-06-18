@@ -17,7 +17,7 @@ class Comment < ApplicationRecord
     )
 
     league_competition.members.each do |member|
-      # next if member.id == Current.user.id
+      next if member.id == Current.user.id
 
       broadcast_replace_later_to(
         "unread_messages_#{self.league_competition.signed_id}",
