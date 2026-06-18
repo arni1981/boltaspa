@@ -30,7 +30,7 @@
           <span class="relative inline-flex items-center gap-1">
             <%= t(".banter_tab", default: "Heiti potturinn") %>
 
-            <%= turbo_stream_from "unread_messages_#{Current.user.id}_#{league_competition.id}" %>
+            <%= turbo_stream_from "unread_messages_#{league_competition.signed_id}" %>
             <%= render partial: "unread_dot",
             locals: {
               unread_messages: @unread_messages,
