@@ -69,7 +69,7 @@
             <span>Keppendur (<%= league_competition.standings.size %>)</span>
             <div class="flex items-center gap-6 pr-2 font-mono text-[9px] uppercase tracking-wider">
               <%# "Beint" handles real-time live point shifts elegantly %>
-              <span class="text-[#2d5a43] font-black"><%= t(".live_points_short", default: "") %></span>
+              <span class="text-[#2d5a43] font-black"><%= t(".today_points_table_header", default: "") %></span>
               <span class="w-10 text-right text-slate-500 font-black"><%= t(".total_points_short", default: "Samt") %></span>
             </div>
           </div>
@@ -83,7 +83,6 @@
           >
             <% league_competition.standings.each do |rank_item| %>
               <% is_me = rank_item.user == Current.user %>
-              <% matchday_points = rank_item.respond_to?(:current_matchday_points) ? rank_item.current_matchday_points : 0 %>
 
               <div
                 class="
@@ -108,10 +107,10 @@
                   <span
                     class="
                       text-[11px] font-mono font-bold tracking-tight text-center tabular-nums min-w-[28px] px-1 py-0.5 rounded
-                      <%= matchday_with_points = matchday_points > 0 %> <%= matchday_with_points ? 'bg-emerald-50 text-emerald-700 font-black' : 'text-slate-300' %>
+                      <%= rank_item.today_points.positive? ? 'bg-emerald-50 text-emerald-700 font-black' : 'text-slate-300' %>
                     "
                   >
-                    <%= matchday_with_points ? "+#{matchday_points}" : "•" %>
+                    <%= rank_item.today_points.positive? ? "+#{rank_item.today_points}" : "•" %>
                   </span>
                   <span class="w-10 text-right text-[13px] font-mono font-black text-[#0a1d13] tabular-nums">
                     <%= rank_item.total_points %>

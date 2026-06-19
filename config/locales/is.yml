@@ -328,6 +328,7 @@ is:
       your_position: "Mín staða"
       points_abbr: Stig
     right_sidebar:
+      today_points_table_header: Í dag
       banter_tab: Heiti potturinn
       standings_tab: Staða
     show:

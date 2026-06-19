@@ -292,6 +292,7 @@ en:
       your_position: "Your position"
       points_abbr: Points
     right_sidebar:
+      today_points_table_header: Today
       banter_tab: Chat
       standings_tab: Standings
     show:

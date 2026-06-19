@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_17_145237) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_18_210806) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -753,6 +753,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_17_145237) do
               ms.league_id,
               p.user_id,
               sum(p.points_won) AS total_points,
+              COALESCE(sum(p.points_won) FILTER (WHERE ((m.kickoff_at)::date = CURRENT_DATE)), (0)::bigint) AS today_points,
               count(*) FILTER (WHERE (p.points_won = 3)) AS exact_scores,
               count(*) AS predictions_count
              FROM (((predictions p
@@ -768,6 +769,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_17_145237) do
               up.league_id,
               up.user_id,
               up.total_points,
+              up.today_points,
               up.exact_scores,
               up.predictions_count,
               COALESCE(fa.full_form_array, '{}'::jsonb) AS full_form_array,
@@ -786,6 +788,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_17_145237) do
       ranked.league_id,
       ranked.user_id,
       ranked.total_points,
+      ranked.today_points,
       ranked.exact_scores,
       ranked.predictions_count,
       ranked.full_form_array,
